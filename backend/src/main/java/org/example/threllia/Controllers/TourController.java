@@ -1,6 +1,6 @@
 package org.example.threllia.Controllers;
 
-import org.example.threllia.Modal.Concert;
+import org.example.threllia.Modal.Concert.entities.Concert;
 import org.example.threllia.Servicies.ConcertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

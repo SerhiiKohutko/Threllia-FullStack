@@ -1,4 +1,4 @@
-package org.example.threllia.Modal;
+package org.example.threllia.Modal.Concert.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
-import org.example.threllia.Enums.ConcertStatus;
+import org.example.threllia.Modal.Concert.concert_enum.ConcertStatus;
 
 import java.time.LocalDate;
 

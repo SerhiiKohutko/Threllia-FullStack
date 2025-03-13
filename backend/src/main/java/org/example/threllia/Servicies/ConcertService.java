@@ -1,6 +1,6 @@
 package org.example.threllia.Servicies;
 
-import org.example.threllia.Modal.Concert;
+import org.example.threllia.Modal.Concert.entities.Concert;
 
 import java.util.List;
 

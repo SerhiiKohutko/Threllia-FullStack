@@ -1,7 +1,7 @@
 package org.example.threllia.Repositories;
 
-import org.example.threllia.Enums.ConcertStatus;
-import org.example.threllia.Modal.Concert;
+import org.example.threllia.Modal.Concert.concert_enum.ConcertStatus;
+import org.example.threllia.Modal.Concert.entities.Concert;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

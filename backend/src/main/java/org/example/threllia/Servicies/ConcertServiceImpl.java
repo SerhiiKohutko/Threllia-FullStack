@@ -1,7 +1,7 @@
 package org.example.threllia.Servicies;
 
-import org.example.threllia.Enums.ConcertStatus;
-import org.example.threllia.Modal.Concert;
+import org.example.threllia.Modal.Concert.concert_enum.ConcertStatus;
+import org.example.threllia.Modal.Concert.entities.Concert;
 import org.example.threllia.Repositories.ConcertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
