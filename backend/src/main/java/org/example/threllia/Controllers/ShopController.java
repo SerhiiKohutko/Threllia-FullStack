@@ -1,10 +1,10 @@
-package org.example.threllia.Controllers;
+package org.example.threllia.controllers;
 
-import org.example.threllia.Modal.Shop.entities.AccessoryProduct;
-import org.example.threllia.Modal.Shop.entities.ApparelProduct;
-import org.example.threllia.Modal.Shop.entities.MediaProduct;
-import org.example.threllia.Modal.Shop.entities.Product;
-import org.example.threllia.Modal.Shop.service.ProductService;
+import org.example.threllia.model.Shop.entities.AccessoryProduct;
+import org.example.threllia.model.Shop.entities.ApparelProduct;
+import org.example.threllia.model.Shop.entities.MediaProduct;
+import org.example.threllia.model.Shop.entities.Product;
+import org.example.threllia.model.Shop.service.ProductService;
 import org.example.threllia.requests.ProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
