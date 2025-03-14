@@ -1,4 +1,4 @@
-package org.example.threllia.Modal.Gallery;
+package org.example.threllia.Modal.Gallery.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;

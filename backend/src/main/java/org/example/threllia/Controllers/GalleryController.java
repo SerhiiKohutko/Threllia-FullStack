@@ -1,12 +1,15 @@
 package org.example.threllia.Controllers;
 
-import org.example.threllia.Modal.Gallery.GalleryItem;
+import org.example.threllia.Modal.Gallery.entities.GalleryItem;
 import org.example.threllia.Servicies.PhotoService;
 import org.example.threllia.requests.GalleryItemCreationRequest;
+import org.example.threllia.utils.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,6 +19,8 @@ public class GalleryController {
 
     @Autowired
     private PhotoService photoService;
+    @Autowired
+    private FileUploader fileUploader;
 
     @GetMapping
     public ResponseEntity<List<GalleryItem>> getAllPhotos(){
@@ -28,8 +33,10 @@ public class GalleryController {
         return ResponseEntity.ok(photoService.getById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<GalleryItem> createPhoto(@RequestPart("data") GalleryItemCreationRequest request){
-        return null;
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<GalleryItem> createPhoto(@RequestPart("data") GalleryItemCreationRequest request, @RequestPart("photos") List<MultipartFile> photos) throws Exception {
+        List<String> fileNames = FileUploader.saveAllPhotos(photos);
+        GalleryItem savedGalleryItem = photoService.createGalleryItem(request, fileNames);
+        return new ResponseEntity<>(savedGalleryItem, HttpStatus.CREATED);
     }
 }
