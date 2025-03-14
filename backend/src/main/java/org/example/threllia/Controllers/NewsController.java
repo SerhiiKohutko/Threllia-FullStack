@@ -1,7 +1,7 @@
-package org.example.threllia.Controllers;
+package org.example.threllia.controllers;
 
-import org.example.threllia.Modal.News.LatestUpdate;
-import org.example.threllia.Servicies.LatestUpdateService;
+import org.example.threllia.model.News.entities.LatestUpdate;
+import org.example.threllia.model.News.service.LatestUpdateService;
 import org.example.threllia.requests.LatestUpdateRequest;
 import org.example.threllia.utils.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,6 @@ import java.util.List;
 @RequestMapping("/api/news")
 public class NewsController {
 
-    @Autowired
-    private FileUploader fileUploader;
     @Autowired
     private LatestUpdateService latestUpdateService;
 
