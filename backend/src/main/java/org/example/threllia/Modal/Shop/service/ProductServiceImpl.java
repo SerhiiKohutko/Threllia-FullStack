@@ -92,24 +92,24 @@ public class ProductServiceImpl implements ProductService{
         throw new Exception("No such type");
     }
 
-    //TODO - add builder to product entities
     public MediaProduct createMediaProduct(ProductRequest request){
-        MediaProduct mediaProduct = new MediaProduct();
-        mediaProduct.setType(request.getMediaProductType());
-        mediaProduct.setName(request.getName());
-        mediaProduct.setPrice(request.getPrice());
-        mediaProduct.setDescription(request.getDescription());
-        mediaProduct.setTotalQuantity(request.getTotalQuantity());
+        MediaProduct mediaProduct = MediaProduct.builder()
+                .name(request.getName())
+                .type(request.getMediaProductType())
+                .price(request.getPrice())
+                .description(request.getDescription())
+                .totalQuantity(request.getTotalQuantity())
+                .build();
 
         return mediaProductRepository.save(mediaProduct);
     }
     public ApparelProduct createApparelProduct(ProductRequest request){
-        ApparelProduct apparelProduct = new ApparelProduct();
-        apparelProduct.setType(request.getApparelProductType());
-        apparelProduct.setName(request.getName());
-        apparelProduct.setPrice(request.getPrice());
-        apparelProduct.setDescription(request.getDescription());
-        apparelProduct.setTotalQuantity(apparelProduct.getTotalQuantity() + request.getTotalQuantity());
+        ApparelProduct apparelProduct = ApparelProduct.builder()
+                .name(request.getName())
+                .type(request.getApparelProductType())
+                .price(request.getPrice())
+                .description(request.getDescription())
+                .build();
 
         int totalQuantity = 0;
         for (Map.Entry<ApparelSizeType, Integer> el : request.getMap().entrySet()){
@@ -121,12 +121,13 @@ public class ProductServiceImpl implements ProductService{
         return apparelProductRepository.save(apparelProduct);
     }
     public AccessoryProduct createAccessoryProduct(ProductRequest request){
-        AccessoryProduct accessoryProduct = new AccessoryProduct();
-        accessoryProduct.setType(request.getAccessoriesProductType());
-        accessoryProduct.setName(request.getName());
-        accessoryProduct.setPrice(request.getPrice());
-        accessoryProduct.setDescription(request.getDescription());
-        accessoryProduct.setTotalQuantity(request.getTotalQuantity());
+        AccessoryProduct accessoryProduct = AccessoryProduct.builder()
+                .type(request.getAccessoriesProductType())
+                .name(request.getName())
+                .price(request.getPrice())
+                .description(request.getDescription())
+                .totalQuantity(request.getTotalQuantity())
+                .build();
 
         return accessoriesProductRepository.save(accessoryProduct);
     }
