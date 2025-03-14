@@ -25,7 +25,7 @@ public class LatestUpdateServiceImpl implements LatestUpdateService{
 
     @Override
     public LatestUpdate createLatestUpdate(LatestUpdateRequest request, String fileName) {
-        LatestUpdate latestUpdate = LatestUpdate.builder().content(request.getContent()).imageName(fileName).build();
+        LatestUpdate latestUpdate = LatestUpdate.builder().content(request.getContent()).imageName(fileName).title(request.getTitle()).build();
         return latestUpdateRepository.save(latestUpdate);
     }
 }
