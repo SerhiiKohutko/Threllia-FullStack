@@ -2,6 +2,7 @@ package org.example.threllia.Servicies;
 
 import org.example.threllia.Modal.News.LatestUpdate;
 import org.example.threllia.Repositories.LatestUpdateRepository;
+import org.example.threllia.requests.LatestUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,11 @@ public class LatestUpdateServiceImpl implements LatestUpdateService{
     @Override
     public List<LatestUpdate> getAllNews() {
         return latestUpdateRepository.findAll();
+    }
+
+    @Override
+    public LatestUpdate createLatestUpdate(LatestUpdateRequest request, String fileName) {
+        LatestUpdate latestUpdate = LatestUpdate.builder().content(request.getContent()).imageName(fileName).build();
+        return latestUpdateRepository.save(latestUpdate);
     }
 }

@@ -92,6 +92,7 @@ public class ProductServiceImpl implements ProductService{
         throw new Exception("No such type");
     }
 
+    //TODO - add builder to product entities
     public MediaProduct createMediaProduct(ProductRequest request){
         MediaProduct mediaProduct = new MediaProduct();
         mediaProduct.setType(request.getMediaProductType());
