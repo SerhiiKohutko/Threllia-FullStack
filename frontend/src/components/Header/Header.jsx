@@ -1,5 +1,5 @@
 import React from 'react';
-import THRLAnimation from "./logo.jsx";
+import THRLAnimation from "../HomePage/Sections/SectionComponents/Logo.jsx";
 import {BoxIcon, HamburgerMenuIcon, PersonIcon} from "@radix-ui/react-icons";
 import {
     Sheet,
@@ -8,7 +8,7 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet.jsx"
 import {Button} from "@/components/ui/button.jsx";
 
 export const Header = () => {

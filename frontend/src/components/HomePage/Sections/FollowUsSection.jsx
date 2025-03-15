@@ -1,5 +1,5 @@
 import {Github, InstagramIcon, Twitter, Youtube, YoutubeIcon} from "lucide-react";
-import {FollowUsTikTokVideo} from "@/components/FollowUsTikTokVideos.jsx";
+import {FollowUsTikTokVideo} from "@/components/HomePage/Sections/SectionComponents/FollowUsTikTokVideos.jsx";
 import {FaSpotify} from "react-icons/fa6";
 
 export const FollowUsSection = () => {

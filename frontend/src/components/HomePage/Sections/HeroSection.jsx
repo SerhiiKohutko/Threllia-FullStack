@@ -1,9 +1,9 @@
-import bgImage from '../resources/ajfajm_bigger_writing_5fdc790a-ffc5-4a57-a6eb-fe80032c0eb7-min.png';
+import bgImage from '../../../resources/ajfajm_bigger_writing_5fdc790a-ffc5-4a57-a6eb-fe80032c0eb7-min.png';
 import { Button } from "@/components/ui/button.jsx";
 import React from 'react';
 
 
-export const Hero = () => {
+export const HeroSection = () => {
     return (
         <section className="relative h-full">
             <div

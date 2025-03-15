@@ -1,10 +1,10 @@
-import "./tour.css"
+import "./css/tour.css"
 import {TourDatesCarousel} from "@/components/Tour/TourCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import React from "react";
 
 
-export const TourSectionOverview = () => {
+export const TourSectionOverviewSection = () => {
     return (
         <div className="relative bg-black/90 min-h-screen w-full flex flex-col items-center justify-center py-20 overflow-hidden">
             {/* Background image with crosses - this would be a div with a background image */}
@@ -70,4 +70,4 @@ export const TourSectionOverview = () => {
     );
 };
 
-export default TourSectionOverview;
+export default TourSectionOverviewSection;

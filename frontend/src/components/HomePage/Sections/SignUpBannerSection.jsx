@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button.jsx";
 
-export const SignUpBanner = () => {
+export const SignUpBannerSection = () => {
     const [lightningActive, setLightningActive] = useState(false);
     const [lightningPosition, setLightningPosition] = useState({ x: 50, y: 30 });
     const [sparklePositions, setSparklePositions] = useState(generateSparklePositions());

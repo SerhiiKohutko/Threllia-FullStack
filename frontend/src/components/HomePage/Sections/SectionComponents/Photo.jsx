@@ -6,7 +6,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog.jsx"
 export const Photo = ({index, imageName}) => {
     return (
         <div key={index} className="aspect-square overflow-hidden group relative">

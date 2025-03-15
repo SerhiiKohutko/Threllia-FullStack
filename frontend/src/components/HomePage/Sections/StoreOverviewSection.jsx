@@ -4,7 +4,7 @@ import {useEffect} from "react";
 import {getShopOverviewForMVP} from "@/redux/shop/Action.js";
 import {useDispatch, useSelector} from "react-redux";
 
-export const StoreOverview = () => {
+export const StoreOverviewSection = () => {
     const shop = useSelector(state => state.shop);
     const dispatch = useDispatch();
 

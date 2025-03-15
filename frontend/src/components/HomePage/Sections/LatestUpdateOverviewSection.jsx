@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getAllLatestUpdates} from "@/redux/news/Action.js";
 
-export const LatestUpdateOverview = () => {
+export const LatestUpdateOverviewSection = () => {
 
     const dispatch = useDispatch();
     const news = useSelector(state => state.news)
