@@ -1,10 +1,14 @@
 import "./css/tour.css"
-import {TourDatesCarousel} from "@/components/Tour/TourCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import React from "react";
+import {TourDatesCarousel} from "@/components/HomePage/Sections/SectionComponents/TourCard.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 export const TourSectionOverviewSection = () => {
+
+    const navigate = useNavigate();
+
     return (
         <div className="relative bg-black/90 min-h-screen w-full flex flex-col items-center justify-center py-20 overflow-hidden">
             {/* Background image with crosses - this would be a div with a background image */}
@@ -42,6 +46,9 @@ export const TourSectionOverviewSection = () => {
                 <TourDatesCarousel/>
 
                 <Button
+                    onClick={() => {
+                        navigate("/tour");
+                    }}
                     className="text-xl font-tradeWinds mt-16 bg-transparent border border-orange-500/50 text-white hover:bg-orange-800/30 hover:border-orange-500 transition-colors px-8 py-3">
                     VIEW ALL DATES
                 </Button>

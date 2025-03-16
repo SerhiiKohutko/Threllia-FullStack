@@ -10,17 +10,21 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet.jsx"
 import {Button} from "@/components/ui/button.jsx";
+import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
+
+    const navigate = useNavigate();
+
     return (
-        <div className="absolute z-20 flex flex-row justify-center w-full h-24">
+        <div className="absolute top-0 z-20 flex flex-row justify-center w-full h-24">
             <div className="flex flex-row items-center w-[90%] border-b py-4">
                 <div className="w-[20%] flex justify-start text-white items-center text-center">
                     <Sheet>
                         <SheetTrigger asChild>
                             <HamburgerMenuIcon className="cursor-pointer h-8 w-8 text-white hover:text-orange-400 transition-colors"/>
                         </SheetTrigger>
-                        <SheetContent side="left" className="[&>button]:hidden bg-black/95 backdrop-blur-sm border-r border-orange-500/30 flex flex-col items-center justify-center p-8">
+                        <SheetContent side="left"  className="[&>button]:hidden bg-black/95 backdrop-blur-sm border-r border-orange-500/30 flex flex-col items-center justify-center p-8">
                             <SheetHeader className="mb-8">
                                 <SheetTitle className="flex justify-center">
                                     <THRLAnimation text="THRELLIA" customFontFamily="font-deliciousHandrawn" className="text-4xl text-white" />
@@ -28,7 +32,10 @@ export const Header = () => {
                             </SheetHeader>
 
                             <div className="flex flex-col items-center justify-center space-y-4 w-full">
-                                <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">TOUR</Button>
+                                <Button type="button" onClick={() => {
+                                    console.log("Button clicked");
+                                    navigate("/tour");
+                                }} variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">TOUR</Button>
                                 <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">NEWS</Button>
                                 <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">MUSIC</Button>
                                 <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">MEDIA</Button>
@@ -54,7 +61,7 @@ export const Header = () => {
                 </div>
 
                 <div className="flex flex-row justify-center gap-8 w-[60%] text-center items-center text-white h-16">
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Tour</p>
+                    <p onClick={() => navigate("/tour")} className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Tour</p>
                     <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Media</p>
                     <div className="scale-125">
                         <THRLAnimation text="THRL" customFontFamily={"font-deliciousHandrawn"}/>

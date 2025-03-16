@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from "react-router-dom";
 
 const THRLAnimation = ({text}) => {
     const [isHovering, setIsHovering] = useState(false);
     const [animationOpacity, setAnimationOpacity] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let fadeOutTimeout;
@@ -22,6 +24,7 @@ const THRLAnimation = ({text}) => {
 
     return (
         <div
+            onClick={() => navigate("/")}
             className="relative"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}

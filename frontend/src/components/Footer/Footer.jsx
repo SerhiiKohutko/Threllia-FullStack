@@ -1,4 +1,4 @@
-import {FacebookIcon, Github, InstagramIcon, LucideYoutube, Twitter, Youtube, YoutubeIcon} from "lucide-react";
+import {Github, Youtube} from "lucide-react";
 import {FaSpotify} from "react-icons/fa6";
 
 export const Footer = () => {
