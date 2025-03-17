@@ -21,7 +21,7 @@ export const PastTourDates = () => {
         <div>
             <div className="relative min-h-screen">
                 <div
-                    className="absolute inset-0 bg-center w-full"
+                    className="absolute inset-0 bg-center bg-contain w-full"
                     style={{
                         backgroundImage: `url('${bgImage}')`,
                         filter: "brightness(0.6)",

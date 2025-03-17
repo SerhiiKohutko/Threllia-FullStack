@@ -8,10 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/concerts")
-public class TourController {
+public class ConcertController {
 
     @Autowired
     private ConcertService concertService;
@@ -46,5 +47,15 @@ public class TourController {
         List<Concert> closestSix = concertService.getClosestSixConcerts();
         return new ResponseEntity<>(closestSix, HttpStatus.OK);
     }
+
+    @PatchMapping("/{id}/updateSongsList")
+    public ResponseEntity<Concert> updateSongList(@PathVariable long id,
+                                                  @RequestBody Set<String> updatedSongsList) throws Exception {
+
+        Concert updatedConcert = concertService.updateSongsList(id, updatedSongsList);
+
+        return ResponseEntity.ok(updatedConcert);
+    }
+
 
 }
