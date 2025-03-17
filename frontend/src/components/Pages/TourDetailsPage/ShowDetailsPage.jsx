@@ -33,7 +33,7 @@ export const ShowDetailsPage = () => {
                             <div key={index} className={"flex flex-row items-center w-[50%] text-3xl font-tradeWinds text-white pb-6"}>
                                 <div className={"flex flex-grow max-w-[60%]"}>
                                     <p className={index % 2 === 0 ? "text-orange-700" : "text-white"}>{index + 1}.
-                                        <span className={"cursor-pointer hover:underline overflow-auto text-white"}> So Far All Quite</span>
+                                        <span className={"cursor-pointer hover:underline overflow-auto text-white"} onClick={() => navigate("/songs/1")}> So Far All Quite</span>
                                     </p>
                                 </div>
 
@@ -49,7 +49,7 @@ export const ShowDetailsPage = () => {
                                         <div
                                             className="absolute left-0 top-full mt-1 w-60 bg-black
                                             text-white border border-white/20 shadow-lg hidden
-                                            group-hover:block group-focus-within:block z-10 group-hover:opacity-100">
+                                            group-hover:block group-focus-within:block z-20 group-hover:opacity-100">
 
                                             <div className="h-2 absolute -top-2 left-0 right-0 bg-transparent"></div>
                                             <div

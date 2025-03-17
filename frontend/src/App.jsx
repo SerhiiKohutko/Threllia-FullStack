@@ -21,7 +21,7 @@ function App() {
                         <Route path="/tour" element={<UpcomingTourDates/>}/>
                         <Route path={"/tour/past"} element={<PastTourDates/>}/>
                         <Route path={"/tour/:showId"} element={<ShowDetailsPage/>}/>
-                        <Route path={"/tour/:showId/:songId"} element={<SongDetails/>}/>
+                        <Route path={"/songs/:songId"} element={<SongDetails/>}/>
                     </Routes>
                 </div>
             <Footer/>
