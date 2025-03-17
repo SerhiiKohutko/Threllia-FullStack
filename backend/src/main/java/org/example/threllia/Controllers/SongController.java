@@ -26,6 +26,11 @@ public class SongController {
         return ResponseEntity.ok(songService.findAllSongs());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Song> getSongById(@PathVariable long id) throws Exception {
+        return ResponseEntity.ok(songService.getSongById(id));
+    }
+
     @DeleteMapping
     public ResponseEntity<String> deleteAllSongs(){
         songService.deleteAllSongs();

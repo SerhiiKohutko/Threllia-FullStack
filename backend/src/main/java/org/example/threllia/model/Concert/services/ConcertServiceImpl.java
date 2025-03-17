@@ -28,15 +28,22 @@ public class ConcertServiceImpl implements ConcertService{
     }
 
     @Override
-    public List<Concert> addShows(List<Concert> concerts) {
-        List<Concert> savedConcerts = new ArrayList<>();
-
-        for (Concert curr : concerts)
-            savedConcerts.add(addShow(curr));
-
-        return savedConcerts;
+    public List<Concert> getAllActiveConcerts() {
+        return concertRepository.getTourItemsByStatus(ConcertStatus.ACTIVE);
     }
 
+    @Override
+    public List<Concert> getAllInActiveConcerts() {
+        return concertRepository.getTourItemsByStatus(ConcertStatus.INACTIVE);
+    }
+
+    @Override
+    public List<Concert> getClosestSixConcerts() {
+        return concertRepository.getConcertByStatusOrderByDate(null);
+    }
+
+
+    //ADMIN FUNCTIONALITY
     @Override
     public Concert addShow(Concert concert) {
         Concert newConcert = new Concert();
@@ -61,18 +68,13 @@ public class ConcertServiceImpl implements ConcertService{
     }
 
     @Override
-    public List<Concert> getAllActiveConcerts() {
-        return concertRepository.getTourItemsByStatus(ConcertStatus.ACTIVE);
-    }
+    public List<Concert> addShows(List<Concert> concerts) {
+        List<Concert> savedConcerts = new ArrayList<>();
 
-    @Override
-    public List<Concert> getAllInActiveConcerts() {
-        return concertRepository.getTourItemsByStatus(ConcertStatus.INACTIVE);
-    }
+        for (Concert curr : concerts)
+            savedConcerts.add(addShow(curr));
 
-    @Override
-    public List<Concert> getClosestSixConcerts() {
-        return concertRepository.getConcertByStatusOrderByDate(null);
+        return savedConcerts;
     }
 
     @Override

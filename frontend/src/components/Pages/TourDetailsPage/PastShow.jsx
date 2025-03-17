@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button.jsx";
 
-export const PastShow = () => {
+export const PastShow = ({navigate}) => {
     return (
         <div className={"flex flex-row text-white justify-between items-end border-b border-orange-300 py-5"}>
             <div className={"flex flex-row justify-end"}>
@@ -13,7 +13,7 @@ export const PastShow = () => {
                 <p className={"text-3xl"}>Estadio</p>
             </div>
             <div className={"flex flex-row justify-end"}>
-                <Button variant={"ghost"} className={"text-3xl p-8 rounded-none border border-orange-500"}>Explore Show</Button>
+                <Button onClick={() => navigate("/tour/1")} variant={"ghost"} className={"text-3xl p-8 rounded-none border border-orange-500"}>Explore Show</Button>
             </div>
         </div>
     )

@@ -14,9 +14,12 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 import {PastShow} from "@/components/Pages/TourDetailsPage/PastShow.jsx";
+import {useNavigate} from "react-router-dom";
 
 //TODO - fix background image
 export const PastTourDates = () => {
+    const navigate = useNavigate();
+
     return (
         <div>
             <div className="relative min-h-screen">
@@ -68,7 +71,7 @@ export const PastTourDates = () => {
                 <div className={"w-[80%]"} >
                     {
                      [1,1,1,1,1].map((item, index) => (
-                         <PastShow/>
+                         <PastShow navigate={navigate}/>
                      ))
                     }
                 </div>
