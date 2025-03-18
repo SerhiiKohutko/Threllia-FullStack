@@ -18,6 +18,8 @@ public class Song {
     private String title;
 
     private String album;
+
+    @Lob
     private String lyrics;
 
     @ManyToMany(mappedBy = "songsList")

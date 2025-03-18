@@ -44,9 +44,20 @@ public class SongServiceImpl implements SongService{
 
         savedSong.setAlbum(song.getAlbum());
         savedSong.setTitle(song.getTitle());
-        savedSong.setLyrics(song.getLyrics());
 
-        return songRepository.save(song);
+        savedSong.setLyrics(parseLyricsToHtml(song.getLyrics()));
+
+        return songRepository.save(savedSong);
+    }
+
+    private String parseLyricsToHtml(String lyrics){
+        StringBuilder builder = new StringBuilder();
+
+        for (String line : lyrics.split("\\n")) {
+            builder.append(line).append("<br>");
+        }
+
+        return builder.toString();
     }
 
 
