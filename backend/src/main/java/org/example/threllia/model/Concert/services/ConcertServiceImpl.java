@@ -6,6 +6,9 @@ import org.example.threllia.model.Concert.repositories.ConcertRepository;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -33,13 +36,14 @@ public class ConcertServiceImpl implements ConcertService{
     }
 
     @Override
-    public List<Concert> getAllInActiveConcerts() {
-        return concertRepository.getTourItemsByStatus(ConcertStatus.INACTIVE);
+    public Page<Concert> getAllInActiveConcerts(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by("date").descending());
+        return concertRepository.findByStatus(ConcertStatus.INACTIVE, pageRequest);
     }
 
     @Override
     public List<Concert> getClosestSixConcerts() {
-        return concertRepository.getConcertByStatusOrderByDate(null);
+        return concertRepository.getActiveConcertsOrderByDate(ConcertStatus.ACTIVE);
     }
 
 
@@ -81,9 +85,9 @@ public class ConcertServiceImpl implements ConcertService{
     public Concert updateSongsList(long id, Set<String> songsList) throws Exception {
         Concert concert  = getConcertById(id);
 
-//        if (concert.getStatus().equals(ConcertStatus.ACTIVE)){
-//            throw new Exception("Concert has ACTIVE status, songs cannot be added");
-//        }
+        if (concert.getStatus().equals(ConcertStatus.ACTIVE)){
+            throw new Exception("Concert has ACTIVE status, songs cannot be added");
+        }
 
         Set<Song> readyToUpdateList = getReadyToUpdateSongsSet(songsList);
         concert.getSongsList().addAll(readyToUpdateList);

@@ -3,6 +3,7 @@ package org.example.threllia.controllers;
 import org.example.threllia.model.Concert.entities.Concert;
 import org.example.threllia.model.Concert.services.ConcertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,8 @@ public class ConcertController {
     }
 
     @GetMapping("/inactive")
-    public ResponseEntity<List<Concert>> getInactiveConcertsByStatus(){
-        List<Concert> activeConcerts = concertService.getAllInActiveConcerts();
+    public ResponseEntity<Page<Concert>> getInactiveConcerts(@RequestParam(defaultValue = "0") int page){
+        Page<Concert> activeConcerts = concertService.getAllInActiveConcerts(page);
         return new ResponseEntity<>(activeConcerts, HttpStatus.OK);
     }
 
