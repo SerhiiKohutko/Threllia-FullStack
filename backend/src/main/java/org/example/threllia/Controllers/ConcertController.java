@@ -43,6 +43,12 @@ public class ConcertController {
         return new ResponseEntity<>(activeConcerts, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<Page<Concert>> getConcertsBySongContained(@RequestParam String songTitle, @RequestParam(defaultValue = "0") int page) throws Exception {
+        Page<Concert> concerts = concertService.getConcertBySong(songTitle, page);
+        return ResponseEntity.ok(concerts);
+    }
+
     @GetMapping("/closest")
     public ResponseEntity<List<Concert>> getClosestConcerts(){
         List<Concert> closestSix = concertService.getClosestSixConcerts();

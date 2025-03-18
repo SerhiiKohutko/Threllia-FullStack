@@ -20,4 +20,9 @@ public interface ConcertRepository extends JpaRepository<Concert, Long> {
     List<Concert> getActiveConcertsOrderByDate(ConcertStatus status);
 
     Optional<Concert> getConcertById(long id);
+
+    @Query(value = "SELECT * FROM concert " +
+            "JOIN concert_song_list ON concert.id = concert_song_list.concert_id " +
+            "WHERE concert_song_list.song_id = :songId ORDER BY date DESC", nativeQuery = true)
+    Page<Concert> getConcertBySongsListContainingId(long songId, Pageable pageable);
 }

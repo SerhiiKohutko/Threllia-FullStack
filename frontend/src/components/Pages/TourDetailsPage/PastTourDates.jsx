@@ -39,7 +39,6 @@ export const PastTourDates = () => {
         setCurrPage(prevPage => {
             const newPage = prevPage + 1;
 
-            // Проверяем, нужно ли сдвигать окно пагинации
             if (prevPage === endPage) {
                 setStartPage(startPage + 1);
                 setEndPage(endPage + 1);
@@ -53,7 +52,6 @@ export const PastTourDates = () => {
         setCurrPage(prevPage => {
             const newPage = prevPage - 1;
 
-            // Проверяем, нужно ли сдвигать окно пагинации назад
             if (newPage < startPage) {
                 setStartPage(startPage - 1);
                 setEndPage(endPage - 1);
@@ -99,11 +97,11 @@ export const PastTourDates = () => {
                                     <PaginationPrevious style={{ backgroundColor: 'transparent' }} onClick={handlePrevPageChange}/>
                                 </PaginationItem>
                             </div>
-                            <div className={"w-min-3rem"}>
+                            <div>
                                 {
                                     tour.pageablePart?.totalPages > 3 ? Array.from({length: 3}, (_, i) => i + startPage).map((item, index) => {
                                         return <PaginationLink style={{ backgroundColor: currPage !== item && 'transparent' }}
-                                                                onClick={() => setCurrPage(item)}
+                                                               onClick={() => setCurrPage(item)}
                                                                className={"hover:border-b cursor-pointer"}
                                                                isActive={currPage === item}
                                                                key={index}>{item}</PaginationLink>

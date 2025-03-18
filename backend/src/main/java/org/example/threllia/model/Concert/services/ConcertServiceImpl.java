@@ -46,6 +46,13 @@ public class ConcertServiceImpl implements ConcertService{
         return concertRepository.getActiveConcertsOrderByDate(ConcertStatus.ACTIVE);
     }
 
+    @Override
+    public Page<Concert> getConcertBySong(String songTitle, int page) throws Exception {
+        Song song = songService.getSongByTitle(songTitle);
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        return concertRepository.getConcertBySongsListContainingId(song.getId(), pageRequest);
+    }
+
 
     //ADMIN FUNCTIONALITY
     @Override
