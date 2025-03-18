@@ -1,7 +1,7 @@
 import bgImage from "@/resources/ajfajm_big_burning_cross_7f4e8d49-44f0-4d57-b94d-9c20f7893d64.png";
-import React from "react";
+import React, {useEffect} from "react";
 import {Hero} from "@/components/Hero/Hero.jsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {
     Popover,
     PopoverContent,
@@ -11,10 +11,23 @@ import { BsThreeDots } from "react-icons/bs";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {Button} from "@/components/ui/button.jsx"
 import {SignUpBannerSection} from "@/components/HomePage/Sections/SignUpBannerSection.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {getShowDetails} from "@/redux/tour/Action.js";
 
 export const ShowDetailsPage = () => {
     const [indexHovered, setIndexHovered] = React.useState(null);
+    const dispatch = useDispatch();
+    const {showId} = useParams();
     const navigate = useNavigate();
+    const tour = useSelector((state) => state.tours);
+
+    useEffect(() => {
+        dispatch(getShowDetails(showId));
+    },[])
+
+    useEffect(() => {
+        console.log(tour.tourDetails.songsList)
+    },[tour.tourDetails.songsList])
 
     return (
         <div>
@@ -28,12 +41,14 @@ export const ShowDetailsPage = () => {
                     <p className={"text-amber-600 font-deliciousHandrawn"}>SETLIST:</p>
                 </div>
                 <div className={"flex flex-col w-[60%] pt-5 pl-3"}>
+
                     {
-                        Array.from({ length: 10 }).map((item, index) => (
+                        (tour.tourDetails?.songsList && tour.tourDetails.songsList.length > 0) ?
+                        tour.tourDetails?.songsList?.map((item, index) => (
                             <div key={index} className={"flex flex-row items-center w-[50%] text-3xl font-tradeWinds text-white pb-6"}>
                                 <div className={"flex flex-grow max-w-[60%]"}>
                                     <p className={index % 2 === 0 ? "text-orange-700" : "text-white"}>{index + 1}.
-                                        <span className={"cursor-pointer hover:underline overflow-auto text-white"} onClick={() => navigate("/songs/1")}> So Far All Quite</span>
+                                        <span className={"cursor-pointer hover:underline overflow-auto text-white"} onClick={() => navigate("/songs/" + item.id)}>{item.title}</span>
                                     </p>
                                 </div>
 
@@ -68,7 +83,7 @@ export const ShowDetailsPage = () => {
                                 </div>
 
                             </div>
-                        ))
+                        )) : <div className={"text-3xl font-tradeWinds text-white pl-[-0.75rem]"}>No Songs Found</div>
                     }
                 </div>
             </div>

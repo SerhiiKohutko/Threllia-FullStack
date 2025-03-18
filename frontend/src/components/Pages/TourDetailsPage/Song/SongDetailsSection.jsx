@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Button } from '@/components/ui/button';
 import { Volume2, Play, Info, Calendar } from 'lucide-react';
 
-const SongDetailsSection = () => {
+const SongDetailsSection = ({title, lyrics}) => {
+    useEffect(() => {
+        console.log(lyrics);
+    }, []);
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-b from-black to-gray-700 text-white">
             <div className="container mx-auto px-4 py-12 text-center">
                 <h1 className="text-5xl md:text-7xl font-bold mb-2">
-                    <span className="text-white font-rubikPaint">SO FAR</span>{" "}
-                    <span className="text-orange-500 font-rubikPaint">ALL QUIET</span>
+                    <span className="text-white font-rubikPaint"></span>
+                    <span className="text-orange-500 font-rubikPaint">{title}</span>
                 </h1>
                 <p className="text-xl text-gray-400 italic font-rubikPaint">WRITTEN BY JACK MORRIS</p>
             </div>
@@ -16,7 +19,7 @@ const SongDetailsSection = () => {
             <div className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
                     {/* Left side - Song details */}
-                    <div className="flex flex-col items-center    pt-6">
+                    <div className="flex flex-col items-center pt-6">
                         <div className="text-center font-tradeWinds">
                             <h2 className="text-4xl font-bold mb-2">TOTAL PERFORMANCES</h2>
                             <p className="text-orange-500 text-3xl font-bold mb-6">123</p>
@@ -47,44 +50,14 @@ const SongDetailsSection = () => {
                         </div>
                     </div>
 
-                    <div className="border border-orange-900  p-6">
+                    <div className="border border-orange-900 h-full p-6">
                         <div className="flex flex-col items-center text-center">
                             <h2 className="text-4xl font-bold mb-6">LYRICS</h2>
 
                             <div className="text-lg space-y-4 mb-6">
-                                <p>You take a mortal man</p>
-                                <p>And put him in control</p>
-                                <p>Watch him become a God</p>
-                                <p>Watch people's heads a-roll</p>
-                                <p>A-roll</p>
-                                <p>A-roll</p>
-
-                                <p>Just like the pied piper</p>
-                                <p>Led rats through the streets</p>
-                                <p>We dance like marionettes</p>
-                                <p>Swaying to the symphony of destruction</p>
-                                <p>You take a mortal man</p>
-                                <p>And put him in control</p>
-                                <p>Watch him become a God</p>
-                                <p>Watch people's heads a-roll</p>
-                                <p>A-roll</p>
-                                <p>A-roll</p>
-
-                                <p>Just like the pied piper</p>
-                                <p>Led rats through the streets</p>
-                                <p>We dance like marionettes</p>
-                                <p>Swaying to the symphony of destruction</p>
-                                <p>You take a mortal man</p>
-                                <p>And put him in control</p>
-                                <p>Watch him become a God</p>
-                                <p>Watch people's heads a-roll</p>
-                                <p>A-roll</p>
-                                <p>A-roll</p>
-
-                                <p>Just like the pied piper</p>
-                                <p>Led rats through the streets</p>
-                                <p>We dance like marionettes</p>
-                                <p>Swaying to the symphony of destruction</p>
+                                {
+                                    <div dangerouslySetInnerHTML={{__html:lyrics}}></div>
+                                }
                             </div>
                             <Button variant="outline"
                                     className="w-full bg-transparent border-orange-800 text-white hover:bg-orange-900 mb-2 flex items-center justify-center gap-2">

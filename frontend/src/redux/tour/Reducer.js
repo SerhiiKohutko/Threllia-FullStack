@@ -1,4 +1,9 @@
-import {GET_CLOSEST_SHOWS_SUCCESS, GET_PAST_SHOWS_SUCCESS} from "@/redux/tour/ActionType.js";
+import {
+    GET_CLOSEST_SHOWS_SUCCESS,
+    GET_PAST_SHOWS_SUCCESS,
+    GET_SHOW_DETAILS_REQUEST,
+    GET_SHOW_DETAILS_SUCCESS
+} from "@/redux/tour/ActionType.js";
 
 const initialState = {
     tourList: [],
@@ -25,6 +30,13 @@ export const tourReducer = (state = initialState, action) => {
                     tourList: action.payload.content,
                     pageablePart: action.payload
                 }
+
+        case GET_SHOW_DETAILS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                tourDetails: action.payload
+            }
 
         default: return state;
     }

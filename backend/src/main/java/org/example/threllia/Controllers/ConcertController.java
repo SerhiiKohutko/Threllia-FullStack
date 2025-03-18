@@ -43,6 +43,12 @@ public class ConcertController {
         return new ResponseEntity<>(activeConcerts, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Concert> getConcertById(@PathVariable long id) throws Exception {
+        Concert concert = concertService.getConcertById(id);
+        return ResponseEntity.ok(concert);
+    }
+
     @GetMapping
     public ResponseEntity<Page<Concert>> getConcertsBySongContained(@RequestParam String songTitle, @RequestParam(defaultValue = "0") int page) throws Exception {
         Page<Concert> concerts = concertService.getConcertBySong(songTitle, page);
