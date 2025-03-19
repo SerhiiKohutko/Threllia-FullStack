@@ -33,7 +33,6 @@ export const Header = () => {
 
                             <div className="flex flex-col items-center justify-center space-y-4 w-full">
                                 <Button type="button" onClick={() => {
-                                    console.log("Button clicked");
                                     navigate("/tour");
                                 }} variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">TOUR</Button>
                                 <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">NEWS</Button>
@@ -66,7 +65,7 @@ export const Header = () => {
                     <div className="scale-125">
                         <THRLAnimation text="THRL" customFontFamily={"font-deliciousHandrawn"}/>
                     </div>
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Music</p>
+                    <p onClick={() => navigate("/releases")} className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Music</p>
                     <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Shop</p>
                 </div>
 
