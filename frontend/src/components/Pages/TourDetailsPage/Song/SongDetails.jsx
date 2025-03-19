@@ -1,5 +1,5 @@
 import bgImage from "@/resources/ajfajm_big_burning_cross_7f4e8d49-44f0-4d57-b94d-9c20f7893d64.png";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Hero} from "@/components/Hero/Hero.jsx";
 
 import {
@@ -9,64 +9,43 @@ import {
     PaginationLink, PaginationNext,
     PaginationPrevious
 } from "@/components/ui/pagination.jsx";
-import {PastShow} from "@/components/Pages/TourDetailsPage/PastShow.jsx";
+import {PastShow} from "@/components/Pages/TourDetailsPage/PastTourDatesComponents/PastShow.jsx";
 import {SignUpBannerSection} from "@/components/HomePage/Sections/SignUpBannerSection.jsx";
 import SongDetailsSection from "@/components/Pages/TourDetailsPage/Song/SongDetailsSection.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {getSongDetails} from "@/redux/song/Action.js";
 import {useParams} from "react-router-dom";
+import {getShowsContainSongByTitle} from "@/redux/tour/Action.js";
+import {MyPagination} from "@/components/Pages/TourDetailsPage/pagination/Pagination.jsx";
+import {
+    PastTourDatesSection
+} from "@/components/Pages/TourDetailsPage/PastTourDatesComponents/PastTourDatesSection.jsx";
 
 
 export const SongDetails = () => {
     const dispatch = useDispatch();
     const song = useSelector((state) => state.song);
+    const tour = useSelector(state => state.tours)
     const {songId} = useParams();
+
+    const [currPage, setCurrPage] = useState(1);
 
     useEffect(() => {
         dispatch(getSongDetails(songId));
     },[])
 
+
     useEffect(() => {
-        console.log(song.songDetails?.title);
-    }, [song.songDetails]);
+        dispatch(getShowsContainSongByTitle(song.songDetails.title, currPage));
+    }, [song.songDetails?.title, currPage])
+
     return (
         <div>
-            <Hero pageTitle={song.songDetails?.title}/>
-            <SongDetailsSection title={song.songDetails?.title} lyrics={song.songDetails?.lyrics}/>
+            <Hero pageTitle={song.songDetails?.title} background={bgImage}/>
+            <SongDetailsSection title={song.songDetails?.title} lyrics={song.songDetails?.lyrics} totalShows={tour.pageablePart?.totalElements}/>
 
-            <div className="relative h-full bg-gradient-to-b from-gray-800 to-black  flex flex-col items-center pb-36">
-                <div className={"flex flex-row w-[80%] border-b border-orange-500 text-nowrap mt-8 mb-8"}>
-                    <div className={"flex flex-row w-full justify-start"}>
-                        <p className={"text-6xl font-tradeWinds text-white"}>Past Tour Dates</p>
-                    </div>
-                    <div className={"flex flex-row"}>
-                        <Pagination className={"flex w-full flex-row justify-end"}>
-                            <PaginationContent className={"text-white"}>
-                                <PaginationItem>
-                                    <PaginationPrevious href="#"/>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink href="#">1</PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationEllipsis/>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationNext href="#"/>
-                                </PaginationItem>
-                            </PaginationContent>
-                        </Pagination>
-                    </div>
-                </div>
-
-                <div className={"w-[80%]"}>
-                    {
-                        [1, 1, 1, 1, 1].map((item, index) => (
-                            <PastShow/>
-                        ))
-                    }
-
-                </div>
+            <div className={"relative text-white"}>
+                <PastTourDatesSection tour={tour} currPage={currPage} setCurrPage={setCurrPage}/>
 
                 <div className="ash-container">
                     {[...Array(50)].map((_, i) => (
@@ -89,7 +68,6 @@ export const SongDetails = () => {
                     className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-amber-700/40 to-transparent"></div>
 
             </div>
-
             <SignUpBannerSection/>
         </div>
     );

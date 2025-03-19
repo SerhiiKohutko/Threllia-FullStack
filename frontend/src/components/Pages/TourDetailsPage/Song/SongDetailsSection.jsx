@@ -2,7 +2,9 @@ import React, {useEffect} from 'react';
 import { Button } from '@/components/ui/button';
 import { Volume2, Play, Info, Calendar } from 'lucide-react';
 
-const SongDetailsSection = ({title, lyrics}) => {
+//TODO - last show performed and recent show performed date
+//TODO - releases related to the song
+const SongDetailsSection = ({title, lyrics, totalShows}) => {
     useEffect(() => {
         console.log(lyrics);
     }, []);
@@ -22,7 +24,7 @@ const SongDetailsSection = ({title, lyrics}) => {
                     <div className="flex flex-col items-center pt-6">
                         <div className="text-center font-tradeWinds">
                             <h2 className="text-4xl font-bold mb-2">TOTAL PERFORMANCES</h2>
-                            <p className="text-orange-500 text-3xl font-bold mb-6">123</p>
+                            <p className="text-orange-500 text-3xl font-bold mb-6">{totalShows}</p>
 
                             <div className="mb-8">
                                 <p className="text-xl font-bold italic mb-1">FIRST PERFORMED LIVE:</p>

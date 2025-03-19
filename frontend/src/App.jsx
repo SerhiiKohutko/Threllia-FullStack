@@ -4,7 +4,7 @@ import {Footer} from "@/components/Footer/Footer.jsx";
 import {HomePage} from "@/components/HomePage/HomePage.jsx";
 import {Route, Routes} from "react-router-dom";
 import {UpcomingTourDates} from "@/components/Pages/TourDetailsPage/UpcomingTourDates.jsx";
-import {PastTourDates} from "@/components/Pages/TourDetailsPage/PastTourDates.jsx";
+import {PastTourDates} from "@/components/Pages/TourDetailsPage/PastTourDatesComponents/PastTourDates.jsx";
 import {ShowDetailsPage} from "@/components/Pages/TourDetailsPage/ShowDetailsPage.jsx";
 import {SongDetails} from "@/components/Pages/TourDetailsPage/Song/SongDetails.jsx";
 

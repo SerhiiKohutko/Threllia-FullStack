@@ -31,7 +31,7 @@ export const ShowDetailsPage = () => {
 
     return (
         <div>
-            <Hero pageTitle={"TOUR DETAILS"}/>
+            <Hero pageTitle={"TOUR DETAILS"} background={bgImage}/>
             <div className={"bg-black min-h-[34rem] flex flex-col items-center pb-10"}>
                 <div className={"text-3xl text-orange-700 justify-start w-[60%] border-b border-orange-500 mb-5 pb-3 mt-8 font-deliciousHandrawn "}>
                     <p>Tour: </p>

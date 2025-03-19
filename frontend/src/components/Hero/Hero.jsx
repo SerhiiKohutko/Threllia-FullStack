@@ -1,15 +1,14 @@
-import {Button} from "@/components/ui/button.jsx";
-import bgImage from "@/resources/ajfajm_big_burning_cross_7f4e8d49-44f0-4d57-b94d-9c20f7893d64.png";
 import React from "react";
 
-export const Hero = ({pageTitle}) => {
+//TODO - fix background image
+export const Hero = ({pageTitle, background}) => {
     return (
         <div>
             <div className="relative min-h-screen">
                 <div
                     className="absolute inset-0 bg-center bg-contain w-full"
                     style={{
-                        backgroundImage: `url('${bgImage}')`,
+                        backgroundImage: `url('${background}')`,
                         filter: "brightness(0.6)",
                     }}>
 
