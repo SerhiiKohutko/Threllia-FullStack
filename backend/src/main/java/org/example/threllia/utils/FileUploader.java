@@ -12,13 +12,21 @@ import java.util.List;
 public class FileUploader {
     private static final String UPLOAD_DIR_NEWS = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\news";
     private static final String UPLOAD_DIR_PHOTOS = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\photos";
+    private static final String UPLOAD_DIR_RELEASES = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\releases";
 
     public static String uploadLatestUpdateImage(MultipartFile image) throws Exception {
+        return getString(image, UPLOAD_DIR_NEWS);
+    }
+    public static String uploadReleaseCover(MultipartFile image) throws Exception {
+        return getString(image, UPLOAD_DIR_RELEASES);
+    }
+
+    private static String getString(MultipartFile image, String folder) throws Exception {
         if (image.isEmpty()) {
             throw new Exception("File is empty");
         }
 
-        Path uploadPath = Paths.get(UPLOAD_DIR_NEWS);
+        Path uploadPath = Paths.get(folder);
 
         if (!Files.exists(uploadPath)){
             Files.createDirectory(uploadPath);
