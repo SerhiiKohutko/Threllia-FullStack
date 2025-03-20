@@ -8,6 +8,7 @@ import {PastTourDates} from "@/components/Pages/TourDetailsPage/PastTourDatesCom
 import {ShowDetailsPage} from "@/components/Pages/TourDetailsPage/ShowDetailsPage.jsx";
 import {SongDetails} from "@/components/Pages/TourDetailsPage/Song/SongDetails.jsx";
 import {ReleasesSection} from "@/components/Pages/Music/Releases.jsx";
+import {ReleaseDetails} from "@/components/Pages/Music/ReleaseDetails.jsx";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                         <Route path={"/tour/:showId"} element={<ShowDetailsPage/>}/>
                         <Route path={"/songs/:songId"} element={<SongDetails/>}/>
                         <Route path={"/releases"} element={<ReleasesSection/>}/>
+                        <Route path={"/releases/:releaseId"} element={<ReleaseDetails/>}/>
                     </Routes>
                 </div>
             <Footer/>

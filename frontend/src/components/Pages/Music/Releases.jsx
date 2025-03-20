@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {getAllReleases} from "@/redux/releases/Action.js";
 import {MyPagination} from "@/components/Pages/TourDetailsPage/pagination/Pagination.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -19,27 +20,32 @@ export const ReleasesSection = () => {
 
     const dispatch = useDispatch();
     const releases = useSelector(state => state.releases);
+    const navigate = useNavigate();
 
     const [currPage, setCurrPage] = useState(1);
-
+    const [selectValue, setSelectValue] = useState("DSC");
     useEffect(() => {
-        dispatch(getAllReleases(currPage));
-    }, [currPage]);
+        dispatch(getAllReleases(currPage, selectValue));
+    }, [currPage, selectValue]);
 
+    function handleSelectChange(value){
+        if (value !== selectValue) {
+            setSelectValue(value);
+        }
+    }
     return (
         <div>
             <Hero pageTitle={"Releases"} background={bgImage}/>
-            <div className={"min-h-[30rem] bg-gray-900 flex flex-col items-center"}>
+            <div className={"min-h-[50rem] bg-gray-900 flex flex-col items-center"}>
                 <div className={"text-white w-[50%] h-full border-b-2 border-orange-300 flex flex-row justify-between mt-8 pb-5"}>
                     <p className={"text-3xl font-rubikPaint"}>Releases</p>
-                    <Select>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Theme"/>
+                    <Select onValueChange={handleSelectChange}>
+                        <SelectTrigger className="w-[180px] text-white">
+                            <SelectValue placeholder={<span className="text-gray-400">Sort By</span>} />
                         </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="light">Light</SelectItem>
-                            <SelectItem value="dark">Dark</SelectItem>
-                            <SelectItem value="system">System</SelectItem>
+                        <SelectContent className={"text-white bg-slate-700 "}>
+                            <SelectItem className={"focus:bg-gray-400"} value="DSC">Newest to oldest</SelectItem>
+                            <SelectItem className={"focus:bg-gray-400"} value="ASC">Oldest to newest</SelectItem>
                         </SelectContent>
                     </Select>
 
@@ -49,7 +55,7 @@ export const ReleasesSection = () => {
                         {
                             releases.releasesList?.map(elem => {
                                 return (
-                                    <div>
+                                    <div onClick={() => navigate(`/releases/${elem.id}`)}>
                                         <img src={"http://localhost:8080/releases/" + elem.coverName}
                                              className={"cursor-pointer"}/>
                                         <p className={"text-2xl text-white"}>{elem.title}</p>

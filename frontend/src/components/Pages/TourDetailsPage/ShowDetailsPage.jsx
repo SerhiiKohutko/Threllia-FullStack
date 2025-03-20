@@ -13,6 +13,7 @@ import {Button} from "@/components/ui/button.jsx"
 import {SignUpBannerSection} from "@/components/HomePage/Sections/SignUpBannerSection.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {getShowDetails} from "@/redux/tour/Action.js";
+import {TrackList} from "@/components/Pages/TourDetailsPage/Song/TrackList.jsx";
 
 export const ShowDetailsPage = () => {
     const [indexHovered, setIndexHovered] = React.useState(null);
@@ -44,46 +45,46 @@ export const ShowDetailsPage = () => {
 
                     {
                         (tour.tourDetails?.songsList && tour.tourDetails.songsList.length > 0) ?
-                        tour.tourDetails?.songsList?.map((item, index) => (
-                            <div key={index} className={"flex flex-row items-center w-[50%] text-3xl font-tradeWinds text-white pb-6"}>
-                                <div className={"flex flex-grow max-w-[60%]"}>
-                                    <p className={index % 2 === 0 ? "text-orange-700" : "text-white"}>{index + 1}.
-                                        <span className={"cursor-pointer hover:underline overflow-auto text-white"} onClick={() => navigate("/songs/" + item.id)}>{item.title}</span>
-                                    </p>
-                                </div>
+                            tour.tourDetails?.songsList?.map((item, index) => (
+                                <div key={index} className={"flex flex-row items-center w-[50%] text-3xl font-tradeWinds text-white pb-6"}>
+                                    <div className={"flex flex-grow max-w-[60%]"}>
+                                        <p className={index % 2 === 0 ? "text-orange-700" : "text-white"}>{index + 1}.
+                                            <span className={"cursor-pointer hover:underline overflow-auto text-white"} onClick={() => navigate("/songs/" + item.id)}>{item.title}</span>
+                                        </p>
+                                    </div>
 
-                                <div className="relative ml-4 flex items-center flex-row" key={index}>
-                                    <div onMouseLeave={() => setIndexHovered(null)} className="group">
-                                        <button
-                                            onMouseEnter={() => setIndexHovered(index)}
-                                            className="w-full rounded-full bg-black text-white px-4 py-2 uppercase tracking-wider
+                                    <div className="relative ml-4 flex items-center flex-row" key={index}>
+                                        <div onMouseLeave={() => setIndexHovered(null)} className="group">
+                                            <button
+                                                onMouseEnter={() => setIndexHovered(index)}
+                                                className="w-full rounded-full bg-black text-white px-4 py-2 uppercase tracking-wider
                                             text-sm font-bold border border-white/20 text-center hover:bg-black/80
                                             transition-colors flex justify-between items-center">
-                                            {indexHovered === index ? <BsThreeDotsVertical/> : <BsThreeDots/>}
-                                        </button>
-                                        <div
-                                            className="absolute left-0 top-full mt-1 w-60 bg-black
+                                                {indexHovered === index ? <BsThreeDotsVertical/> : <BsThreeDots/>}
+                                            </button>
+                                            <div
+                                                className="absolute left-0 top-full mt-1 w-60 bg-black
                                             text-white border border-white/20 shadow-lg hidden
                                             group-hover:block group-focus-within:block z-20 group-hover:opacity-100">
 
-                                            <div className="h-2 absolute -top-2 left-0 right-0 bg-transparent"></div>
-                                            <div
-                                                className="py-2 px-2 uppercase tracking-wider text-sm font-bold
+                                                <div className="h-2 absolute -top-2 left-0 right-0 bg-transparent"></div>
+                                                <div
+                                                    className="py-2 px-2 uppercase tracking-wider text-sm font-bold
                                             hover:bg-black/80 cursor-pointer border-b border-white/10"
-                                                onClick={() => console.log("Lyrics & stats clicked")}>
-                                                See lyrics & stats for this song
-                                            </div>
-                                            <div
-                                                className="py-2 px-2 uppercase tracking-wider text-sm font-bold hover:bg-black/80 cursor-pointer"
-                                                onClick={() => console.log("Concerts clicked")}>
-                                                See all concerts with this song
+                                                    onClick={() => console.log("Lyrics & stats clicked")}>
+                                                    See lyrics & stats for this song
+                                                </div>
+                                                <div
+                                                    className="py-2 px-2 uppercase tracking-wider text-sm font-bold hover:bg-black/80 cursor-pointer"
+                                                    onClick={() => console.log("Concerts clicked")}>
+                                                    See all concerts with this song
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
-                        )) : <div className={"text-3xl font-tradeWinds text-white pl-[-0.75rem]"}>No Songs Found</div>
+                                </div>
+                            )) : <div className={"text-3xl font-tradeWinds text-white pl-[-0.75rem]"}>No Songs Found</div>
                     }
                 </div>
             </div>

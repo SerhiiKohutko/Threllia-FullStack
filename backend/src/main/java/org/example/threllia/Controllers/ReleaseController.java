@@ -1,6 +1,7 @@
 package org.example.threllia.controllers;
 
 import org.example.threllia.model.Release.entities.MusicRelease;
+import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.model.Release.service.ReleaseService;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.requests.ReleaseRequest;
@@ -22,11 +23,16 @@ public class ReleaseController {
     private ReleaseService releaseService;
 
     @GetMapping
-    public ResponseEntity<Page<MusicRelease>> getAllReleases(@RequestParam(defaultValue = "0") int page){
-        Page<MusicRelease> musicReleases = releaseService.getAllReleases(page);
+    public ResponseEntity<Page<MusicRelease>> getAllReleases(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "DSC") SortingType type){
+        Page<MusicRelease> musicReleases = releaseService.getAllReleases(page, type);
         return ResponseEntity.ok(musicReleases);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<MusicRelease> getReleaseById(@PathVariable long id) throws Exception {
+        MusicRelease release = releaseService.getReleaseById(id);
+        return ResponseEntity.ok(release);
+    }
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MusicRelease> addRelease(@RequestPart("release") ReleaseRequest release, @RequestPart("releaseCover") MultipartFile image) throws Exception {
         String imageName = FileUploader.uploadReleaseCover(image);

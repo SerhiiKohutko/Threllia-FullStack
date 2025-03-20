@@ -1,6 +1,7 @@
 package org.example.threllia.model.Release.service;
 
 import org.example.threllia.model.Release.entities.MusicRelease;
+import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.model.Release.repository.ReleaseRepository;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
@@ -8,6 +9,7 @@ import org.example.threllia.requests.ReleaseRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,8 +26,11 @@ public class ReleaseServiceImpl implements ReleaseService{
     private SongService songService;
 
     @Override
-    public Page<MusicRelease> getAllReleases(int page){
-        PageRequest pageRequest = PageRequest.of(page, 8);
+    public Page<MusicRelease> getAllReleases(int page, SortingType type){
+        PageRequest pageRequest = PageRequest.of(page, 8,
+                type.equals(SortingType.DSC)
+                ? Sort.by("date_released").descending()
+                : Sort.by("date_released").ascending());
         return releaseRepository.getAllReleases(pageRequest);
     }
 

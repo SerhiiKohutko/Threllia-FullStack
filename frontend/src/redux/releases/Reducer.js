@@ -1,4 +1,4 @@
-import {GET_ALL_RELEASES_SUCCESS} from "@/redux/releases/ActionType.js";
+import {GET_ALL_RELEASES_SUCCESS, GET_RELEASE_BY_ID_SUCCESS} from "@/redux/releases/ActionType.js";
 
 const initialState = {
     releasesList : [],
@@ -17,6 +17,12 @@ export const releasesReducer = (state = initialState, action) => {
                 ...state,
                 releasesList: action.payload.content,
                 pageablePart: action.payload
+            }
+
+        case GET_RELEASE_BY_ID_SUCCESS:
+            return {
+                ...state,
+                releaseDetails: action.payload
             }
 
         default:

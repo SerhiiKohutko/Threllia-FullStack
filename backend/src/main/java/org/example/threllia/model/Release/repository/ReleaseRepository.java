@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface ReleaseRepository extends JpaRepository<MusicRelease, Long> {
     Optional<MusicRelease> getReleasesById(long id);
 
-    @Query(value = "select * from music_release order by date_released", nativeQuery = true)
+    @Query(value = "select * from music_release", nativeQuery = true)
     Page<MusicRelease> getAllReleases(Pageable pageable);
 }
