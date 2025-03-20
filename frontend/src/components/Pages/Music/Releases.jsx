@@ -9,25 +9,29 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {getAllReleases} from "@/redux/releases/Action.js";
+import {MyPagination} from "@/components/Pages/TourDetailsPage/pagination/Pagination.jsx";
+
 
 
 export const ReleasesSection = () => {
 
     const dispatch = useDispatch();
-    const {releasesList} = useSelector(state => state.releases);
+    const releases = useSelector(state => state.releases);
+
+    const [currPage, setCurrPage] = useState(1);
 
     useEffect(() => {
-        dispatch(getAllReleases());
-    }, []);
+        dispatch(getAllReleases(currPage));
+    }, [currPage]);
 
     return (
         <div>
             <Hero pageTitle={"Releases"} background={bgImage}/>
             <div className={"min-h-[30rem] bg-gray-900 flex flex-col items-center"}>
                 <div className={"text-white w-[50%] h-full border-b-2 border-orange-300 flex flex-row justify-between mt-8 pb-5"}>
-                    <p class={"text-3xl font-rubikPaint"}>Releases</p>
+                    <p className={"text-3xl font-rubikPaint"}>Releases</p>
                     <Select>
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Theme"/>
@@ -41,9 +45,9 @@ export const ReleasesSection = () => {
 
                 </div>
                 <div className={"w-[50%] mt-8 mb-8"}>
-                    <div class={" grid grid-cols-4 lg:grid-cols-4 gap-2"}>
+                    <div className={" grid grid-cols-4 lg:grid-cols-4 gap-2"}>
                         {
-                            releasesList.map(elem => {
+                            releases.releasesList?.map(elem => {
                                 return (
                                     <div>
                                         <img src={"http://localhost:8080/releases/" + elem.coverName}
@@ -56,6 +60,10 @@ export const ReleasesSection = () => {
                         }
 
                     </div>
+                </div>
+
+                <div className={"min-h-full pb-5 pt-5"}>
+                    <MyPagination plural={releases} currPage={currPage} setCurrPage={setCurrPage} />
                 </div>
             </div>
         </div>

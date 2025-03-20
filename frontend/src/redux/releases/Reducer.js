@@ -2,6 +2,7 @@ import {GET_ALL_RELEASES_SUCCESS} from "@/redux/releases/ActionType.js";
 
 const initialState = {
     releasesList : [],
+    pageablePart: {},
     loading: false,
     error: null,
     releaseDetails: {}
@@ -14,7 +15,8 @@ export const releasesReducer = (state = initialState, action) => {
         case GET_ALL_RELEASES_SUCCESS:
             return {
                 ...state,
-                releasesList: action.payload
+                releasesList: action.payload.content,
+                pageablePart: action.payload
             }
 
         default:

@@ -13,7 +13,7 @@ export const PastTourDatesSection = ({tour, currPage, setCurrPage}) => {
                     <p className={"text-6xl font-tradeWinds text-white"}>Past Tour Dates</p>
                 </div>
                 <div className={"flex flex-row"}>
-                    <MyPagination tour={tour} currPage={currPage} setCurrPage={setCurrPage}/>
+                    <MyPagination plural={tour} currPage={currPage} setCurrPage={setCurrPage}/>
                 </div>
             </div>
 

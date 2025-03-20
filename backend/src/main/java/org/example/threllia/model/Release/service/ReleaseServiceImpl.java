@@ -6,6 +6,8 @@ import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
 import org.example.threllia.requests.ReleaseRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,8 +24,9 @@ public class ReleaseServiceImpl implements ReleaseService{
     private SongService songService;
 
     @Override
-    public List<MusicRelease> getAllReleases() {
-        return releaseRepository.findAll();
+    public Page<MusicRelease> getAllReleases(int page){
+        PageRequest pageRequest = PageRequest.of(page, 8);
+        return releaseRepository.getAllReleases(pageRequest);
     }
 
     @Override

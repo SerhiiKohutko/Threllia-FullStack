@@ -6,13 +6,13 @@ import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.requests.ReleaseRequest;
 import org.example.threllia.utils.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -22,8 +22,8 @@ public class ReleaseController {
     private ReleaseService releaseService;
 
     @GetMapping
-    public ResponseEntity<List<MusicRelease>> getAllReleases(){
-        List<MusicRelease> musicReleases = releaseService.getAllReleases();
+    public ResponseEntity<Page<MusicRelease>> getAllReleases(@RequestParam(defaultValue = "0") int page){
+        Page<MusicRelease> musicReleases = releaseService.getAllReleases(page);
         return ResponseEntity.ok(musicReleases);
     }
 

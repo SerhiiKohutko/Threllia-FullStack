@@ -6,12 +6,18 @@ import {
     PaginationNext,
     PaginationPrevious
 } from "@/components/ui/pagination.jsx";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
-export const MyPagination = ({tour, currPage, setCurrPage}) => {
+export const MyPagination = ({plural, currPage, setCurrPage}) => {
     const [startPage, setStartPage] = useState(1);
     const [endPage, setEndPage] = useState(3);
 
+
+    useEffect(() => {
+        console.log(plural);
+        console.log(plural.pageablePart?.totalPages);
+        console.log(currPage === plural.pageablePart?.totalPages);
+    }, [plural])
     function handleNextPageChange() {
 
         setCurrPage(prevPage => {
@@ -48,13 +54,13 @@ export const MyPagination = ({tour, currPage, setCurrPage}) => {
                 </div>
                 <div>
                     {
-                        tour.pageablePart?.totalPages > 3 ? Array.from({length: 3}, (_, i) => i + startPage).map((item, index) => {
+                        plural.pageablePart?.totalPages > 3 ? Array.from({length: 3}, (_, i) => i + startPage).map((item, index) => {
                             return <PaginationLink style={{ backgroundColor: currPage !== item && 'transparent' }}
                                                    onClick={() => setCurrPage(item)}
                                                    className={"hover:border-b cursor-pointer "}
                                                    isActive={currPage === item}
                                                    key={index}>{item}</PaginationLink>
-                        }) : Array.from({length: tour.pageablePart?.totalPages}, (_, i) => i + startPage).map((item, index) => {
+                        }) : Array.from({length: plural.pageablePart?.totalPages}, (_, i) => i + startPage).map((item, index) => {
                             return <PaginationLink style={{ backgroundColor: currPage !== item && 'transparent' }}
                                                    onClick={() => setCurrPage(item)}
                                                    className={"hover:border-b cursor-pointer "}
@@ -66,7 +72,7 @@ export const MyPagination = ({tour, currPage, setCurrPage}) => {
                 </div>
                 <div>
                     <PaginationItem
-                        className={currPage === tour.pageablePart?.totalPages ? "invisible" : "" + "cursor-pointer"}>
+                        className={currPage === plural.pageablePart?.totalPages ? "invisible" : "" + "cursor-pointer"}>
                         <PaginationNext style={{ backgroundColor: 'transparent' }} onClick={handleNextPageChange}/>
                     </PaginationItem>
                 </div>
