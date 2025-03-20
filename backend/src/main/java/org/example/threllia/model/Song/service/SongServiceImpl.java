@@ -1,5 +1,6 @@
 package org.example.threllia.model.Song.service;
 
+import org.example.threllia.dto.SongsOrderedDTO;
 import org.example.threllia.model.Concert.entities.Concert;
 import org.example.threllia.model.Concert.repositories.ConcertRepository;
 import org.example.threllia.model.Song.entities.Song;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 @Service
 public class SongServiceImpl implements SongService{
@@ -16,6 +18,22 @@ public class SongServiceImpl implements SongService{
     private SongRepository songRepository;
     @Autowired
     private ConcertRepository concertRepository;
+
+    @Override
+    public SongsOrderedDTO getAllSongsAlphabeticallyOrdered() {
+        List<Song> list = songRepository.getAllByNameOrdered();
+        TreeSet<Character> characters = new TreeSet<>();
+
+        for (Song song : list) {
+            characters.add(song.getTitle().charAt(0));
+        }
+
+        SongsOrderedDTO songsOrderedDTO = new SongsOrderedDTO();
+        songsOrderedDTO.setSongs(list);
+        songsOrderedDTO.setCharacters(characters);
+
+        return songsOrderedDTO;
+    }
 
     @Override
     public Song getSongById(long id) throws Exception {

@@ -1,5 +1,6 @@
 package org.example.threllia.controllers;
 
+import org.example.threllia.dto.SongsOrderedDTO;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class SongController {
     @GetMapping
     public ResponseEntity<List<Song>> getAllSongs(){
         return ResponseEntity.ok(songService.findAllSongs());
+    }
+
+    @GetMapping("/ordered")
+    public ResponseEntity<SongsOrderedDTO> getAllSongsAlphabeticallyOrdered(){
+        return ResponseEntity.ok(songService.getAllSongsAlphabeticallyOrdered());
     }
 
     @GetMapping("/{id}")

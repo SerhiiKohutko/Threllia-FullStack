@@ -1,6 +1,7 @@
-import {GET_SONG_DETAILS_SUCCESS} from "@/redux/song/ActionType.js";
+import {GET_ALL_SONGS_ORDERED_SUCCESS, GET_SONG_DETAILS_SUCCESS} from "@/redux/song/ActionType.js";
 
 const initialState = {
+    songsList : {},
     songDetails : {}
 }
 
@@ -11,6 +12,11 @@ export const songReducer = (state = initialState, action) => {
             return {
                 ...state,
                 songDetails: action.payload
+            }
+        case GET_ALL_SONGS_ORDERED_SUCCESS:
+            return {
+                ...state,
+                songsList: action.payload
             }
             default:
                 return state;
