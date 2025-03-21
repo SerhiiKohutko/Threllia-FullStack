@@ -4,6 +4,9 @@ import org.example.threllia.model.News.entities.LatestUpdate;
 import org.example.threllia.model.News.repository.LatestUpdateRepository;
 import org.example.threllia.requests.LatestUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,12 @@ public class LatestUpdateServiceImpl implements LatestUpdateService {
     @Override
     public List<LatestUpdate> getAllNews() {
         return latestUpdateRepository.findAll();
+    }
+
+    @Override
+    public Page<LatestUpdate> getAllNews(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 2, Sort.by("dateCreated").descending());
+        return latestUpdateRepository.findAll(pageRequest);
     }
 
     @Override

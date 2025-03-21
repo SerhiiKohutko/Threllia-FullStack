@@ -63,17 +63,19 @@ export const Header = () => {
                     <p onClick={() => navigate("/tour")}
                        className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Tour</p>
                     <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Media</p>
+                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/news")}>News</p>
                     <div className="scale-125">
                         <THRLAnimation text="THRL" customFontFamily={"font-deliciousHandrawn"}/>
                     </div>
                     <p onClick={() => navigate("/releases")}
                        className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Music</p>
                     <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Shop</p>
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/songs")}>Songs</p>
+                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}
+                       onClick={() => navigate("/songs")}>Songs</p>
                 </div>
 
                 <div className="flex w-[20%] justify-end items-center gap-4 text-white">
-                    <PersonIcon className={"cursor-pointer h-8 w-8"}/>
+                <PersonIcon className={"cursor-pointer h-8 w-8"}/>
                     <BoxIcon className={"cursor-pointer h-8 w-8"}/>
                 </div>
             </div>
