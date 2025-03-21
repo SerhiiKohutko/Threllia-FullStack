@@ -12,6 +12,7 @@ import {ReleaseDetails} from "@/components/Pages/Music/Releases/ReleaseDetails.j
 import {Songs} from "@/components/Pages/Music/Songs/Songs.jsx";
 import {ScrollTop} from "@/components/Utils/ScrollTop.jsx";
 import {News} from "@/components/Pages/News/News.jsx";
+import {LatestUpdateDetailsPage} from "@/components/Pages/News/LatestUpdateDetails.jsx";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                         <Route path={"/releases/:releaseId"} element={<ReleaseDetails/>}/>
                         <Route path={"/songs"} element={<Songs/>}/>
                         <Route path={"/news"} element={<News/>}/>
+                        <Route path={"/news/:latestUpdateId"} element={<LatestUpdateDetailsPage/>}/>
                     </Routes>
                 </div>
             <Footer/>

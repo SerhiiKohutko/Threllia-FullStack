@@ -1,4 +1,8 @@
-import {GET_ALL_NEWS_PAGINATED_SUCCESS, GET_ALL_NEWS_SUCCESS} from "@/redux/news/ActionType.js";
+import {
+    GET_ALL_NEWS_PAGINATED_SUCCESS,
+    GET_ALL_NEWS_SUCCESS,
+    GET_LATEST_UPDATE_BY_ID_SUCCESS
+} from "@/redux/news/ActionType.js";
 
 const initialState = {
     news : [],
@@ -21,6 +25,12 @@ export const newsReducer = (state = initialState, action) => {
                 news : action.payload.content,
                 pageablePart: action.payload
             }
+
+            case GET_LATEST_UPDATE_BY_ID_SUCCESS:
+                return {
+                    ...state,
+                    latestUpdateDetails : action.payload
+                }
         default:
             return state;
     }

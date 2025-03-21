@@ -2,16 +2,18 @@ import bgImage from "@/resources/bg_3.png"
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {getAllLatestUpdates, getAllNewsPaginated} from "@/redux/news/Action.js";
+import {getAllNewsPaginated} from "@/redux/news/Action.js";
 import {Button} from "@/components/ui/button.jsx";
 import {ArrowRight} from "lucide-react";
 import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {SignUpBannerSection} from "@/components/Pages/HomePage/Sections/SignUpBannerSection.jsx";
+import {useNavigate} from "react-router-dom";
 
 export const News = () => {
     const dispatch = useDispatch();
     const news = useSelector((state) => state.news);
     const imagesUrl = "http://localhost:8080/news/";
+    const navigate = useNavigate();
 
     const [currPage, setCurrPage] = useState(1);
 
@@ -34,7 +36,8 @@ export const News = () => {
                                         <div className="text-amber-500 text-xl mb-2 text-right">{latestUpdate.dateCreated}</div>
                                         <h3 className="text-white font-tradeWinds text-2xl mb-3 text-right">{latestUpdate.title}</h3>
                                         <p className="text-gray-400 mb-4 text-right">{latestUpdate.content}</p>
-                                        <Button variant="primary"
+                                        <Button onClick={() => navigate(`/news/${latestUpdate.id}`)}
+                                                variant="primary"
                                                 className="font-tradeWinds border border-orange-500 text-white rounded-none hover:text-amber-500 p-0 flex items-center">
                                             <span className={"pl-3 ml-1"}>READ MORE</span> <ArrowRight
                                             className="ml-1 h-4 w-4 pr-1.5"/>
@@ -56,7 +59,8 @@ export const News = () => {
                                         <div className="text-amber-500 text-xl mb-2">{latestUpdate.dateCreated}</div>
                                         <h3 className="text-white font-tradeWinds text-2xl mb-3">{latestUpdate.title}</h3>
                                         <p className="text-gray-400 mb-4">{latestUpdate.content}</p>
-                                        <Button variant="primary"
+                                        <Button onClick={() => navigate(`/news/${latestUpdate.id}`)}
+                                                variant="primary"
                                                 className="font-tradeWinds border border-orange-500 text-white rounded-none hover:text-amber-500 p-0 flex items-center">
                                             <span className={"pl-3 ml-1"}>READ MORE</span> <ArrowRight
                                             className="ml-1 h-4 w-4 pr-1.5"/>
