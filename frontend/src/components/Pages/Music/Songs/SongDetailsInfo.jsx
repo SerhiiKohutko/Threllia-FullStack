@@ -1,13 +1,10 @@
 import React, {useEffect} from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button.jsx';
 import { Volume2, Play, Info, Calendar } from 'lucide-react';
 
 //TODO - last show performed and recent show performed date
 //TODO - releases related to the song
-const SongDetailsSection = ({title, lyrics, totalShows}) => {
-    useEffect(() => {
-        console.log(lyrics);
-    }, []);
+const SongDetailsInfo = ({title, lyrics, totalShows}) => {
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-b from-black to-gray-700 text-white">
             <div className="container mx-auto px-4 py-12 text-center">
@@ -75,4 +72,4 @@ const SongDetailsSection = ({title, lyrics, totalShows}) => {
     );
 };
 
-export default SongDetailsSection;
+export default SongDetailsInfo;

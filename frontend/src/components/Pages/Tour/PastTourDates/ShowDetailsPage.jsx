@@ -1,19 +1,19 @@
 import bgImage from "@/resources/ajfajm_big_burning_cross_7f4e8d49-44f0-4d57-b94d-9c20f7893d64.png";
 import React, {useEffect} from "react";
-import {Hero} from "@/components/Hero/Hero.jsx";
+import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover.jsx"
 import { BsThreeDots } from "react-icons/bs";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {Button} from "@/components/ui/button.jsx"
-import {SignUpBannerSection} from "@/components/HomePage/Sections/SignUpBannerSection.jsx";
+import {SignUpBannerSection} from "@/components/Pages/HomePage/Sections/SignUpBannerSection.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {getShowDetails} from "@/redux/tour/Action.js";
-import {TrackList} from "@/components/Pages/TourDetailsPage/Song/TrackList.jsx";
+import {TrackList} from "@/components/ReusableComponents/TrackList.jsx";
 
 export const ShowDetailsPage = () => {
     const [indexHovered, setIndexHovered] = React.useState(null);

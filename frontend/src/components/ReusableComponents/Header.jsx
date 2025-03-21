@@ -1,5 +1,5 @@
 import React from 'react';
-import THRLAnimation from "../HomePage/Sections/SectionComponents/Logo.jsx";
+import THRLAnimation from "@/components/Pages/HomePage/Sections/SectionComponents/Logo.jsx";
 import {BoxIcon, HamburgerMenuIcon, PersonIcon} from "@radix-ui/react-icons";
 import {
     Sheet,
@@ -60,13 +60,16 @@ export const Header = () => {
                 </div>
 
                 <div className="flex flex-row justify-center gap-8 w-[60%] text-center items-center text-white h-16">
-                    <p onClick={() => navigate("/tour")} className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Tour</p>
+                    <p onClick={() => navigate("/tour")}
+                       className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Tour</p>
                     <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Media</p>
                     <div className="scale-125">
                         <THRLAnimation text="THRL" customFontFamily={"font-deliciousHandrawn"}/>
                     </div>
-                    <p onClick={() => navigate("/releases")} className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Music</p>
+                    <p onClick={() => navigate("/releases")}
+                       className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Music</p>
                     <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Shop</p>
+                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/songs")}>Songs</p>
                 </div>
 
                 <div className="flex w-[20%] justify-end items-center gap-4 text-white">

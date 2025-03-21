@@ -1,4 +1,4 @@
-import {Hero} from "@/components/Hero/Hero.jsx";
+import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import bgImage
     from "@/resources/ajfajm_THRELLIA_LOGO_2651e459-ae61-4677-9aa7-7979295791e2.png";
 import {
@@ -7,11 +7,11 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select.jsx"
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {getAllReleases} from "@/redux/releases/Action.js";
-import {MyPagination} from "@/components/Pages/TourDetailsPage/pagination/Pagination.jsx";
+import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {useNavigate} from "react-router-dom";
 
 

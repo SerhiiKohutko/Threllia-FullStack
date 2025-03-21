@@ -1,5 +1,5 @@
-import {MyPagination} from "@/components/Pages/TourDetailsPage/pagination/Pagination.jsx";
-import {PastShow} from "@/components/Pages/TourDetailsPage/PastTourDatesComponents/PastShow.jsx";
+import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
+import {PastShow} from "@/components/Pages/Tour/PastTourDates/PastShow.jsx";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 

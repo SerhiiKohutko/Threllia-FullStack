@@ -1,7 +1,7 @@
 import "./css/tour.css"
 import {Button} from "@/components/ui/button.jsx";
 import React from "react";
-import {TourDatesCarousel} from "@/components/HomePage/Sections/SectionComponents/TourCard.jsx";
+import {TourDatesCarousel} from "@/components/Pages/HomePage/Sections/SectionComponents/TourCard.jsx";
 import {useNavigate} from "react-router-dom";
 
 

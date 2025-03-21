@@ -1,10 +1,10 @@
-import {Hero} from "@/components/Hero/Hero.jsx";
+import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import {useParams} from "react-router-dom";
-import bgImage from '../../../resources/releases.bg.png';
+import bgImage from '../../../../resources/releases.bg.png';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {getReleaseById} from "@/redux/releases/Action.js";
-import {TrackList} from "@/components/Pages/TourDetailsPage/Song/TrackList.jsx";
+import {TrackList} from "@/components/ReusableComponents/TrackList.jsx";
 
 
 export const ReleaseDetails = () => {

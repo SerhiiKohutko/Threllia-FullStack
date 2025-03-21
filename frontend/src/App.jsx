@@ -1,15 +1,16 @@
 import './App.css'
-import {Header} from "./components/Header/Header.jsx";
-import {Footer} from "@/components/Footer/Footer.jsx";
-import {HomePage} from "@/components/HomePage/HomePage.jsx";
+import {Header} from "./components/ReusableComponents/Header.jsx";
+import {Footer} from "@/components/ReusableComponents/Footer.jsx";
+import {HomePage} from "@/components/Pages/HomePage/HomePage.jsx";
 import {Route, Routes} from "react-router-dom";
-import {UpcomingTourDates} from "@/components/Pages/TourDetailsPage/UpcomingTourDates.jsx";
-import {PastTourDates} from "@/components/Pages/TourDetailsPage/PastTourDatesComponents/PastTourDates.jsx";
-import {ShowDetailsPage} from "@/components/Pages/TourDetailsPage/ShowDetailsPage.jsx";
-import {SongDetails} from "@/components/Pages/TourDetailsPage/Song/SongDetails.jsx";
-import {ReleasesSection} from "@/components/Pages/Music/Releases.jsx";
-import {ReleaseDetails} from "@/components/Pages/Music/ReleaseDetails.jsx";
-import {SongsPage} from "@/components/Pages/TourDetailsPage/Song/SongsPage.jsx";
+import {UpcomingTourDates} from "@/components/Pages/Tour/UpcomingTourDates/UpcomingTourDates.jsx";
+import {PastTourDates} from "@/components/Pages/Tour/PastTourDates/PastTourDates.jsx";
+import {ShowDetailsPage} from "@/components/Pages/Tour/PastTourDates/ShowDetailsPage.jsx";
+import {SongDetails} from "@/components/Pages/Music/Songs/SongDetails.jsx";
+import {ReleasesSection} from "@/components/Pages/Music/Releases/Releases.jsx";
+import {ReleaseDetails} from "@/components/Pages/Music/Releases/ReleaseDetails.jsx";
+import {Songs} from "@/components/Pages/Music/Songs/Songs.jsx";
+import {ScrollTop} from "@/components/Utils/ScrollTop.jsx";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
 
   return (
     <>
+            <ScrollTop />
             <Header/>
                 <div className={"min-h-full"}>
                     <Routes>
@@ -27,7 +29,7 @@ function App() {
                         <Route path={"/songs/:songId"} element={<SongDetails/>}/>
                         <Route path={"/releases"} element={<ReleasesSection/>}/>
                         <Route path={"/releases/:releaseId"} element={<ReleaseDetails/>}/>
-                        <Route path={"/songs"} element={<SongsPage/>}/>
+                        <Route path={"/songs"} element={<Songs/>}/>
                     </Routes>
                 </div>
             <Footer/>

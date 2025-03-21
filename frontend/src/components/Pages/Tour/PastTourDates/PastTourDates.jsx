@@ -6,8 +6,8 @@ import {getPastDateShows} from "@/redux/tour/Action.js";
 
 import {
     PastTourDatesSection
-} from "@/components/Pages/TourDetailsPage/PastTourDatesComponents/PastTourDatesSection.jsx";
-import {Hero} from "@/components/Hero/Hero.jsx";
+} from "@/components/Pages/Tour/PastTourDates/PastTourDatesSection.jsx";
+import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 
 export const PastTourDates = () => {
 

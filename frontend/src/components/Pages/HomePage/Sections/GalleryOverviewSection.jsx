@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button.jsx";
 import {Image, Play} from "lucide-react";
-import {LatestVideo} from "@/components/HomePage/Sections/SectionComponents/LatestVideo.jsx";
-import {Photo} from "@/components/HomePage/Sections/SectionComponents/Photo.jsx";
+import {LatestVideo} from "@/components/Pages/HomePage/Sections/SectionComponents/LatestVideo.jsx";
+import {Photo} from "@/components/Pages/HomePage/Sections/SectionComponents/Photo.jsx";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {photoReducer} from "@/redux/gallery/Reducer.js";

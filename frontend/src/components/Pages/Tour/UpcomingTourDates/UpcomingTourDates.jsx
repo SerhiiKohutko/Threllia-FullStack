@@ -1,7 +1,7 @@
 import bgImage
     from "@/resources/ajfajm_THRELLIA_aggressive_style_metal_band_logo_for_profile_pi_0572d61d-363c-45bc-9c66-9833d73e2d63.png";
 import React from "react";
-import {TourCard, TourDatesCarousel} from "@/components/HomePage/Sections/SectionComponents/TourCard.jsx";
+import {TourCard, TourDatesCarousel} from "@/components/Pages/HomePage/Sections/SectionComponents/TourCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
 
