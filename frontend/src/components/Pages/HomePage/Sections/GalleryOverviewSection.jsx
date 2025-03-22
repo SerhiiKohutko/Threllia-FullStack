@@ -26,7 +26,7 @@ export const GalleryOverviewSection = () => {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 ">
-                    {photo.photos[0] && photo.photos[0].photos.map((item, index) => (
+                    {photo.photos[0] && photo.photos[0].photos?.map((item, index) => (
                         <Photo index={index} imageName={item.imageName}/>
                     ))}
                 </div>

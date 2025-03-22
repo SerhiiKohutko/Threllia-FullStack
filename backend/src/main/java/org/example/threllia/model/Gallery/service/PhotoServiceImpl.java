@@ -1,5 +1,6 @@
 package org.example.threllia.model.Gallery.service;
 
+import org.example.threllia.dto.PhotoCollectionDTO;
 import org.example.threllia.model.Gallery.entities.PhotoCollection;
 import org.example.threllia.model.Gallery.entities.Photo;
 import org.example.threllia.model.Gallery.entities.Photographer;
@@ -24,14 +25,26 @@ public class PhotoServiceImpl implements PhotoService {
     private PhotographerService photographerService;
 
     @Override
-    public Page<PhotoCollection> getAllPhotosPaginated(int page, SortingType order) {
+    public Page<PhotoCollectionDTO> getAllPhotosPaginated(int page, SortingType order) {
         PageRequest pageRequest = PageRequest.of(page, 6,
                 order.equals(SortingType.DSC)
                 ? Sort.by("date").descending()
                 : Sort.by("date").ascending());
-        return photoRepository.getAllGalleryItems(pageRequest);
+        return mapEveryToPhotoCollectionDTO(photoRepository.getAllGalleryItems(pageRequest));
     }
 
+    private Page<PhotoCollectionDTO> mapEveryToPhotoCollectionDTO(Page<PhotoCollection> photoCollections){
+        return photoCollections.map(this::mapToPhotoCollectionDTO);
+    }
+
+    private PhotoCollectionDTO mapToPhotoCollectionDTO(PhotoCollection photoCollection){
+        PhotoCollectionDTO photoCollectionDTO = new PhotoCollectionDTO();
+        photoCollectionDTO.setId(photoCollection.getId());
+        photoCollectionDTO.setTitle(photoCollection.getTitle());
+        photoCollectionDTO.setDate(photoCollection.getDate());
+        photoCollectionDTO.setFirstElementPhotoName(photoCollection.getPhotos().get(0).getImageName());
+        return photoCollectionDTO;
+    }
     @Override
     public List<PhotoCollection> getPhotos() {
         return photoRepository.findAll();

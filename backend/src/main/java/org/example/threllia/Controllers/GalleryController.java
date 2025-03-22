@@ -1,5 +1,6 @@
 package org.example.threllia.controllers;
 
+import org.example.threllia.dto.PhotoCollectionDTO;
 import org.example.threllia.model.Gallery.entities.PhotoCollection;
 import org.example.threllia.model.Gallery.service.PhotoService;
 import org.example.threllia.model.Release.enums.SortingType;
@@ -31,10 +32,11 @@ public class GalleryController {
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<Page<PhotoCollection>> getAllPhotosPaginated(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "DSC") SortingType order){
-        Page<PhotoCollection> galleryItems = photoService.getAllPhotosPaginated(page, order);
+    public ResponseEntity<Page<PhotoCollectionDTO>> getAllPhotosPaginated(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "DSC") SortingType order){
+        Page<PhotoCollectionDTO> galleryItems = photoService.getAllPhotosPaginated(page, order);
         return ResponseEntity.ok(galleryItems);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PhotoCollection> getPhotoById(@PathVariable Long id) throws Exception {

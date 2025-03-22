@@ -1,5 +1,6 @@
 package org.example.threllia.model.Gallery.service;
 
+import org.example.threllia.dto.PhotoCollectionDTO;
 import org.example.threllia.model.Gallery.entities.PhotoCollection;
 import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.requests.PhotoCollectionCreationRequest;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface PhotoService {
 
-    Page<PhotoCollection> getAllPhotosPaginated(int page, SortingType order);
+    Page<PhotoCollectionDTO> getAllPhotosPaginated(int page, SortingType order);
     List<PhotoCollection> getPhotos();
     PhotoCollection getById(long id) throws Exception;
     PhotoCollection createGalleryItem(PhotoCollectionCreationRequest request, List<String> fileNames);
