@@ -21,8 +21,6 @@ public class Song {
     @Column(unique = true)
     private String title;
 
-    private String album;
-
     @Lob
     private String lyrics;
 

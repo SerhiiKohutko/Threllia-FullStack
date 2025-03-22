@@ -1,16 +1,18 @@
 package org.example.threllia.model.Song.service;
 
+import org.example.threllia.dto.MusicReleaseDTO;
+import org.example.threllia.dto.SongDTO;
 import org.example.threllia.dto.SongsOrderedDTO;
 import org.example.threllia.model.Concert.entities.Concert;
 import org.example.threllia.model.Concert.repositories.ConcertRepository;
+import org.example.threllia.model.Release.entities.MusicRelease;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SongServiceImpl implements SongService{
@@ -29,15 +31,58 @@ public class SongServiceImpl implements SongService{
         }
 
         SongsOrderedDTO songsOrderedDTO = new SongsOrderedDTO();
-        songsOrderedDTO.setSongs(list);
+        songsOrderedDTO.setSongs(mapEveryToSongDTO(list));
         songsOrderedDTO.setCharacters(characters);
 
         return songsOrderedDTO;
     }
 
+    private List<SongDTO> mapEveryToSongDTO(List<Song> songs){
+        return songs.stream().map(this::getSongDTO).toList();
+    }
+
+    private SongDTO getSongDTO(Song song){
+        SongDTO songDTO = new SongDTO();
+
+        songDTO.setTitle(song.getTitle());
+        songDTO.setId(song.getId());
+
+        return songDTO;
+    }
+
     @Override
-    public Song getSongById(long id) throws Exception {
-        return songRepository.findSongById(id).orElseThrow(() -> new Exception("No such song found with id = " + id));
+    public SongDTO getSongById(long id) throws Exception {
+        Song song = songRepository.findSongById(id).orElseThrow(() -> new Exception("No such song found with id = " + id));
+
+        SongDTO songDTO = new SongDTO();
+        songDTO.setLyrics(song.getLyrics());
+        songDTO.setTitle(song.getTitle());
+        songDTO.setAppearedOn(mapEveryToMusicReleaseDTO(song.getAppearedOn()));
+
+        List<Concert> concerts = song.getConcertPlayed();
+        concerts.sort(Comparator.comparing(Concert::getDate));
+
+        songDTO.setFirstTimePlayed(concerts.get(0).getDate());
+        songDTO.setLastTimePlayed(concerts.get(concerts.size() - 1).getDate());
+
+        return songDTO;
+    }
+
+    private Set<MusicReleaseDTO> mapEveryToMusicReleaseDTO(Set<MusicRelease> musicReleases) {
+        return musicReleases.stream().map(this::getMusicReleaseDTO).collect(Collectors.toSet());
+    }
+
+    private MusicReleaseDTO getMusicReleaseDTO(MusicRelease musicRelease){
+        MusicReleaseDTO musicReleaseDTO = new MusicReleaseDTO();
+
+        musicReleaseDTO.setId(musicRelease.getId());
+        musicReleaseDTO.setTrackList(musicRelease.getTrackList().stream().map(Song::getTitle).toList());
+        musicReleaseDTO.setDateReleased(musicRelease.getDateReleased());
+        musicReleaseDTO.setDescription(musicRelease.getDescription());
+        musicReleaseDTO.setCoverName(musicRelease.getCoverName());
+        musicReleaseDTO.setNameToInstrumentsPlayed(musicRelease.getNameToInstrumentsPlayed());
+
+        return musicReleaseDTO;
     }
 
     @Override
@@ -60,7 +105,6 @@ public class SongServiceImpl implements SongService{
 
         Song savedSong = new Song();
 
-        savedSong.setAlbum(song.getAlbum());
         savedSong.setTitle(song.getTitle());
 
         savedSong.setLyrics(parseLyricsToHtml(song.getLyrics()));

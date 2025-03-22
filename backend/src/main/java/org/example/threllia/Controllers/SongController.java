@@ -1,5 +1,6 @@
 package org.example.threllia.controllers;
 
+import org.example.threllia.dto.SongDTO;
 import org.example.threllia.dto.SongsOrderedDTO;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
@@ -33,7 +34,7 @@ public class SongController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Song> getSongById(@PathVariable long id) throws Exception {
+    public ResponseEntity<SongDTO> getSongById(@PathVariable long id) throws Exception {
         return ResponseEntity.ok(songService.getSongById(id));
     }
 
