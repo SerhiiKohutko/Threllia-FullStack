@@ -16,9 +16,9 @@ public class Photo {
     private String imageName;
 
     @ManyToOne
-    @JoinColumn(name = "gallery_item_id")
+    @JoinColumn(name = "photo_collection_id")
     @JsonIgnore
-    private GalleryItem galleryItem;
+    private PhotoCollection photoCollection;
     @ManyToOne
     @JoinColumn(name = "photographer_id")
     private Photographer author;

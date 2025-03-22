@@ -24,7 +24,7 @@ public class PhotographerServiceImpl implements PhotographerService{
             return savePhotographer(newPhotographer);
         }
 
-        return savePhotographer(photographerOptional.get());
+        return photographerOptional.get();
     }
 
     @Override

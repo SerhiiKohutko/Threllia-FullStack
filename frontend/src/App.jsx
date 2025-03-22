@@ -13,6 +13,8 @@ import {Songs} from "@/components/Pages/Music/Songs/Songs.jsx";
 import {ScrollTop} from "@/components/Utils/ScrollTop.jsx";
 import {News} from "@/components/Pages/News/News.jsx";
 import {LatestUpdateDetailsPage} from "@/components/Pages/News/LatestUpdateDetails.jsx";
+import {Gallery} from "@/components/Pages/Gallery/Gallery.jsx";
+import {PhotoCollectionDetails} from "@/components/Pages/Gallery/PhotoCollectionDetails.jsx";
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
                         <Route path={"/songs"} element={<Songs/>}/>
                         <Route path={"/news"} element={<News/>}/>
                         <Route path={"/news/:latestUpdateId"} element={<LatestUpdateDetailsPage/>}/>
+                        <Route path={"/gallery"} element={<Gallery/>}/>
+                        <Route path={"/gallery/:photoCollectionId"} element={<PhotoCollectionDetails/>}/>
                     </Routes>
                 </div>
             <Footer/>

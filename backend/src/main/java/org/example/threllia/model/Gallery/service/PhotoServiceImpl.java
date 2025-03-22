@@ -1,14 +1,19 @@
 package org.example.threllia.model.Gallery.service;
 
-import org.example.threllia.model.Gallery.entities.GalleryItem;
+import org.example.threllia.model.Gallery.entities.PhotoCollection;
 import org.example.threllia.model.Gallery.entities.Photo;
 import org.example.threllia.model.Gallery.entities.Photographer;
 import org.example.threllia.model.Gallery.repository.PhotoRepository;
-import org.example.threllia.requests.GalleryItemCreationRequest;
+import org.example.threllia.model.Release.enums.SortingType;
+import org.example.threllia.requests.PhotoCollectionCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class PhotoServiceImpl implements PhotoService {
@@ -19,41 +24,50 @@ public class PhotoServiceImpl implements PhotoService {
     private PhotographerService photographerService;
 
     @Override
-    public List<GalleryItem> getPhotos() {
+    public Page<PhotoCollection> getAllPhotosPaginated(int page, SortingType order) {
+        PageRequest pageRequest = PageRequest.of(page, 6,
+                order.equals(SortingType.DSC)
+                ? Sort.by("date").descending()
+                : Sort.by("date").ascending());
+        return photoRepository.getAllGalleryItems(pageRequest);
+    }
+
+    @Override
+    public List<PhotoCollection> getPhotos() {
         return photoRepository.findAll();
     }
 
     @Override
-    public GalleryItem getById(long id) throws Exception {
+    public PhotoCollection getById(long id) throws Exception {
         return photoRepository.findGalleryItemById(id).orElseThrow(() -> new Exception("GalleryItem not found with id = " + id));
     }
 
 
     @Override
-    public GalleryItem createGalleryItem(GalleryItemCreationRequest request, List<String> fileNames) {
+    public PhotoCollection createGalleryItem(PhotoCollectionCreationRequest request, List<String> fileNames) {
         Photographer author = photographerService.getPhotographer(request.getAuthor().trim());
 
-        GalleryItem newGalleryItem = new GalleryItem();
-        newGalleryItem.setTitle(request.getTitle());
-        newGalleryItem.setDate(request.getDate());
+        PhotoCollection newPhotoCollection = new PhotoCollection();
+        newPhotoCollection.setTitle(request.getTitle());
+        newPhotoCollection.setDate(request.getDate());
 
-        addAllPhotosToGalleryItem(fileNames, author, newGalleryItem);
+        addAllPhotosToGalleryItem(fileNames, author, newPhotoCollection);
 
-        return photoRepository.save(newGalleryItem);
+        return photoRepository.save(newPhotoCollection);
     }
 
     @Override
-    public GalleryItem addPhotos(List<String> fileNames, String author, long id) throws Exception {
-        GalleryItem item = getById(id);
+    public PhotoCollection addPhotos(List<String> fileNames, String author, long id) throws Exception {
+        PhotoCollection item = getById(id);
         Photographer photographer = photographerService.getPhotographer(author.trim());
         addAllPhotosToGalleryItem(fileNames, photographer, item);
         return photoRepository.save(item);
     }
 
-    private void addAllPhotosToGalleryItem(List<String> fileNames, Photographer author, GalleryItem item){
+    private void addAllPhotosToGalleryItem(List<String> fileNames, Photographer author, PhotoCollection item){
         for (String fileName : fileNames) {
             Photo newPhoto = new Photo();
-            newPhoto.setGalleryItem(item);
+            newPhoto.setPhotoCollection(item);
             newPhoto.setAuthor(author);
             newPhoto.setImageName(fileName);
             item.getPhotos().add(newPhoto);

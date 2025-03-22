@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class GalleryItemCreationRequest {
+public class PhotoCollectionCreationRequest {
     private String title;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;

@@ -62,7 +62,7 @@ export const Header = () => {
                 <div className="flex flex-row justify-center gap-8 w-[60%] text-center items-center text-white h-16">
                     <p onClick={() => navigate("/tour")}
                        className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Tour</p>
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Media</p>
+                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/gallery")}>Media</p>
                     <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/news")}>News</p>
                     <div className="scale-125">
                         <THRLAnimation text="THRL" customFontFamily={"font-deliciousHandrawn"}/>
