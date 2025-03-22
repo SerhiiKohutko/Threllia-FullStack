@@ -42,7 +42,13 @@ export const SongDetails = () => {
     return (
         <div>
             <Hero pageTitle={song.songDetails?.title} background={bgImage}/>
-            <SongDetailsInfo title={song.songDetails?.title} lyrics={song.songDetails?.lyrics} totalShows={tour.pageablePart?.totalElements}/>
+            <SongDetailsInfo title={song.songDetails?.title}
+                             lyrics={song.songDetails?.lyrics}
+                             totalShows={tour.pageablePart?.totalElements}
+                             lastTimePlayed={song.songDetails?.lastTimePlayed}
+                             firstTimePlayed={song.songDetails?.firstTimePlayed}
+                             appearedOn={song.songDetails?.appearedOn}
+            />
 
             <div className={"relative text-white"}>
                 <PastTourDatesSection tour={tour} currPage={currPage} setCurrPage={setCurrPage}/>
