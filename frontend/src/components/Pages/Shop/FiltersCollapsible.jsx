@@ -1,12 +1,13 @@
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.jsx";
 import {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 
 // TODO - fix when redirecting to the other category filters are not annulled
 export const FiltersCollapsible = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const {categoryName} = useParams();
 
     const [priceSelected, setPriceSelected] = useState(null);
     const priceRanges = ["0-24.99", "25-49.99", "50-99.99", "100"];
@@ -14,6 +15,12 @@ export const FiltersCollapsible = () => {
     const [albumSelected, setAlbumSelected] = useState(null);
     const albums = ["mop", "black", "justice"];
 
+
+    useEffect(() => {
+        setPriceSelected(null);
+        setAlbumSelected(null);
+    },[categoryName])
+    
     function handlePriceChange(price) {
         priceSelected === price ? setPriceSelected(null) : setPriceSelected(price);
 
