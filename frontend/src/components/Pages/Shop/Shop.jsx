@@ -47,7 +47,7 @@ export const Shop = () => {
           <Hero background={bgImage} pageTitle={"Shop"} />
           <div className={"h-full bg-white text-black font-rubikPaint flex flex-row items-center justify-center"}>
                 <div className={"w-[60%] flex-row flex pt-10 justify-center space-x-3"}>
-                    <div className={"flex flex-col mr-4 w-[25%]"}>
+                    <div className={"flex flex-col mr-4 w-[30%]"}>
                         <p className={"text-xl"}>
                             <span className={"cursor-pointer hover:underline"} onClick={() => navigate("/")}>Home</span>
                             <span> -> </span>

@@ -4,11 +4,14 @@ import org.example.threllia.model.Shop.entities.AccessoryProduct;
 import org.example.threllia.model.Shop.entities.ApparelProduct;
 import org.example.threllia.model.Shop.entities.MediaProduct;
 import org.example.threllia.model.Shop.entities.Product;
+import org.example.threllia.model.Shop.enums.ProductType;
 import org.example.threllia.model.Shop.repositories.AccessoriesProductRepository;
 import org.example.threllia.model.Shop.repositories.ApparelProductRepository;
 import org.example.threllia.model.Shop.repositories.MediaProductRepository;
 import org.example.threllia.model.Shop.shop_enum.ApparelSizeType;
+import org.example.threllia.model.Shop.shop_enum.MediaProductType;
 import org.example.threllia.requests.ProductRequest;
+import org.example.threllia.utils.ParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -28,6 +34,7 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private AccessoriesProductRepository accessoriesProductRepository;
 
+    @Deprecated
     @Override
     public List<Product> getProducts(int page, int size) {
         List<Product> mixedProducts = new ArrayList<>();
@@ -44,6 +51,26 @@ public class ProductServiceImpl implements ProductService{
         Collections.shuffle(mixedProducts);
 
         return mixedProducts;
+    }
+
+    //WORK IN PROGRESS
+    @Override
+    public Page<? extends Product> getProductsByType(ProductType type, ParametersTransfer parametersTransfer, String subType) {
+
+
+        Page<? extends Product> page = switch (type) {
+            case MEDIA -> findMediaProductsFiltered(subType != null
+                    ? MediaProductType.valueOf(subType.toUpperCase())
+                    : null, parametersTransfer);
+            case APPAREL, ACCESSORY -> null;
+        };
+
+        return page;
+    }
+
+    private Page<MediaProduct> findMediaProductsFiltered(MediaProductType subtype, ParametersTransfer parametersTransfer){
+        PageRequest pageRequest = PageRequest.of(0, 6);
+        return mediaProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
     }
 
     @Override

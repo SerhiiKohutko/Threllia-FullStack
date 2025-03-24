@@ -42,7 +42,7 @@ export const FiltersCollapsible = () => {
 
             navigate(`${location.pathname}?${urlParams.toString()}`);
 
-            return prevPrice === price ? null : price; // Correctly toggle state
+            return prevPrice === price ? null : price; 
         });
     }
 
