@@ -15,6 +15,7 @@ import {News} from "@/components/Pages/News/News.jsx";
 import {LatestUpdateDetailsPage} from "@/components/Pages/News/LatestUpdateDetails.jsx";
 import {Gallery} from "@/components/Pages/Gallery/Gallery.jsx";
 import {PhotoCollectionDetails} from "@/components/Pages/Gallery/PhotoCollectionDetails.jsx";
+import {Shop} from "@/components/Pages/Shop/Shop.jsx";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                         <Route path={"/news/:latestUpdateId"} element={<LatestUpdateDetailsPage/>}/>
                         <Route path={"/gallery"} element={<Gallery/>}/>
                         <Route path={"/gallery/:photoCollectionId"} element={<PhotoCollectionDetails/>}/>
+                        <Route path={"/shop"} element={<Shop/>}/>
                     </Routes>
                 </div>
             <Footer/>
