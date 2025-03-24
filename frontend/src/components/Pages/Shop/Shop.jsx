@@ -2,32 +2,79 @@ import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import bgImage from "@/resources/ajfajm_bigger_writing_5fdc790a-ffc5-4a57-a6eb-fe80032c0eb7-min.png";
 import {CollapsibleShop} from "@/components/ReusableComponents/CollapsibleShop.jsx";
 import {FiltersCollapsible} from "@/components/Pages/Shop/FiltersCollapsible.jsx";
-import {useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 export const Shop = () => {
+    const navigate = useNavigate();
 
-    const {categeryName} = useParams();
+    const {categoryName} = useParams();
+    const [position, setPosition] = useState([])
+
+    const variants = {
+        media: ["test1", "test2", "test3"],
+        apparel: ["test4", "test5", "test6"],
+        accessories: ["test7", "test8", "test9"],
+    };
+
+    useEffect(() => {
+        getCurrPosition()
+    }, [categoryName])
+
+    function getCurrPosition() {
+
+        let currPosition = [];
+
+
+        Object.entries(variants).forEach(([key, value]) => {
+            if (key === categoryName) {
+                currPosition = [key];
+            }
+        })
+
+
+        Object.entries(variants).forEach(([key, value]) => {
+            if (value.includes(categoryName)) {
+                currPosition = [key, categoryName];
+            }
+        })
+
+        setPosition(currPosition);
+    }
 
     return (
       <div className={"text-5xl"}>
           <Hero background={bgImage} pageTitle={"Shop"} />
           <div className={"h-full bg-white text-black font-rubikPaint flex flex-row items-center justify-center"}>
-                <div className={"w-[60%] flex-row flex pt-10 space-x-3 justify-between"}>
+                <div className={"w-[60%] flex-row flex pt-10 justify-center space-x-3"}>
+                    <div className={"flex flex-col mr-4 w-[25%]"}>
+                        <p className={"text-xl"}>
+                            <span className={"cursor-pointer hover:underline"} onClick={() => navigate("/")}>Home</span>
+                            <span> -> </span>
+                            <span className={"cursor-pointer hover:underline"} onClick={() => navigate("/shop")}>Shop</span>
+                            {
+                                categoryName && position.map(item => {
+                                     return (
+                                         <>
+                                             <span> -> </span>
+                                             <span className={"cursor-pointer hover:underline"} onClick={() => navigate(`/shop/${item}`)}>{item.charAt(0).toUpperCase() + item.slice(1)}</span>
+                                         </>
+                                        )
+                                    }
+                                )
+                            }
+                        </p>
 
-                    <div className={"h-full"}>
-                        <p className={"text-2xl pb-2 mb-2 border-b border-black"}>
-                            Categories
-                        </p>
-                        <CollapsibleShop variants={{
-                            media: ["test1", "test2", "test3"],
-                            apparel: ["test1", "test2", "test3"],
-                            accessories: ["test1", "test2", "test3"],
-                        }}/>
-                        <p className={"text-2xl pb-2 mt-2 border-b border-black"}>
-                            Filters
-                        </p>
-                        <FiltersCollapsible/>
+                        <div className={"h-full"}>
+                            <p className={"text-2xl pb-2 mb-2 border-b border-black"}>
+                                Categories
+                            </p>
+                            <CollapsibleShop variants={variants}/>
+                            <p className={"text-2xl pb-2 mt-2 border-b border-black"}>
+                                Filters
+                            </p>
+                            <FiltersCollapsible/>
+                        </div>
                     </div>
                     <div className={"grid grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-4 w-[60%]"}>
 

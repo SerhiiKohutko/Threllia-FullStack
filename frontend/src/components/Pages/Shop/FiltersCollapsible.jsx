@@ -2,8 +2,6 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
-
-// TODO - fix when redirecting to the other category filters are not annulled
 export const FiltersCollapsible = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -15,42 +13,58 @@ export const FiltersCollapsible = () => {
     const [albumSelected, setAlbumSelected] = useState(null);
     const albums = ["mop", "black", "justice"];
 
+    const [isPriceOpen, setIsPriceOpen] = useState(false);
+    const [isAlbumOpen, setIsAlbumOpen] = useState(false);
 
     useEffect(() => {
         setPriceSelected(null);
         setAlbumSelected(null);
+        setIsPriceOpen(false);
+        setIsAlbumOpen(false);
     },[categoryName])
-    
+
     function handlePriceChange(price) {
-        priceSelected === price ? setPriceSelected(null) : setPriceSelected(price);
+        setPriceSelected(prevPrice => {
+            const urlParams = new URLSearchParams(location.search);
 
-        const urlParams = new URLSearchParams(location.search);
+            if (prevPrice === price) {
+                urlParams.delete("minPrice");
+                urlParams.delete("maxPrice");
+            } else {
+                if (price !== "100") {
+                    const [minPrice, maxPrice] = price.split("-");
+                    urlParams.set("minPrice", minPrice);
+                    urlParams.set("maxPrice", maxPrice);
+                } else {
+                    urlParams.set("minPrice", price);
+                }
+            }
 
-        if (price !== "100") {
-            const [minPrice, maxPrice] = price.split("-");
-            urlParams.set("minPrice", minPrice);
-            urlParams.set("maxPrice", maxPrice);
-        } else {
-            urlParams.set("minPrice", price);
-        }
+            navigate(`${location.pathname}?${urlParams.toString()}`);
 
-        navigate(`${location.pathname}?${urlParams.toString()}`);
-        window.scrollTo(0, 0);
+            return prevPrice === price ? null : price; // Correctly toggle state
+        });
     }
 
     function handleAlbumChange(album) {
-        albumSelected === album ? setAlbumSelected(null) : setAlbumSelected(album);
+        setAlbumSelected(prevAlbum => {
+            const urlParams = new URLSearchParams(location.search);
 
-        const urlParams = new URLSearchParams(location.search);
-        urlParams.set("album", album);
+            if (prevAlbum === album) {
+                urlParams.delete("album");
+            } else {
+                urlParams.set("album", album);
+            }
 
+            navigate(`${location.pathname}?${urlParams.toString()}`);
 
-        navigate(`${location.pathname}?${urlParams.toString()}`);
-        window.scrollTo(0, 0);
+            return prevAlbum === album ? null : album; // Correctly toggle state
+        });
     }
+
     return (
         <div>
-            <Collapsible>
+            <Collapsible open={isPriceOpen} onOpenChange={setIsPriceOpen}>
                 <CollapsibleTrigger className="text-xl">Price</CollapsibleTrigger>
                 <CollapsibleContent className="cursor-pointer text-gray-600">
                     <div className="flex flex-col">
@@ -76,7 +90,7 @@ export const FiltersCollapsible = () => {
                     </div>
                 </CollapsibleContent>
             </Collapsible>
-            <Collapsible>
+            <Collapsible open={isAlbumOpen} onOpenChange={setIsAlbumOpen}>
                 <CollapsibleTrigger className="text-xl">Album</CollapsibleTrigger>
                 <CollapsibleContent className="cursor-pointer text-gray-600">
                     <div className="flex flex-col">
