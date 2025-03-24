@@ -1,7 +1,12 @@
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.jsx";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {ArrowUp, DotIcon} from "lucide-react";
+import {Button} from "@/components/ui/button.jsx";
 
 export const CollapsibleShop = ({variants}) => {
+
+    const navigate = useNavigate();
 
     const [category, setCategory] = useState("");
 
@@ -15,14 +20,17 @@ export const CollapsibleShop = ({variants}) => {
                 <Collapsible
                     key={key}
                     open={category === key}
-                    onOpenChange={() => onCategorySelected(key)}
                 >
-                    <CollapsibleTrigger className="text-xl">
-                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                    <CollapsibleTrigger className="text-xl cursor-pointer w-full">
+                        <div className={"flex flex-row justify-between"}>
+                            <p onClick={() => navigate("/shop/" + key)}>{key.charAt(0).toUpperCase() + key.slice(1)}</p>
+                            <Button onClick={() => onCategorySelected(key)}><ArrowUp className={"bg-transparent"}/></Button>
+                        </div>
+
                     </CollapsibleTrigger>
                     <CollapsibleContent className="cursor-pointer text-gray-600">
                         {values.map((item, index) => (
-                            <p key={index}>{item}</p>
+                            <p key={index} onClick={() => navigate("/shop/" + item)}>{item}</p>
                         ))}
                     </CollapsibleContent>
                 </Collapsible>

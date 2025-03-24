@@ -40,6 +40,7 @@ function App() {
                         <Route path={"/gallery"} element={<Gallery/>}/>
                         <Route path={"/gallery/:photoCollectionId"} element={<PhotoCollectionDetails/>}/>
                         <Route path={"/shop"} element={<Shop/>}/>
+                        <Route path={"/shop/:categoryName"} element={<Shop/>}/>
                     </Routes>
                 </div>
             <Footer/>

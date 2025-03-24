@@ -1,16 +1,13 @@
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import bgImage from "@/resources/ajfajm_bigger_writing_5fdc790a-ffc5-4a57-a6eb-fe80032c0eb7-min.png";
-import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import {useState} from "react";
 import {CollapsibleShop} from "@/components/ReusableComponents/CollapsibleShop.jsx";
 import {FiltersCollapsible} from "@/components/Pages/Shop/FiltersCollapsible.jsx";
+import {useParams} from "react-router-dom";
+import {useEffect} from "react";
 
 export const Shop = () => {
+
+    const {categeryName} = useParams();
 
     return (
       <div className={"text-5xl"}>

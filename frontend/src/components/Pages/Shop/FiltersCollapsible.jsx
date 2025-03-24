@@ -1,20 +1,45 @@
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.jsx";
-import {Label} from "@/components/ui/label.jsx";
-import {Checkbox} from "@/components/ui/checkbox.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 
+
+// TODO - fix when redirecting to the other category filters are not annulled
 export const FiltersCollapsible = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [priceSelected, setPriceSelected] = useState(null);
-    const priceRanges = ["0-24.99$", "25-49.99$", "50-99.99$", "100$+"];
+    const priceRanges = ["0-24.99", "25-49.99", "50-99.99", "100"];
 
     const [albumSelected, setAlbumSelected] = useState(null);
     const albums = ["mop", "black", "justice"];
 
     function handlePriceChange(price) {
-        priceSelected === price ? setPriceSelected(null) : setPriceSelected(price)
+        priceSelected === price ? setPriceSelected(null) : setPriceSelected(price);
+
+        const urlParams = new URLSearchParams(location.search);
+
+        if (price !== "100") {
+            const [minPrice, maxPrice] = price.split("-");
+            urlParams.set("minPrice", minPrice);
+            urlParams.set("maxPrice", maxPrice);
+        } else {
+            urlParams.set("minPrice", price);
+        }
+
+        navigate(`${location.pathname}?${urlParams.toString()}`);
+        window.scrollTo(0, 0);
     }
+
     function handleAlbumChange(album) {
-        albumSelected === album ? setAlbumSelected(null) : setAlbumSelected(album)
+        albumSelected === album ? setAlbumSelected(null) : setAlbumSelected(album);
+
+        const urlParams = new URLSearchParams(location.search);
+        urlParams.set("album", album);
+
+
+        navigate(`${location.pathname}?${urlParams.toString()}`);
+        window.scrollTo(0, 0);
     }
     return (
         <div>
