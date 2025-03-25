@@ -18,6 +18,7 @@ public interface ProductService {
     List<AccessoryProduct> getAllAccessories();
     List<MediaProduct> getAllMediaProducts();
     List<ApparelProduct> getAllApparel();
+
     ApparelProduct getApparelById(long id);
     AccessoryProduct getAccessoryById(long id);
     MediaProduct getMediaProductById(long id);

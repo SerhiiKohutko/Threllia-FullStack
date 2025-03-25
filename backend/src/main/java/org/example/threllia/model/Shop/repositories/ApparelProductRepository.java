@@ -44,4 +44,14 @@ public interface ApparelProductRepository extends JpaRepository<ApparelProduct, 
                     ") AS combined",
             nativeQuery = true)
     Page<ProductProjection> getAllProductsPaginated(Pageable pageable);
+
+    @Query(value = "SELECT * FROM apparel_product WHERE  " +
+            "(:minPrice IS NULL OR price >= :minPrice) " +
+            "AND (:maxPrice IS NULL OR price <= :maxPrice)", nativeQuery = true)
+    Page<ApparelProduct> findAllFilteredNoSubType(
+            @Param("album") String album,
+            @Param("minPrice") Double minPrice,
+            @Param("maxPrice") Double maxPrice,
+            Pageable pageable
+    );
 }

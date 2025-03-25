@@ -58,7 +58,7 @@ export const FiltersCollapsible = () => {
 
             navigate(`${location.pathname}?${urlParams.toString()}`);
 
-            return prevAlbum === album ? null : album; // Correctly toggle state
+            return prevAlbum === album ? null : album;
         });
     }
 

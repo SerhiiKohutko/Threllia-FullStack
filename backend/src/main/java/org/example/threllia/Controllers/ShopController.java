@@ -71,13 +71,13 @@ public class ShopController {
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) String album,
-            @RequestParam(defaultValue = "0") int pageNumber) throws JsonProcessingException {
+            @RequestParam(defaultValue = "0") int page) throws JsonProcessingException {
 
-        ParametersTransfer parametersTransfer = new ParametersTransfer(album, minPrice, maxPrice, pageNumber);
+        ParametersTransfer parametersTransfer = new ParametersTransfer(album, minPrice, maxPrice, page);
 
-        Page<? extends Product> page = productService.getProductsByType(productType, parametersTransfer, subType);
+        Page<? extends Product> products = productService.getProductsByType(productType, parametersTransfer, subType);
 
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping

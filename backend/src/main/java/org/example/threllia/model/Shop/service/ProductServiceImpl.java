@@ -39,8 +39,6 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Page<? extends Product> getProductsByType(ProductType type, ParametersTransfer parametersTransfer, String subType) {
 
-        System.out.println(type);
-
         return switch (type) {
             case MEDIA -> findMediaProductsFiltered(subType != null
                     ? MediaProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
@@ -48,7 +46,7 @@ public class ProductServiceImpl implements ProductService{
             case APPAREL -> findApparelProductsFiltered(subType != null
                     ? ApparelProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
 
-            case ACCESSORY -> findAccessoryProductsFiltered(subType != null
+            case ACCESSORIES -> findAccessoryProductsFiltered(subType != null
                     ? AccessoriesProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
         };
     }
@@ -56,18 +54,32 @@ public class ProductServiceImpl implements ProductService{
     private Page<MediaProduct> findMediaProductsFiltered(MediaProductType subtype, ParametersTransfer parametersTransfer){
         PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
                 6, Sort.by("date_added").descending());
+
+        if (subtype == null) {
+            return mediaProductRepository.findAllFilteredNoSubType(parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+        }
+
         return mediaProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
     }
 
     private Page<AccessoryProduct> findAccessoryProductsFiltered(AccessoriesProductType subtype, ParametersTransfer parametersTransfer){
         PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
                 6, Sort.by("date_added").descending());
+        if (subtype == null) {
+            return accessoriesProductRepository.findAllFilteredNoSubType(parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+        }
         return accessoriesProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
     }
 
     private Page<ApparelProduct> findApparelProductsFiltered(ApparelProductType subtype, ParametersTransfer parametersTransfer){
+        System.out.println("PAGE : " + parametersTransfer.getPage());
         PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
                 6, Sort.by("date_added").descending());
+
+        if (subtype == null) {
+            return apparelProductRepository.findAllFilteredNoSubType(parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+        }
+
         return apparelProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
     }
 
@@ -83,7 +95,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Page<ProductProjection> getAllProductsPaginated(int page) {
-        PageRequest pageRequest = PageRequest.of(page, 8, Sort.by("date_added").descending());
+        PageRequest pageRequest = PageRequest.of(page, 6, Sort.by("date_added").descending());
         return apparelProductRepository.getAllProductsPaginated(pageRequest);
     }
 
@@ -150,7 +162,7 @@ public class ProductServiceImpl implements ProductService{
             case APPAREL -> {
                 return createApparelProduct(request);
             }
-            case ACCESSORY -> {
+            case ACCESSORIES -> {
                 return createAccessoryProduct(request);
             }
         }

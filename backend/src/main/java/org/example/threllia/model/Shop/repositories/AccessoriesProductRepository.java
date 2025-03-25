@@ -26,4 +26,14 @@ public interface AccessoriesProductRepository extends JpaRepository<AccessoryPro
             @Param("maxPrice") Double maxPrice,
             Pageable pageable
     );
+
+    @Query(value = "SELECT * FROM media_product WHERE  " +
+            "(:minPrice IS NULL OR price >= :minPrice) " +
+            "AND (:maxPrice IS NULL OR price <= :maxPrice)", nativeQuery = true)
+    Page<AccessoryProduct> findAllFilteredNoSubType(
+            @Param("album") String album,
+            @Param("minPrice") Double minPrice,
+            @Param("maxPrice") Double maxPrice,
+            Pageable pageable
+    );
 }

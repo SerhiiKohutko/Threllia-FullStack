@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+    GET_ALL_PRODUCTS_PAGINATED_SUCCESS,
     GET_SHOP_OVERVIEW_FAILURE,
     GET_SHOP_OVERVIEW_REQUEST,
     GET_SHOP_OVERVIEW_SUCCESS
@@ -18,6 +19,40 @@ export const getShopOverviewForMVP = ({page, size}) => async (dispatch) => {
         console.log(response.data);
     }catch(err){
         dispatch({type: GET_SHOP_OVERVIEW_FAILURE, payload: err});
+        console.error(err);
+    }
+}
+
+export const getAllProductsPaginated = (page) => async (dispatch) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/products/all_paginated`, {
+          params: {
+              page : page
+          }
+      });
+
+      console.log(JSON.stringify(response.data));
+
+        dispatch({type: GET_ALL_PRODUCTS_PAGINATED_SUCCESS, payload: response.data});
+    } catch(err){
+        console.error(err);
+    }
+}
+
+export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
+    try {
+
+        console.log(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}` + " " + filters.subCategory);
+
+        const response = await axios.get(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}`, {
+            params: {
+                page : page,
+                subType: filters.subCategory
+            }
+        })
+
+        dispatch({type: GET_ALL_PRODUCTS_PAGINATED_SUCCESS, payload: response.data});
+    }catch(err){
         console.error(err);
     }
 }
