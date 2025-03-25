@@ -1,9 +1,15 @@
 package org.example.threllia.model.Shop.entities;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
 
 @MappedSuperclass
 @Data
@@ -14,8 +20,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+
+    @JsonIgnore
+    private LocalDate dateAdded;
+
     private String imageUrl;
-    private double price;
+    private Double price;
     private String description;
     private int totalQuantity;
+
 }

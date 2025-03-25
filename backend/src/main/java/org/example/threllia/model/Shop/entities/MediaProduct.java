@@ -1,7 +1,10 @@
 package org.example.threllia.model.Shop.entities;
 
 import jakarta.persistence.Entity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.example.threllia.model.Shop.shop_enum.MediaProductType;
 

@@ -7,6 +7,7 @@ import org.example.threllia.model.Shop.entities.MediaProduct;
 import org.example.threllia.model.Shop.entities.Product;
 import org.example.threllia.model.Shop.enums.ProductType;
 import org.example.threllia.model.Shop.service.ProductService;
+import org.example.threllia.model.Shop.utils.ProductProjection;
 import org.example.threllia.requests.ProductRequest;
 import org.example.threllia.utils.ParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,20 +32,36 @@ public class ShopController {
     }
 
 
+    @Deprecated
     @GetMapping("/accessories")
     public ResponseEntity<List<AccessoryProduct>> getAllAccessories(){
         List<AccessoryProduct> accessoryProducts = productService.getAllAccessories();
         return ResponseEntity.ok(accessoryProducts);
     }
+
+    @Deprecated
     @GetMapping("/apparel")
     public ResponseEntity<List<ApparelProduct>> getAllApparel(){
         List<ApparelProduct> apparelProducts = productService.getAllApparel();
         return ResponseEntity.ok(apparelProducts);
     }
+
+    @Deprecated
     @GetMapping("/mediaProducts")
     public ResponseEntity<List<MediaProduct>> getAllMediaProducts(){
         List<MediaProduct> mediaProducts = productService.getAllMediaProducts();
         return ResponseEntity.ok(mediaProducts);
+    }
+
+    @GetMapping("/all_paginated")
+    public ResponseEntity<Page<ProductProjection>> getAllProducts(@RequestParam(defaultValue = "0") int page){
+
+        return ResponseEntity.ok(productService.getAllProductsPaginated(page));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Product>> getAllProducts(){
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 
     @GetMapping("/{productType}")
@@ -53,9 +70,10 @@ public class ShopController {
             @RequestParam(required = false) String subType,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) String album) throws JsonProcessingException {
+            @RequestParam(required = false) String album,
+            @RequestParam(defaultValue = "0") int pageNumber) throws JsonProcessingException {
 
-        ParametersTransfer parametersTransfer = new ParametersTransfer(album, minPrice, maxPrice);
+        ParametersTransfer parametersTransfer = new ParametersTransfer(album, minPrice, maxPrice, pageNumber);
 
         Page<? extends Product> page = productService.getProductsByType(productType, parametersTransfer, subType);
 

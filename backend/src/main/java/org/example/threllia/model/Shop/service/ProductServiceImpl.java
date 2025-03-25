@@ -8,21 +8,23 @@ import org.example.threllia.model.Shop.enums.ProductType;
 import org.example.threllia.model.Shop.repositories.AccessoriesProductRepository;
 import org.example.threllia.model.Shop.repositories.ApparelProductRepository;
 import org.example.threllia.model.Shop.repositories.MediaProductRepository;
+import org.example.threllia.model.Shop.shop_enum.AccessoriesProductType;
+import org.example.threllia.model.Shop.shop_enum.ApparelProductType;
 import org.example.threllia.model.Shop.shop_enum.ApparelSizeType;
 import org.example.threllia.model.Shop.shop_enum.MediaProductType;
+import org.example.threllia.model.Shop.utils.ProductProjection;
 import org.example.threllia.requests.ProductRequest;
 import org.example.threllia.utils.ParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -33,6 +35,57 @@ public class ProductServiceImpl implements ProductService{
     private MediaProductRepository mediaProductRepository;
     @Autowired
     private AccessoriesProductRepository accessoriesProductRepository;
+
+    @Override
+    public Page<? extends Product> getProductsByType(ProductType type, ParametersTransfer parametersTransfer, String subType) {
+
+        System.out.println(type);
+
+        return switch (type) {
+            case MEDIA -> findMediaProductsFiltered(subType != null
+                    ? MediaProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
+
+            case APPAREL -> findApparelProductsFiltered(subType != null
+                    ? ApparelProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
+
+            case ACCESSORY -> findAccessoryProductsFiltered(subType != null
+                    ? AccessoriesProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
+        };
+    }
+
+    private Page<MediaProduct> findMediaProductsFiltered(MediaProductType subtype, ParametersTransfer parametersTransfer){
+        PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
+                6, Sort.by("date_added").descending());
+        return mediaProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+    }
+
+    private Page<AccessoryProduct> findAccessoryProductsFiltered(AccessoriesProductType subtype, ParametersTransfer parametersTransfer){
+        PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
+                6, Sort.by("date_added").descending());
+        return accessoriesProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+    }
+
+    private Page<ApparelProduct> findApparelProductsFiltered(ApparelProductType subtype, ParametersTransfer parametersTransfer){
+        PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
+                6, Sort.by("date_added").descending());
+        return apparelProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        ArrayList<Product> products = new ArrayList<>(apparelProductRepository.getAll());
+        products.addAll(mediaProductRepository.getAll());
+        products.addAll(accessoriesProductRepository.getAll());
+        products.sort(Comparator.comparing(Product::getDateAdded,
+                Comparator.nullsLast(Comparator.naturalOrder())));
+        return products;
+    }
+
+    @Override
+    public Page<ProductProjection> getAllProductsPaginated(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 8, Sort.by("date_added").descending());
+        return apparelProductRepository.getAllProductsPaginated(pageRequest);
+    }
 
     @Deprecated
     @Override
@@ -53,36 +106,19 @@ public class ProductServiceImpl implements ProductService{
         return mixedProducts;
     }
 
-    //WORK IN PROGRESS
-    @Override
-    public Page<? extends Product> getProductsByType(ProductType type, ParametersTransfer parametersTransfer, String subType) {
-
-
-        Page<? extends Product> page = switch (type) {
-            case MEDIA -> findMediaProductsFiltered(subType != null
-                    ? MediaProductType.valueOf(subType.toUpperCase())
-                    : null, parametersTransfer);
-            case APPAREL, ACCESSORY -> null;
-        };
-
-        return page;
-    }
-
-    private Page<MediaProduct> findMediaProductsFiltered(MediaProductType subtype, ParametersTransfer parametersTransfer){
-        PageRequest pageRequest = PageRequest.of(0, 6);
-        return mediaProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
-    }
-
+    @Deprecated
     @Override
     public List<AccessoryProduct> getAllAccessories() {
         return accessoriesProductRepository.getAll();
     }
 
+    @Deprecated
     @Override
     public List<MediaProduct> getAllMediaProducts() {
         return mediaProductRepository.getAll();
     }
 
+    @Deprecated
     @Override
     public List<ApparelProduct> getAllApparel() {
         return apparelProductRepository.getAll();
@@ -103,6 +139,8 @@ public class ProductServiceImpl implements ProductService{
         return mediaProductRepository.getMediaProductById(id).orElseThrow(() -> new ExpressionException("No product find with id = " + id));
     }
 
+
+    //ADMIN FUNCTIONALITY
     @Override
     public Product createProduct(ProductRequest request) throws Exception {
         switch (request.getType()){
@@ -126,6 +164,7 @@ public class ProductServiceImpl implements ProductService{
                 .price(request.getPrice())
                 .description(request.getDescription())
                 .totalQuantity(request.getTotalQuantity())
+                .dateAdded(LocalDate.now())
                 .build();
 
         return mediaProductRepository.save(mediaProduct);
@@ -136,6 +175,7 @@ public class ProductServiceImpl implements ProductService{
                 .type(request.getApparelProductType())
                 .price(request.getPrice())
                 .description(request.getDescription())
+                .dateAdded(LocalDate.now())
                 .build();
 
         int totalQuantity = 0;
@@ -154,6 +194,7 @@ public class ProductServiceImpl implements ProductService{
                 .price(request.getPrice())
                 .description(request.getDescription())
                 .totalQuantity(request.getTotalQuantity())
+                .dateAdded(LocalDate.now())
                 .build();
 
         return accessoriesProductRepository.save(accessoryProduct);
