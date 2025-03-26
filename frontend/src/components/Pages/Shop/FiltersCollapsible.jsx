@@ -36,6 +36,7 @@ export const FiltersCollapsible = () => {
                     urlParams.set("minPrice", minPrice);
                     urlParams.set("maxPrice", maxPrice);
                 } else {
+                    urlParams.delete("maxPrice");
                     urlParams.set("minPrice", price);
                 }
             }
