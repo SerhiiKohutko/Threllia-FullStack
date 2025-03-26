@@ -8,33 +8,36 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAllProductsFiltered, getAllProductsPaginated} from "@/redux/shop/Action.js";
 import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
+import {Position} from "@/components/ReusableComponents/Position.jsx";
+import {getCurrPosition} from "@/components/ReusableComponents/Position.jsx";
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const variants = {
+    media: ["VINYL", "test2", "test3"],
+    apparel: ["SHIRTS", "test5", "test6"],
+    accessories: ["test7", "test8", "test9"],
+};
 
 export const Shop = () => {
     const navigate = useNavigate();
 
     const {categoryName} = useParams();
-    const [position, setPosition] = useState([])
     const dispatch = useDispatch();
     const shop = useSelector(state => state.shop);
     const params = new URLSearchParams(location.search);
 
+    const [position, setPosition] = useState([])
     const [currPage, setCurrPage] = useState(1)
     const [selectValue, setSelectValue] = useState("DSC_DATE");
 
-    const variants = {
-        media: ["VINYL", "test2", "test3"],
-        apparel: ["SHIRTS", "test5", "test6"],
-        accessories: ["test7", "test8", "test9"],
-    };
-
     useEffect(() => {
-        getCurrPosition()
+        console.log(categoryName);
+        getCurrPosition(setPosition, variants, categoryName)
+        console.log(position);
         setCurrPage(1);
     }, [categoryName])
 
     useEffect(() => {
-        console.log("SELECTED VALUE : " + selectValue);
-
         if (position[0] && !position[1]) {
             dispatch(getAllProductsFiltered(currPage - 1, {
                 categoryName: categoryName,
@@ -63,30 +66,7 @@ export const Shop = () => {
         }
     }, [currPage, position, location.search, selectValue]);
 
-
-    function getCurrPosition() {
-
-        let currPosition = [];
-
-
-        Object.entries(variants).forEach(([key]) => {
-            if (key === categoryName) {
-                currPosition = [key];
-            }
-        })
-
-
-        Object.entries(variants).forEach(([key, value]) => {
-            if (value.includes(categoryName)) {
-                currPosition = [key, categoryName];
-            }
-        })
-
-        setPosition(currPosition);
-    }
-
     function handleSelectChange(value){
-        console.log(value);
 
         if (value !== selectValue) {
             setSelectValue(value);
@@ -98,24 +78,9 @@ export const Shop = () => {
             <div className={"h-full bg-gray-900 text-white font-rubikPaint flex flex-row items-center justify-start"}>
                 <div className={"flex flex-row w-full pt-10 max-w-7xl mx-auto"}>
                     <div className={"w-[300px] flex-shrink-0 mr-8"}>
-                        <p className={"text-xl"}>
-                            <span className={"cursor-pointer hover:underline"} onClick={() => navigate("/")}>Home</span>
-                            <span> -> </span>
-                            <span className={"cursor-pointer hover:underline"}
-                                  onClick={() => navigate("/shop")}>Shop</span>
-                            {
-                                categoryName && position.map(item => {
-                                    return (
-                                        <>
-                                            <span> -> </span>
-                                            <span className={"cursor-pointer hover:underline"}
-                                                  onClick={() => navigate(`/shop/${item}`)}>{item.charAt(0).toUpperCase() + item.slice(1)}</span>
-                                        </>
-                                    )
-                                })
-                            }
-                        </p>
-
+                        <Position navigate={navigate}
+                                  categoryName={categoryName}
+                                  position={position}/>
                         <div className={"h-full sticky top-20"}>
                             <p className={"text-2xl pb-2 mb-2 border-b border-white"}>
                                 Categories
@@ -132,8 +97,7 @@ export const Shop = () => {
                         <div className={"flex flex-row justify-end pb-3"}>
                             <Select
                                 value={selectValue}
-                                onValueChange={handleSelectChange}
-                            >
+                                onValueChange={handleSelectChange}>
                                 <SelectTrigger className={"w-[180px] text-white"}>
                                     <SelectValue placeholder={<span className="text-gray-400">Sort By</span>}>
                                         {/* Display the current selected value */}
@@ -156,12 +120,13 @@ export const Shop = () => {
                                 shop?.products?.map((item, index) => (
                                     <div key={index} className={"flex flex-col"}>
                                         <img
+                                            onClick={() => navigate(`/shop/${categoryName}/${item.id}`)}
                                             src={"https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"}
                                             className={"px-0 border border-white cursor-pointer"}/>
-                                        <h1 className={"text-3xl cursor-pointer"}>
+                                        <h1 className={"text-3xl cursor-pointer"} onClick={() => navigate(`/shop/${categoryName}/${item.id}`)}>
                                             {item.name}
                                         </h1>
-                                        <p className={"text-gray-200 text-xl"}>
+                                        <p className={"text-gray-200 text-xl cursor-text"}>
                                             {item.price}$
                                         </p>
                                     </div>

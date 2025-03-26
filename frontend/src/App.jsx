@@ -16,6 +16,7 @@ import {LatestUpdateDetailsPage} from "@/components/Pages/News/LatestUpdateDetai
 import {Gallery} from "@/components/Pages/Gallery/Gallery.jsx";
 import {PhotoCollectionDetails} from "@/components/Pages/Gallery/PhotoCollectionDetails.jsx";
 import {Shop} from "@/components/Pages/Shop/Shop.jsx";
+import {ProductDetails} from "@/components/Pages/Shop/ProductDetailsPage.jsx";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                         <Route path={"/gallery/:photoCollectionId"} element={<PhotoCollectionDetails/>}/>
                         <Route path={"/shop"} element={<Shop/>}/>
                         <Route path={"/shop/:categoryName"} element={<Shop/>}/>
+                        <Route path={"/shop/:categoryName/:productId"} element={<ProductDetails/>}/>
                     </Routes>
                 </div>
             <Footer/>
