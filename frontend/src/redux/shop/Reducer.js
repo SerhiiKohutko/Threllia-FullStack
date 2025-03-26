@@ -1,4 +1,6 @@
 import {
+    GET_ALL_PRODUCTS_PAGINATED_FAILURE,
+    GET_ALL_PRODUCTS_PAGINATED_REQUEST,
     GET_ALL_PRODUCTS_PAGINATED_SUCCESS,
     GET_SHOP_OVERVIEW_FAILURE,
     GET_SHOP_OVERVIEW_REQUEST,
@@ -21,6 +23,12 @@ export const shopReducer=(state=initialState, action)=>{
                 ...state,
                 loading:true
             }
+        case GET_ALL_PRODUCTS_PAGINATED_REQUEST:
+            return {
+                ...state,
+                loading:true
+            }
+
         case GET_SHOP_OVERVIEW_SUCCESS:
             return {
                 ...state,
@@ -39,9 +47,18 @@ export const shopReducer=(state=initialState, action)=>{
                 case GET_ALL_PRODUCTS_PAGINATED_SUCCESS:
                     return {
                         ...state,
+                        loading: false,
                         products : action.payload.content,
                         pageablePart: action.payload
                     }
+
+
+                    case GET_ALL_PRODUCTS_PAGINATED_FAILURE:
+                        return {
+                            ...state,
+                            loading: false,
+                            error: action.payload,
+                        }
         default:
             return state;
     }

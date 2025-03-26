@@ -1,5 +1,7 @@
 import axios from "axios";
 import {
+    GET_ALL_PRODUCTS_PAGINATED_FAILURE,
+    GET_ALL_PRODUCTS_PAGINATED_REQUEST,
     GET_ALL_PRODUCTS_PAGINATED_SUCCESS,
     GET_SHOP_OVERVIEW_FAILURE,
     GET_SHOP_OVERVIEW_REQUEST,
@@ -43,6 +45,7 @@ export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
 }
 
 export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
+    dispatch({type : GET_ALL_PRODUCTS_PAGINATED_REQUEST});
     try {
 
         console.log(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}` + " " + filters);
@@ -60,6 +63,6 @@ export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
 
         dispatch({type: GET_ALL_PRODUCTS_PAGINATED_SUCCESS, payload: response.data});
     }catch(err){
-        console.error(err);
+        dispatch({type : GET_ALL_PRODUCTS_PAGINATED_FAILURE, payload: err});
     }
 }

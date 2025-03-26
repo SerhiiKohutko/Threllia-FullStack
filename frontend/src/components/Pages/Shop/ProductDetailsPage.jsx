@@ -13,7 +13,6 @@ export const ProductDetails = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(categoryName);
         getCurrPosition(setPosition, variants, categoryName);
     },[])
 

@@ -31,13 +31,12 @@ export const Shop = () => {
     const [selectValue, setSelectValue] = useState("DSC_DATE");
 
     useEffect(() => {
-        console.log(categoryName);
         getCurrPosition(setPosition, variants, categoryName)
-        console.log(position);
         setCurrPage(1);
     }, [categoryName])
 
     useEffect(() => {
+        console.log(shop.products)
         if (position[0] && !position[1]) {
             dispatch(getAllProductsFiltered(currPage - 1, {
                 categoryName: categoryName,
@@ -117,6 +116,7 @@ export const Shop = () => {
                         </div>
                         <div className={"grid grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-4 w-full min-h-[800px]"}>
                             {
+                                !shop.loading &&
                                 shop?.products?.map((item, index) => (
                                     <div key={index} className={"flex flex-col"}>
                                         <img
