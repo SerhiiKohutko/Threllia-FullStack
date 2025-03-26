@@ -1,14 +1,15 @@
 package org.example.threllia.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.example.threllia.ProductNotFoundException;
+import org.example.threllia.model.Shop.dto.ProductDTO;
 import org.example.threllia.model.Shop.entities.AccessoryProduct;
 import org.example.threllia.model.Shop.entities.ApparelProduct;
 import org.example.threllia.model.Shop.entities.MediaProduct;
 import org.example.threllia.model.Shop.entities.Product;
-import org.example.threllia.model.Shop.shop_enum.ProductType;
 import org.example.threllia.model.Shop.service.ProductService;
+import org.example.threllia.model.Shop.shop_enum.ProductType;
 import org.example.threllia.model.Shop.shop_enum.ShopSortingType;
-import org.example.threllia.model.Shop.utils.ProductProjection;
 import org.example.threllia.requests.ProductRequest;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +56,13 @@ public class ShopController {
     }
 
     @GetMapping("/all_paginated")
-    public ResponseEntity<Page<ProductProjection>> getAllProducts(@RequestParam(defaultValue = "0") int page,
-                                                                  @RequestParam(required = false) Double minPrice,
-                                                                  @RequestParam(required = false) Double maxPrice,
-                                                                  @RequestParam(required = false) String album,
-                                                                  @RequestParam(defaultValue = "DSC_DATE") ShopSortingType shopSortingType){
+    public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(required = false) Double minPrice,
+                                                           @RequestParam(required = false) Double maxPrice,
+                                                           @RequestParam(required = false) String album,
+                                                           @RequestParam(defaultValue = "DSC_DATE") ShopSortingType shopSortingType){
 
         ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, shopSortingType);
-
 
         return ResponseEntity.ok(productService.getAllProductsPaginated(shopParametersTransfer));
     }
@@ -71,6 +71,8 @@ public class ShopController {
     public ResponseEntity<List<Product>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
     }
+
+
 
     @GetMapping("/{productType}")
     public ResponseEntity<Page<? extends Product>> getProductsByType(
@@ -88,6 +90,18 @@ public class ShopController {
                 productService.getProductsByType(productType, shopParametersTransfer, subType);
 
         return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/{productType}/{id}")
+    public ResponseEntity<? extends Product> getProductById(@PathVariable int id, @PathVariable ProductType productType){
+
+        return ResponseEntity.ok(productService.getProductById(id, productType)
+                .orElseThrow(() ->  new ProductNotFoundException("No product with such id")));
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String> handleProductNotFoundException(Exception e){
+        return ResponseEntity.internalServerError().body(e.getMessage());
     }
 
     @PostMapping

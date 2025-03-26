@@ -2,7 +2,6 @@ package org.example.threllia.model.Shop.repositories;
 
 import org.example.threllia.model.Shop.entities.ApparelProduct;
 import org.example.threllia.model.Shop.shop_enum.ApparelProductType;
-import org.example.threllia.model.Shop.utils.ProductProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,24 +28,24 @@ public interface ApparelProductRepository extends JpaRepository<ApparelProduct, 
     );
 
     @Query(value = "SELECT * FROM (" +
-            "SELECT id, name, image_url, date_added, price FROM media_product " +
+            "SELECT id, name, image_url, date_added, price, 'MEDIA', total_quantity FROM media_product " +
             "UNION ALL " +
-            "SELECT id, name, image_url, date_added, price FROM apparel_product " +
+            "SELECT id, name, image_url, date_added, price, 'APPAREL', total_quantity FROM apparel_product " +
             "UNION ALL " +
-            "SELECT id, name, image_url, date_added, price FROM accessory_product" +
+            "SELECT id, name, image_url, date_added, price, 'ACCESSORY', total_quantity FROM accessory_product" +
             ") AS combined " +
             "WHERE price >= COALESCE(:minPrice, price) " +
             "AND price <= COALESCE(:maxPrice, price)",
             countQuery = "SELECT COUNT(*) FROM (" +
-                    "SELECT id, name, image_url, date_added, price FROM media_product " +
+                    "SELECT id, name, image_url, date_added, price, 'MEDIA', total_quantity FROM media_product " +
                     "UNION ALL " +
-                    "SELECT id, name, image_url, date_added, price FROM apparel_product " +
+                    "SELECT id, name, image_url, date_added, price, 'APPAREL', total_quantity FROM apparel_product " +
                     "UNION ALL " +
-                    "SELECT id, name, image_url, date_added, price FROM accessory_product" +
+                    "SELECT id, name, image_url, date_added, price, 'ACCESSORY', total_quantity FROM accessory_product" +
                     ") AS combined " +
                     "WHERE price >= COALESCE(:minPrice, price) " +
                     "AND price <= COALESCE(:maxPrice, price)", nativeQuery = true)
-    Page<ProductProjection> getAllProductsPaginated( @Param("album") String album,
+    Page<Object[]> getAllProductsPaginated( @Param("album") String album,
                                                      @Param("minPrice") Double minPrice,
                                                      @Param("maxPrice") Double maxPrice,
                                                      Pageable pageable);

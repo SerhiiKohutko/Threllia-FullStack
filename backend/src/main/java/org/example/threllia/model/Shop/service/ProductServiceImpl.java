@@ -1,14 +1,14 @@
 package org.example.threllia.model.Shop.service;
 
+import org.example.threllia.model.Shop.dto.ProductDTO;
 import org.example.threllia.model.Shop.entities.AccessoryProduct;
 import org.example.threllia.model.Shop.entities.ApparelProduct;
 import org.example.threllia.model.Shop.entities.MediaProduct;
 import org.example.threllia.model.Shop.entities.Product;
-import org.example.threllia.model.Shop.shop_enum.*;
 import org.example.threllia.model.Shop.repositories.AccessoriesProductRepository;
 import org.example.threllia.model.Shop.repositories.ApparelProductRepository;
 import org.example.threllia.model.Shop.repositories.MediaProductRepository;
-import org.example.threllia.model.Shop.utils.ProductProjection;
+import org.example.threllia.model.Shop.shop_enum.*;
 import org.example.threllia.requests.ProductRequest;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -90,12 +89,27 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Page<ProductProjection> getAllProductsPaginated(ShopParametersTransfer shopParametersTransfer) {
+    public Page<ProductDTO> getAllProductsPaginated(ShopParametersTransfer shopParametersTransfer) {
 
         Sort sort = getSortingOrder(shopParametersTransfer.getSortingType());
 
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(), 6, sort);
-        return apparelProductRepository.getAllProductsPaginated(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
+        return apparelProductRepository.getAllProductsPaginated(shopParametersTransfer.getAlbum(),
+                shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(),
+                pageRequest).map(this::convertToProductDTO);
+    }
+
+    private ProductDTO convertToProductDTO(Object[] row){
+        System.out.println(Arrays.toString(row));
+
+        return ProductDTO.builder()
+                .id(((Number) row[0]).longValue())
+                .name((String) row[1])
+                .price((Double) row[4])
+                .productType((String) row[5])
+                .imageUrl((String) row[2])
+                .totalQuantity((Integer) row[6])
+                .build();
     }
 
     private Sort getSortingOrder(ShopSortingType shopSortingType){
@@ -106,6 +120,30 @@ public class ProductServiceImpl implements ProductService{
             case DSC_PRICE -> Sort.by("price").descending();
         };
     }
+
+    @Override
+    public Optional<? extends Product> getProductById(int id, ProductType productType) {
+        return switch (productType) {
+            case APPAREL -> getApparelById(id);
+            case MEDIA -> getMediaProductById(id);
+            case ACCESSORIES -> getAccessoryById(id);
+        };
+    }
+
+    private Optional<ApparelProduct> getApparelById(long id) {
+        return apparelProductRepository.getApparelProductById(id);
+    }
+
+
+    private Optional<AccessoryProduct> getAccessoryById(long id) {
+        return accessoriesProductRepository.getAccessoryProductById(id);
+    }
+
+
+    private Optional<MediaProduct> getMediaProductById(long id) {
+        return mediaProductRepository.getMediaProductById(id);
+    }
+
 
     @Deprecated
     @Override
@@ -143,22 +181,6 @@ public class ProductServiceImpl implements ProductService{
     public List<ApparelProduct> getAllApparel() {
         return apparelProductRepository.getAll();
     }
-
-    @Override
-    public ApparelProduct getApparelById(long id) {
-        return apparelProductRepository.getApparelProductById(id).orElseThrow(() -> new ExpressionException("No product find with id = " + id));
-    }
-
-    @Override
-    public AccessoryProduct getAccessoryById(long id) {
-        return accessoriesProductRepository.getAccessoryProductById(id).orElseThrow(() -> new ExpressionException("No product find with id = " + id));
-    }
-
-    @Override
-    public MediaProduct getMediaProductById(long id) {
-        return mediaProductRepository.getMediaProductById(id).orElseThrow(() -> new ExpressionException("No product find with id = " + id));
-    }
-
 
     //ADMIN FUNCTIONALITY
     @Override
