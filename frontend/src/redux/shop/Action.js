@@ -30,7 +30,8 @@ export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
               page : page,
               minPrice : filters.minPrice,
               maxPrice : filters.maxPrice,
-              album : filters.album
+              album : filters.album,
+              shopSortingType : filters.sortingType,
           }
       });
 
@@ -52,7 +53,8 @@ export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
                 subType: filters.subCategory,
                 minPrice : filters.minPrice,
                 maxPrice : filters.maxPrice,
-                album : filters.album
+                album : filters.album,
+                shopSortingType : filters.sortingType
             }
         })
 

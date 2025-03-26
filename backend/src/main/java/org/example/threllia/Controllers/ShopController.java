@@ -5,11 +5,12 @@ import org.example.threllia.model.Shop.entities.AccessoryProduct;
 import org.example.threllia.model.Shop.entities.ApparelProduct;
 import org.example.threllia.model.Shop.entities.MediaProduct;
 import org.example.threllia.model.Shop.entities.Product;
-import org.example.threllia.model.Shop.enums.ProductType;
+import org.example.threllia.model.Shop.shop_enum.ProductType;
 import org.example.threllia.model.Shop.service.ProductService;
+import org.example.threllia.model.Shop.shop_enum.ShopSortingType;
 import org.example.threllia.model.Shop.utils.ProductProjection;
 import org.example.threllia.requests.ProductRequest;
-import org.example.threllia.utils.ParametersTransfer;
+import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -57,11 +58,13 @@ public class ShopController {
     public ResponseEntity<Page<ProductProjection>> getAllProducts(@RequestParam(defaultValue = "0") int page,
                                                                   @RequestParam(required = false) Double minPrice,
                                                                   @RequestParam(required = false) Double maxPrice,
-                                                                  @RequestParam(required = false) String album){
+                                                                  @RequestParam(required = false) String album,
+                                                                  @RequestParam(defaultValue = "DSC_DATE") ShopSortingType shopSortingType){
 
-        ParametersTransfer parametersTransfer = new ParametersTransfer(album, minPrice, maxPrice, page);
+        ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, shopSortingType);
 
-        return ResponseEntity.ok(productService.getAllProductsPaginated(parametersTransfer));
+
+        return ResponseEntity.ok(productService.getAllProductsPaginated(shopParametersTransfer));
     }
 
     @GetMapping("/all")
@@ -76,14 +79,13 @@ public class ShopController {
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) String album,
+            @RequestParam(defaultValue = "DSC_DATE") ShopSortingType shopSortingType,
             @RequestParam(defaultValue = "0") int page) throws JsonProcessingException {
 
-        ParametersTransfer parametersTransfer = new ParametersTransfer(album, minPrice, maxPrice, page);
-
-        System.out.println(minPrice);
+        ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, shopSortingType);
 
         Page<? extends Product> products =
-                productService.getProductsByType(productType, parametersTransfer, subType);
+                productService.getProductsByType(productType, shopParametersTransfer, subType);
 
         return ResponseEntity.ok(products);
     }

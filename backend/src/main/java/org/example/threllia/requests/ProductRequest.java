@@ -3,7 +3,7 @@ package org.example.threllia.requests;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.example.threllia.model.Shop.entities.Product;
-import org.example.threllia.model.Shop.enums.ProductType;
+import org.example.threllia.model.Shop.shop_enum.ProductType;
 import org.example.threllia.model.Shop.shop_enum.AccessoriesProductType;
 import org.example.threllia.model.Shop.shop_enum.ApparelProductType;
 import org.example.threllia.model.Shop.shop_enum.ApparelSizeType;

@@ -4,17 +4,13 @@ import org.example.threllia.model.Shop.entities.AccessoryProduct;
 import org.example.threllia.model.Shop.entities.ApparelProduct;
 import org.example.threllia.model.Shop.entities.MediaProduct;
 import org.example.threllia.model.Shop.entities.Product;
-import org.example.threllia.model.Shop.enums.ProductType;
+import org.example.threllia.model.Shop.shop_enum.*;
 import org.example.threllia.model.Shop.repositories.AccessoriesProductRepository;
 import org.example.threllia.model.Shop.repositories.ApparelProductRepository;
 import org.example.threllia.model.Shop.repositories.MediaProductRepository;
-import org.example.threllia.model.Shop.shop_enum.AccessoriesProductType;
-import org.example.threllia.model.Shop.shop_enum.ApparelProductType;
-import org.example.threllia.model.Shop.shop_enum.ApparelSizeType;
-import org.example.threllia.model.Shop.shop_enum.MediaProductType;
 import org.example.threllia.model.Shop.utils.ProductProjection;
 import org.example.threllia.requests.ProductRequest;
-import org.example.threllia.utils.ParametersTransfer;
+import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,50 +33,50 @@ public class ProductServiceImpl implements ProductService{
     private AccessoriesProductRepository accessoriesProductRepository;
 
     @Override
-    public Page<? extends Product> getProductsByType(ProductType type, ParametersTransfer parametersTransfer, String subType) {
+    public Page<? extends Product> getProductsByType(ProductType type, ShopParametersTransfer shopParametersTransfer, String subType) {
 
         return switch (type) {
             case MEDIA -> findMediaProductsFiltered(subType != null
-                    ? MediaProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
+                    ? MediaProductType.valueOf(subType.toUpperCase()) : null, shopParametersTransfer);
 
             case APPAREL -> findApparelProductsFiltered(subType != null
-                    ? ApparelProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
+                    ? ApparelProductType.valueOf(subType.toUpperCase()) : null, shopParametersTransfer);
 
             case ACCESSORIES -> findAccessoryProductsFiltered(subType != null
-                    ? AccessoriesProductType.valueOf(subType.toUpperCase()) : null, parametersTransfer);
+                    ? AccessoriesProductType.valueOf(subType.toUpperCase()) : null, shopParametersTransfer);
         };
     }
 
-    private Page<MediaProduct> findMediaProductsFiltered(MediaProductType subtype, ParametersTransfer parametersTransfer){
-        PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
-                6, Sort.by("date_added").descending());
+    private Page<MediaProduct> findMediaProductsFiltered(MediaProductType subtype, ShopParametersTransfer shopParametersTransfer){
+        PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
+                6, getSortingOrder(shopParametersTransfer.getSortingType()));
 
         if (subtype == null) {
-            return mediaProductRepository.findAllFilteredNoSubType(parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+            return mediaProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
         }
 
-        return mediaProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+        return mediaProductRepository.findAllFiltered(subtype, shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
     }
 
-    private Page<AccessoryProduct> findAccessoryProductsFiltered(AccessoriesProductType subtype, ParametersTransfer parametersTransfer){
-        PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
-                6, Sort.by("date_added").descending());
+    private Page<AccessoryProduct> findAccessoryProductsFiltered(AccessoriesProductType subtype, ShopParametersTransfer shopParametersTransfer){
+        PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
+                6, getSortingOrder(shopParametersTransfer.getSortingType()));
         if (subtype == null) {
-            return accessoriesProductRepository.findAllFilteredNoSubType(parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+            return accessoriesProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
         }
-        return accessoriesProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+        return accessoriesProductRepository.findAllFiltered(subtype, shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
     }
 
-    private Page<ApparelProduct> findApparelProductsFiltered(ApparelProductType subtype, ParametersTransfer parametersTransfer){
-        System.out.println("PAGE : " + parametersTransfer.getPage());
-        PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(),
-                6, Sort.by("date_added").descending());
+    private Page<ApparelProduct> findApparelProductsFiltered(ApparelProductType subtype, ShopParametersTransfer shopParametersTransfer){
+        System.out.println("PAGE : " + shopParametersTransfer.getPage());
+        PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
+                6, getSortingOrder(shopParametersTransfer.getSortingType()));
 
         if (subtype == null) {
-            return apparelProductRepository.findAllFilteredNoSubType(parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+            return apparelProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
         }
 
-        return apparelProductRepository.findAllFiltered(subtype, parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+        return apparelProductRepository.findAllFiltered(subtype, shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
     }
 
     @Override
@@ -94,9 +90,21 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Page<ProductProjection> getAllProductsPaginated(ParametersTransfer parametersTransfer) {
-        PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(), 6, Sort.by("date_added").descending());
-        return apparelProductRepository.getAllProductsPaginated(parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
+    public Page<ProductProjection> getAllProductsPaginated(ShopParametersTransfer shopParametersTransfer) {
+
+        Sort sort = getSortingOrder(shopParametersTransfer.getSortingType());
+
+        PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(), 6, sort);
+        return apparelProductRepository.getAllProductsPaginated(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
+    }
+
+    private Sort getSortingOrder(ShopSortingType shopSortingType){
+        return switch (shopSortingType){
+            case ASC_DATE -> Sort.by("date_added").ascending();
+            case DSC_DATE -> Sort.by("date_added").descending();
+            case ASC_PRICE -> Sort.by("price").ascending();
+            case DSC_PRICE -> Sort.by("price").descending();
+        };
     }
 
     @Deprecated
