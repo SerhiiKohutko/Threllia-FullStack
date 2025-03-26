@@ -26,5 +26,5 @@ public interface ProductService {
 
     Page<? extends Product> getProductsByType(ProductType type, ParametersTransfer parametersTransfer, String subType) throws JsonProcessingException;
     List<Product> getAllProducts();
-    Page<ProductProjection> getAllProductsPaginated(int page);
+    Page<ProductProjection> getAllProductsPaginated(ParametersTransfer parametersTransfer);
 }

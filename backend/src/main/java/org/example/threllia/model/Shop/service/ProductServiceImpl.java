@@ -94,9 +94,9 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Page<ProductProjection> getAllProductsPaginated(int page) {
-        PageRequest pageRequest = PageRequest.of(page, 6, Sort.by("date_added").descending());
-        return apparelProductRepository.getAllProductsPaginated(pageRequest);
+    public Page<ProductProjection> getAllProductsPaginated(ParametersTransfer parametersTransfer) {
+        PageRequest pageRequest = PageRequest.of(parametersTransfer.getPage(), 6, Sort.by("date_added").descending());
+        return apparelProductRepository.getAllProductsPaginated(parametersTransfer.getAlbum(), parametersTransfer.getMinPrice(), parametersTransfer.getMaxPrice(), pageRequest);
     }
 
     @Deprecated

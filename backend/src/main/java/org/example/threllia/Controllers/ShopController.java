@@ -54,9 +54,14 @@ public class ShopController {
     }
 
     @GetMapping("/all_paginated")
-    public ResponseEntity<Page<ProductProjection>> getAllProducts(@RequestParam(defaultValue = "0") int page){
+    public ResponseEntity<Page<ProductProjection>> getAllProducts(@RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(required = false) Double minPrice,
+                                                                  @RequestParam(required = false) Double maxPrice,
+                                                                  @RequestParam(required = false) String album){
 
-        return ResponseEntity.ok(productService.getAllProductsPaginated(page));
+        ParametersTransfer parametersTransfer = new ParametersTransfer(album, minPrice, maxPrice, page);
+
+        return ResponseEntity.ok(productService.getAllProductsPaginated(parametersTransfer));
     }
 
     @GetMapping("/all")
@@ -75,7 +80,10 @@ public class ShopController {
 
         ParametersTransfer parametersTransfer = new ParametersTransfer(album, minPrice, maxPrice, page);
 
-        Page<? extends Product> products = productService.getProductsByType(productType, parametersTransfer, subType);
+        System.out.println(minPrice);
+
+        Page<? extends Product> products =
+                productService.getProductsByType(productType, parametersTransfer, subType);
 
         return ResponseEntity.ok(products);
     }

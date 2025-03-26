@@ -34,16 +34,26 @@ public interface ApparelProductRepository extends JpaRepository<ApparelProduct, 
             "SELECT id, name, image_url, date_added, price FROM apparel_product " +
             "UNION ALL " +
             "SELECT id, name, image_url, date_added, price FROM accessory_product" +
-            ") AS combined",
+            ") AS combined " +
+            "WHERE  " +
+            "(:minPrice IS NULL OR price >= :minPrice) " +
+            "AND (:maxPrice IS NULL OR price <= :maxPrice)",
             countQuery = "SELECT COUNT(*) FROM (" +
                     "SELECT id, name, image_url, date_added, price FROM media_product " +
                     "UNION ALL " +
                     "SELECT id, name, image_url, date_added, price FROM apparel_product " +
                     "UNION ALL " +
                     "SELECT id, name, image_url, date_added, price FROM accessory_product" +
-                    ") AS combined",
+                    ") AS combined" +
+                    "WHERE  " +
+                    "(:minPrice IS NULL OR price >= :minPrice) " +
+                    "AND (:maxPrice IS NULL OR price <= :maxPrice)",
             nativeQuery = true)
-    Page<ProductProjection> getAllProductsPaginated(Pageable pageable);
+    Page<ProductProjection> getAllProductsPaginated( @Param("album") String album,
+                                                     @Param("minPrice") Double minPrice,
+                                                     @Param("maxPrice") Double maxPrice,
+                                                     Pageable pageable);
+
 
     @Query(value = "SELECT * FROM apparel_product WHERE  " +
             "(:minPrice IS NULL OR price >= :minPrice) " +

@@ -23,15 +23,17 @@ export const getShopOverviewForMVP = ({page, size}) => async (dispatch) => {
     }
 }
 
-export const getAllProductsPaginated = (page) => async (dispatch) => {
+export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
     try {
       const response = await axios.get(`http://localhost:8080/api/products/all_paginated`, {
           params: {
-              page : page
+              page : page,
+              minPrice : filters.minPrice,
+              maxPrice : filters.maxPrice,
+              album : filters.album
           }
       });
 
-      console.log(JSON.stringify(response.data));
 
         dispatch({type: GET_ALL_PRODUCTS_PAGINATED_SUCCESS, payload: response.data});
     } catch(err){
@@ -42,12 +44,15 @@ export const getAllProductsPaginated = (page) => async (dispatch) => {
 export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
     try {
 
-        console.log(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}` + " " + filters.subCategory);
+        console.log(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}` + " " + filters);
 
         const response = await axios.get(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}`, {
             params: {
                 page : page,
-                subType: filters.subCategory
+                subType: filters.subCategory,
+                minPrice : filters.minPrice,
+                maxPrice : filters.maxPrice,
+                album : filters.album
             }
         })
 

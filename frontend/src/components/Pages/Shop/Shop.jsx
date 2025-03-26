@@ -15,6 +15,7 @@ export const Shop = () => {
     const [position, setPosition] = useState([])
     const dispatch = useDispatch();
     const shop = useSelector(state => state.shop);
+    const params = new URLSearchParams(location.search);
 
     const [currPage, setCurrPage] = useState(1)
 
@@ -30,24 +31,31 @@ export const Shop = () => {
     }, [categoryName])
 
     useEffect(() => {
-        console.log("CURRPAGE" + currPage);
         if (position[0] && !position[1]) {
-            console.log("position", position)
             dispatch(getAllProductsFiltered(currPage - 1, {
                 categoryName: categoryName,
-                subCategory: null
+                subCategory: null,
+                minPrice : params.get("minPrice"),
+                maxPrice : params.get("maxPrice"),
+                album : params.get("album")
             }));
         }
         else if (position[1]) {
-            console.log("position", position)
             dispatch(getAllProductsFiltered(currPage - 1, {
                 categoryName: position[0],
-                subCategory: categoryName
+                subCategory: categoryName,
+                minPrice : params.get("minPrice"),
+                maxPrice : params.get("maxPrice"),
+                album : params.get("album")
             }));
         } else {
-            dispatch(getAllProductsPaginated(currPage - 1))
+            dispatch(getAllProductsPaginated(currPage - 1, {
+                minPrice : params.get("minPrice"),
+                maxPrice : params.get("maxPrice"),
+                album : params.get("album")
+            }))
         }
-    }, [currPage, position])
+    }, [currPage, position, location.search]);
 
 
     function getCurrPosition() {
@@ -120,7 +128,7 @@ export const Shop = () => {
                                           {item.name}
                                       </h1>
                                       <p className={"text-gray-200 text-xl"}>
-                                          {item.type}$
+                                          {item.price}$
                                       </p>
                                   </div>
                               ))
