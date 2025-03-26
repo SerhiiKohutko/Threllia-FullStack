@@ -8,10 +8,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAllProductsFiltered, getAllProductsPaginated} from "@/redux/shop/Action.js";
 import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
-import {Position} from "@/components/ReusableComponents/Position.jsx";
-import {getCurrPosition} from "@/components/ReusableComponents/Position.jsx";
+import {getCurrPosition, Position} from "@/components/ReusableComponents/Position.jsx";
 
-// eslint-disable-next-line react-refresh/only-export-components
+
 export const variants = {
     media: ["VINYL", "test2", "test3"],
     apparel: ["SHIRTS", "test5", "test6"],
@@ -26,7 +25,7 @@ export const Shop = () => {
     const shop = useSelector(state => state.shop);
     const params = new URLSearchParams(location.search);
 
-    const [position, setPosition] = useState([])
+    const [position, setPosition] = useState(null)
     const [currPage, setCurrPage] = useState(1)
     const [selectValue, setSelectValue] = useState("DSC_DATE");
 
@@ -36,7 +35,10 @@ export const Shop = () => {
     }, [categoryName])
 
     useEffect(() => {
-        console.log(shop.products)
+        if (!position) {
+            return;
+        }
+
         if (position[0] && !position[1]) {
             dispatch(getAllProductsFiltered(currPage - 1, {
                 categoryName: categoryName,
@@ -99,7 +101,6 @@ export const Shop = () => {
                                 onValueChange={handleSelectChange}>
                                 <SelectTrigger className={"w-[180px] text-white"}>
                                     <SelectValue placeholder={<span className="text-gray-400">Sort By</span>}>
-                                        {/* Display the current selected value */}
                                         {selectValue === "DSC_DATE" && "Newest To Oldest"}
                                         {selectValue === "ASC_DATE" && "Oldest To Newest"}
                                         {selectValue === "DSC_PRICE" && "Price High To Low"}
@@ -120,10 +121,10 @@ export const Shop = () => {
                                 shop?.products?.map((item, index) => (
                                     <div key={index} className={"flex flex-col"}>
                                         <img
-                                            onClick={() => navigate(`/shop/${categoryName}/${item.id}`)}
+                                            onClick={() => categoryName ? navigate(`/shop/${categoryName}/${item.id}`) : navigate(`/shop/${item.productType.toLowerCase()}/${item.id}`)}
                                             src={"https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"}
                                             className={"px-0 border border-white cursor-pointer"}/>
-                                        <h1 className={"text-3xl cursor-pointer"} onClick={() => navigate(`/shop/${categoryName}/${item.id}`)}>
+                                        <h1 className={"text-3xl cursor-pointer"} onClick={() => categoryName ? navigate(`/shop/${categoryName}/${item.id}`) : navigate(`/shop/${item.productType.toLowerCase()}/${item.id}`)}>
                                             {item.name}
                                         </h1>
                                         <p className={"text-gray-200 text-xl cursor-text"}>

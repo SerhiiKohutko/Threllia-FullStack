@@ -25,7 +25,7 @@ export const Position = ({navigate, categoryName, position}) => {
             <span className={"cursor-pointer hover:underline"}
                   onClick={() => navigate("/shop")}>Shop</span>
             {
-                categoryName && position.map(item => {
+                categoryName && position?.map(item => {
                     return (
                         <>
                             <span> -> </span>

@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {getCurrPosition, Position} from "@/components/ReusableComponents/Position.jsx";
 import {variants} from "@/components/Pages/Shop/Shop.jsx";
+import {getProductById} from "@/redux/shop/Action.js";
 
 export const ProductDetails = () => {
 
@@ -14,7 +15,11 @@ export const ProductDetails = () => {
 
     useEffect(() => {
         getCurrPosition(setPosition, variants, categoryName);
-    },[])
+    }, []);
+
+    useEffect(() => {
+        dispatch(getProductById(productId, position[0]));
+    },[position])
 
     return (
       <div>
@@ -26,6 +31,9 @@ export const ProductDetails = () => {
                   </div>
                   <div  className={"flex flex-col"}>
                       <Position navigate={navigate} categoryName={categoryName} position={position}/>
+                      <div>
+                          <h1>{shop.productDetails?.name}</h1>
+                      </div>
                   </div>
               </div>
           </section>
