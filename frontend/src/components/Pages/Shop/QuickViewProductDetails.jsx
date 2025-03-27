@@ -5,12 +5,16 @@ import {getCurrPosition, Position} from "@/components/ReusableComponents/Positio
 import {variants} from "@/components/Pages/Shop/Shop.jsx";
 import {getProductById} from "@/redux/shop/Action.js";
 import {Button} from "@/components/ui/button.jsx";
+import {addProduct} from "@/components/Utils/CartUtils.js";
+import {useCart} from "@/components/Utils/CartProvider.jsx";
 
 export const QuickViewProductDetails = ({productId, category}) => {
     const product = useSelector(state => state.shop.productDetails);
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const {handleAddProductToCart} = useCart();
 
     useEffect(() => {
         if (!category){
@@ -43,7 +47,7 @@ export const QuickViewProductDetails = ({productId, category}) => {
 
                     <div className="mb-4">
                         <span className="font-bold">AVAILABILITY:</span>{' '}
-                        <span className="text-green-500">
+                        <span className={product?.totalQuantity > 0 ? "text-green-500" : "text-red-500"}>
                             {product?.totalQuantity > 0 ? 'In Stock' : 'Out of Stock'}
                         </span>
                     </div>
@@ -70,7 +74,14 @@ export const QuickViewProductDetails = ({productId, category}) => {
                     </div>
 
                     <Button className="w-full py-4 bg-red-700 hover:bg-red-800 uppercase tracking-wider"
-                            variant="destructive">Add to Cart</Button>
+                            variant="destructive" onClick={() => handleAddProductToCart(
+                                {
+                                    id : product?.id,
+                                    productName : product?.name,
+                                    price : product?.price,
+                                    quantity : quantity,
+                                    imageUrl : "https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"})
+                    }>Add to Cart</Button>
                     <div className="mt-8 border-t border-gray-800 pt-4">
                         <Button className={"w-full"} variant={"secondary"} onClick={() => navigate(`/shop/${category}/${productId}`)}>Check Details</Button>
                     </div>

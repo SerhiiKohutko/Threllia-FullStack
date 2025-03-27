@@ -49,7 +49,7 @@ export const ProductDetails = () => {
 
                     <div className="mb-4">
                         <span className="font-bold">AVAILABILITY:</span>{' '}
-                        <span className="text-green-500">
+                        <span className={product?.totalQuantity > 0 ? "text-green-500" : "text-red-500"}>
                             {product?.totalQuantity > 0 ? 'In Stock' : 'Out of Stock'}
                         </span>
                     </div>

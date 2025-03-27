@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/sheet.jsx"
 import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
+import {ScrollArea} from "@/components/ui/scroll-area.jsx";
+import {getCart} from "@/components/Utils/CartUtils.js";
+import {CartHeader} from "@/components/Pages/Shop/CartHeader.jsx";
 
 export const Header = () => {
 
@@ -76,7 +79,7 @@ export const Header = () => {
 
                 <div className="flex w-[20%] justify-end items-center gap-4 text-white">
                 <PersonIcon className={"cursor-pointer h-8 w-8"}/>
-                    <BoxIcon className={"cursor-pointer h-8 w-8"}/>
+                    <CartHeader/>
                 </div>
             </div>
         </div>
