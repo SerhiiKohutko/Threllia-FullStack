@@ -5,15 +5,18 @@ import {ScrollArea} from "@/components/ui/scroll-area.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import React from "react";
 import {useCart} from "@/components/Utils/CartProvider.jsx";
-import {getCart} from "@/components/Utils/CartUtils.js";
+import {useNavigate} from "react-router-dom";
 
 export const CartHeader = () => {
+    const navigate = useNavigate();
     const {cart, removeProductFromCart, removeAllItemsFromCart} = useCart();
 
+    const [open, setOpen] = React.useState(false);
+
     return (
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen} dismissible>
             <SheetTrigger asChild>
-                <BoxIcon className={"cursor-pointer h-8 w-8 text-white hover:text-orange-500 transition-colors"}/>
+                <BoxIcon onClick={() => setOpen(true)} className={"cursor-pointer h-8 w-8 text-white hover:text-orange-500 transition-colors"}/>
             </SheetTrigger>
             <SheetContent
                 side="right"
@@ -79,11 +82,16 @@ export const CartHeader = () => {
                     </div>
                     <div className={"flex flex-row justify-between w-full space-x-4"}>
                         <Button
+                            onClick={() => setOpen(false)}
                             variant="outline"
                             className="w-full rounded-none border-black border hover:bg-black hover:text-white hover:border-orange-500">
                             Keep Shopping
                         </Button>
                         <Button
+                            onClick={() => {
+                                navigate("/checkout");
+                                setOpen(false);
+                            }}
                             variant={"outline"}
                             className="w-full rounded-none bg-black text-white border-white border hover:bg-white hover:text-black hover:border-orange-500">
                             Checkout

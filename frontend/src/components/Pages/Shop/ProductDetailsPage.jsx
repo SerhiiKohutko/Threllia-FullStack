@@ -5,6 +5,7 @@ import {getCurrPosition, Position} from "@/components/ReusableComponents/Positio
 import {variants} from "@/components/Pages/Shop/Shop.jsx";
 import {getProductById} from "@/redux/shop/Action.js";
 import {Button} from "@/components/ui/button.jsx";
+import {useCart} from "@/components/Utils/CartProvider.jsx";
 
 
 export const ProductDetails = () => {
@@ -14,6 +15,7 @@ export const ProductDetails = () => {
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {handleAddProductToCart} = useCart();
 
     useEffect(() => {
         getCurrPosition(setPosition, variants, categoryName);
@@ -47,13 +49,6 @@ export const ProductDetails = () => {
                         ${product?.price}
                     </div>
 
-                    <div className="mb-4">
-                        <span className="font-bold">AVAILABILITY:</span>{' '}
-                        <span className={product?.totalQuantity > 0 ? "text-green-500" : "text-red-500"}>
-                            {product?.totalQuantity > 0 ? 'In Stock' : 'Out of Stock'}
-                        </span>
-                    </div>
-
                     <div className="bg-[#1a1a1a] border border-gray-800 p-4 mb-6 text-sm">
                         <strong className="text-red-600 block mb-2">PLEASE NOTE:</strong>
                         <ul className="list-disc list-inside space-y-2 text-gray-300">
@@ -71,19 +66,36 @@ export const ProductDetails = () => {
                         </button>
                         <input
                             type="text"
-                            value={quantity}
+                            value={product.totalQuantity > 0 ? quantity : 0}
                             readOnly
                             className="w-16 text-center bg-black border border-gray-700 py-2"
                         />
                         <button
-                            onClick={() => setQuantity(quantity + 1)}
+                            onClick={() => setQuantity(Math.min(product?.totalQuantity, quantity + 1))}
                             className="bg-[#222] px-4 py-2 border border-gray-700"
                         >
                             +
                         </button>
                     </div>
 
+                    <div className="mb-4">
+                        <span className="font-bold">AVAILABILITY:</span>{' '}
+                        <span className={product?.totalQuantity > 0 ? "text-green-500" : "text-red-500"}>
+                            {product?.totalQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+                        </span>
+                    </div>
+
                     <Button
+                        onClick={() => handleAddProductToCart(
+                            {
+                                id: product?.id,
+                                productName: product?.name,
+                                price: product?.price,
+                                quantity: quantity,
+                                imageUrl: "https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"
+                            })
+                        }
+                        disabled={product.totalQuantity === 0}
                         className="w-full py-4 bg-red-700 hover:bg-red-800 uppercase tracking-wider"
                         variant="destructive">Add to Cart</Button>
 
