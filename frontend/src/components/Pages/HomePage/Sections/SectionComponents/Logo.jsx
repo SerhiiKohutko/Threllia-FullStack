@@ -6,7 +6,7 @@ const THRLAnimation = ({text}) => {
     const [animationOpacity, setAnimationOpacity] = useState(0);
     const navigate = useNavigate();
 
-    const avarageCase = text !== "Your Cart";
+    const defaultCase = text !== "Your Cart";
 
     useEffect(() => {
         let fadeOutTimeout;
@@ -26,14 +26,14 @@ const THRLAnimation = ({text}) => {
 
     return (
         <div
-            onClick={() => avarageCase && navigate("/")}
+            onClick={() => defaultCase && navigate("/")}
             className="relative"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
         >
             <div className="relative inline-block">
                 {/* Main text */}
-                <span className={avarageCase ? "relative z-10 text-5xl font-bold font-deliciousHandrawn text-white cursor-pointer" : "relative z-10 text-5xl font-bold font-deliciousHandrawn text-white cursor-default"}>
+                <span className={defaultCase ? "relative z-10 text-5xl font-bold font-deliciousHandrawn text-white cursor-pointer" : "relative z-10 text-5xl font-bold font-deliciousHandrawn text-white cursor-default"}>
                     {text}
                 </span>
 

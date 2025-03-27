@@ -11,5 +11,6 @@ public class ShopParametersTransfer {
     private Double minPrice;
     private Double maxPrice;
     private int page;
+    private int size;
     private ShopSortingType sortingType;
 }

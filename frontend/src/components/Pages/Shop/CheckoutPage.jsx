@@ -3,8 +3,10 @@ import {Button} from "@/components/ui/button.jsx";
 import React, {useState} from "react";
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import {useNavigate} from "react-router-dom";
 
 export const CheckoutPage = () => {
+    const navigate = useNavigate();
     const { cart, removeAllItemsFromCart, removeProductFromCart } = useCart();
     const [asAGuest, setAsAGuest] = useState(false);
 
@@ -47,7 +49,7 @@ export const CheckoutPage = () => {
                                     className="w-36 h-36 object-cover rounded-md mr-6 shadow-lg"
                                 />
                                 <div className="flex-grow">
-                                    <h3 className="font-bold text-lg text-white">{item.productName}</h3>
+                                    <h3 className="font-bold text-lg text-white cursor-pointer" onClick={() => navigate(`/shop/${item.productType}/${item.id}`)}>{item.productName}</h3>
                                     <p className="text-gray-400">Quantity: {item.quantity}</p>
                                 </div>
                                 <div className="text-right">
@@ -160,6 +162,7 @@ export const CheckoutPage = () => {
                             Complete Purchase
                         </Button>
                         <Button
+                            onClick={() => navigate("/shop")}
                             className="
                                 w-full
                                 bg-white

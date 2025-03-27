@@ -28,13 +28,13 @@ const SongDetailsInfo = ({title, lyrics, totalShows, firstTimePlayed, lastTimePl
                             <div className="mb-8">
                                 <p className="text-xl font-bold italic mb-1">FIRST PERFORMED LIVE:</p>
                                 <p className="text-2xl font-bold">{firstTimePlayed}</p>
-                                <p className="text-gray-400">MUNICH, GERMANY</p>
+                                <p className="text-gray-400">{!firstTimePlayed ? <span>Never Played Live</span> : <span>Some Place</span>}</p>
                             </div>
 
                             <div>
                                 <p className="text-xl font-bold italic mb-1">MOST RECENT:</p>
                                 <p className="text-2xl font-bold">{lastTimePlayed}</p>
-                                <p className="text-gray-400">LOS ANGELES, CA, USA</p>
+                                <p className="text-gray-400">{!firstTimePlayed ? <span>Never Played Live</span> : <span>Some Place</span>}</p>
                             </div>
                             <div className={"h-px bg-orange-600 flex-grow mt-2"}></div>
                         </div>

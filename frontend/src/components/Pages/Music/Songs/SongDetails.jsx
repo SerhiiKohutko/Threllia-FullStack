@@ -31,6 +31,7 @@ export const SongDetails = () => {
     const [currPage, setCurrPage] = useState(1);
 
     useEffect(() => {
+        console.log(songId)
         dispatch(getSongDetails(songId));
     },[])
 

@@ -62,8 +62,8 @@ public class SongServiceImpl implements SongService{
         List<Concert> concerts = song.getConcertPlayed();
         concerts.sort(Comparator.comparing(Concert::getDate));
 
-        songDTO.setFirstTimePlayed(concerts.get(0).getDate());
-        songDTO.setLastTimePlayed(concerts.get(concerts.size() - 1).getDate());
+        songDTO.setFirstTimePlayed(!concerts.isEmpty() ? concerts.get(0).getDate() : null);
+        songDTO.setLastTimePlayed(!concerts.isEmpty() ? concerts.get(concerts.size() - 1).getDate() : null);
 
         return songDTO;
     }

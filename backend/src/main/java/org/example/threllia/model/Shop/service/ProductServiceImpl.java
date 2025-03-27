@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService{
 
     private Page<MediaProduct> findMediaProductsFiltered(MediaProductType subtype, ShopParametersTransfer shopParametersTransfer){
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
-                6, getSortingOrder(shopParametersTransfer.getSortingType()));
+                shopParametersTransfer.getSize(), getSortingOrder(shopParametersTransfer.getSortingType()));
 
         if (subtype == null) {
             return mediaProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService{
 
     private Page<AccessoryProduct> findAccessoryProductsFiltered(AccessoriesProductType subtype, ShopParametersTransfer shopParametersTransfer){
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
-                6, getSortingOrder(shopParametersTransfer.getSortingType()));
+                shopParametersTransfer.getSize(), getSortingOrder(shopParametersTransfer.getSortingType()));
         if (subtype == null) {
             return accessoriesProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
         }
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService{
     private Page<ApparelProduct> findApparelProductsFiltered(ApparelProductType subtype, ShopParametersTransfer shopParametersTransfer){
         System.out.println("PAGE : " + shopParametersTransfer.getPage());
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
-                6, getSortingOrder(shopParametersTransfer.getSortingType()));
+                shopParametersTransfer.getSize(), getSortingOrder(shopParametersTransfer.getSortingType()));
 
         if (subtype == null) {
             return apparelProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
@@ -93,7 +93,7 @@ public class ProductServiceImpl implements ProductService{
 
         Sort sort = getSortingOrder(shopParametersTransfer.getSortingType());
 
-        PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(), 6, sort);
+        PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(), shopParametersTransfer.getSize(), sort);
         return apparelProductRepository.getAllProductsPaginated(shopParametersTransfer.getAlbum(),
                 shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(),
                 pageRequest).map(this::convertToProductDTO);

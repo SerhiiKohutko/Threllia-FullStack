@@ -1,7 +1,7 @@
 package org.example.threllia.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.example.threllia.ProductNotFoundException;
+import org.example.threllia.exceptions.ProductNotFoundException;
 import org.example.threllia.model.Shop.dto.ProductDTO;
 import org.example.threllia.model.Shop.entities.AccessoryProduct;
 import org.example.threllia.model.Shop.entities.ApparelProduct;
@@ -57,12 +57,13 @@ public class ShopController {
 
     @GetMapping("/all_paginated")
     public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "6") int size,
                                                            @RequestParam(required = false) Double minPrice,
                                                            @RequestParam(required = false) Double maxPrice,
                                                            @RequestParam(required = false) String album,
                                                            @RequestParam(defaultValue = "DSC_DATE") ShopSortingType shopSortingType){
 
-        ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, shopSortingType);
+        ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, size, shopSortingType);
 
         return ResponseEntity.ok(productService.getAllProductsPaginated(shopParametersTransfer));
     }
@@ -82,9 +83,10 @@ public class ShopController {
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) String album,
             @RequestParam(defaultValue = "DSC_DATE") ShopSortingType shopSortingType,
-            @RequestParam(defaultValue = "0") int page) throws JsonProcessingException {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) throws JsonProcessingException {
 
-        ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, shopSortingType);
+        ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, size, shopSortingType);
 
         Page<? extends Product> products =
                 productService.getProductsByType(productType, shopParametersTransfer, subType);
@@ -104,6 +106,11 @@ public class ShopController {
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<String> handleProductNotFoundException(Exception e){
         return ResponseEntity.internalServerError().body(e.getMessage());
+    }
+
+    @GetMapping("/{release_name}/get_related_merch")
+    public ResponseEntity<List<Product>> getRelatedMerch(@PathVariable String release_name){
+        return null;
     }
 
     @PostMapping

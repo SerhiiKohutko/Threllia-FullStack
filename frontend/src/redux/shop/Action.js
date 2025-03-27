@@ -31,6 +31,7 @@ export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
       const response = await axios.get(`http://localhost:8080/api/products/all_paginated`, {
           params: {
               page : page,
+              size : filters.size,
               minPrice : filters.minPrice,
               maxPrice : filters.maxPrice,
               album : filters.album,

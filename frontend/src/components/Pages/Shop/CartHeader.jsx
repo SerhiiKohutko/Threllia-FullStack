@@ -21,8 +21,7 @@ export const CartHeader = () => {
             <SheetContent
                 side="right"
                 style={{maxWidth: '30vw'}}
-                className="[&>button]:hidden bg-black/90 backdrop-blur-md border-l border-orange-500/30 shadow-2xl"
-            >
+                className="[&>button]:hidden bg-black/90 backdrop-blur-md border-l border-orange-500/30 shadow-2xl">
                 <SheetHeader className="mb-8 border-b border-orange-500/30 pb-4">
                     <SheetTitle className="flex justify-center">
                         <THRLAnimation
@@ -44,7 +43,15 @@ export const CartHeader = () => {
                                 className={"h-20 w-20 object-cover rounded-md mr-4 shadow-md"}
                             />
                             <div className={"flex flex-col flex-grow"}>
-                                <p className="text-white font-bold">{item.productName}</p>
+                                <p className="text-white font-bold cursor-pointer"
+                                   onClick={() => {
+                                       setOpen(false);
+
+                                    navigate(`/shop/${item.productType}/${item.id}}`);
+
+                                }}>
+                                {item.productName}
+                                </p>
                                 <p className="text-gray-400">Quantity: {item.quantity}</p>
                             </div>
                             <div className={"flex flex-col items-end"}>
