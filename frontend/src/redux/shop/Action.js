@@ -49,11 +49,11 @@ export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
     dispatch({type : GET_ALL_PRODUCTS_PAGINATED_REQUEST});
     try {
 
-        console.log(Date.now() + " Action called filtered");
+        console.log(filters.categoryName.toUpperCase());
         const response = await axios.get(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}`, {
             params: {
                 page : page,
-                subType: filters.subCategory,
+                subType: filters.subCategory ? filters.subCategory.toUpperCase() : null,
                 minPrice : filters.minPrice,
                 maxPrice : filters.maxPrice,
                 album : filters.album,
@@ -74,6 +74,6 @@ export const getProductById = (id, productType) => async (dispatch) => {
         console.log(JSON.stringify(response.data));
         dispatch({type: GET_PRODUCT_BY_ID_SUCCESS, payload: response.data});
     }catch (err){
-        console.error(err);
+        console.error(err.message);
     }
 }

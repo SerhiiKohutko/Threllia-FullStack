@@ -6,26 +6,21 @@ import {variants} from "@/components/Pages/Shop/Shop.jsx";
 import {getProductById} from "@/redux/shop/Action.js";
 import {Button} from "@/components/ui/button.jsx";
 
-
-export const ProductDetails = () => {
-    const {categoryName, productId} = useParams();
+export const QuickViewProductDetails = ({productId, category}) => {
     const product = useSelector(state => state.shop.productDetails);
-    const [position, setPosition] = useState([]);
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getCurrPosition(setPosition, variants, categoryName);
-    }, []);
-
-    useEffect(() => {
-        dispatch(getProductById(productId, position[0]));
-    }, [position]);
+        if (!category){
+            return;
+        }
+        dispatch(getProductById(productId, category));
+    }, [category]);
 
     return (
-        <div className="min-h-screen bg-black text-white">
-            <div className={"h-[6rem] bg-black border-b border-white"}></div>
+        <div className="min-h-fit bg-black text-white flex flex-row justify-center">
             <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row">
                 <div className="w-full md:w-1/2 mb-8 md:mb-0 md:mr-12">
                     <div className="border border-gray-800">
@@ -38,7 +33,6 @@ export const ProductDetails = () => {
                 </div>
 
                 <div className="w-full md:w-1/2">
-                    <Position position={position} navigate={navigate} categoryName={categoryName}/>
                     <h1 className="text-4xl font-bold mb-4 uppercase tracking-wider mt-3">
                         {product?.name}
                     </h1>
@@ -52,14 +46,6 @@ export const ProductDetails = () => {
                         <span className="text-green-500">
                             {product?.totalQuantity > 0 ? 'In Stock' : 'Out of Stock'}
                         </span>
-                    </div>
-
-                    <div className="bg-[#1a1a1a] border border-gray-800 p-4 mb-6 text-sm">
-                        <strong className="text-red-600 block mb-2">PLEASE NOTE:</strong>
-                        <ul className="list-disc list-inside space-y-2 text-gray-300">
-                            <li>You will only be able to check out with this item in your cart.</li>
-                            <li>You can only order 1 of the bundles at a time.</li>
-                        </ul>
                     </div>
 
                     <div className="flex items-center mb-6">
@@ -83,23 +69,13 @@ export const ProductDetails = () => {
                         </button>
                     </div>
 
-                    <Button
-                        className="w-full py-4 bg-red-700 hover:bg-red-800 uppercase tracking-wider"
-                        variant="destructive">Add to Cart</Button>
-
+                    <Button className="w-full py-4 bg-red-700 hover:bg-red-800 uppercase tracking-wider"
+                            variant="destructive">Add to Cart</Button>
                     <div className="mt-8 border-t border-gray-800 pt-4">
-                        <details>
-                            <summary className="cursor-pointer font-bold uppercase tracking-wider">
-                                Description
-                            </summary>
-                            <div className="mt-4 text-gray-300">
-                                {product?.description}
-                            </div>
-                        </details>
+                        <Button className={"w-full"} variant={"secondary"} onClick={() => navigate(`/shop/${category}/${productId}`)}>Check Details</Button>
                     </div>
                 </div>
             </div>
         </div>
     );
 }
-

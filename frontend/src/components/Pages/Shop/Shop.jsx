@@ -9,12 +9,16 @@ import {getAllProductsFiltered, getAllProductsPaginated} from "@/redux/shop/Acti
 import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
 import {getCurrPosition, Position} from "@/components/ReusableComponents/Position.jsx";
+import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.jsx";
+import {Button} from "@/components/ui/button.jsx";
+import {QuickViewProductDetails} from "@/components/Pages/Shop/QuickViewProductDetails.jsx";
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const variants = {
-    media: ["VINYL", "test2", "test3"],
-    apparel: ["SHIRTS", "test5", "test6"],
-    accessories: ["test7", "test8", "test9"],
+    media: ["Vinyl", "Reissues", "CD", "DVD", "Books"],
+    apparel: ["Shirts", "Outwear", "Footwear", "PANTS_N_SHORTS", "Headwear"],
+    accessories: ["Jewelry", "VINYL_CARE", "BAGS_N_BACKPACKS", "GAMES_N_FIGURES", "STICKERS_PATCHES_BUTTONS"]
 };
 
 export const Shop = () => {
@@ -28,6 +32,7 @@ export const Shop = () => {
     const [position, setPosition] = useState(null)
     const [currPage, setCurrPage] = useState(1)
     const [selectValue, setSelectValue] = useState("DSC_DATE");
+    const [hoveredProduct, setHoveredProduct] = useState(null);
 
     useEffect(() => {
         getCurrPosition(setPosition, variants, categoryName)
@@ -73,10 +78,14 @@ export const Shop = () => {
             setSelectValue(value);
         }
     }
+
+    function navigateToProductDetails(productType, id){
+        categoryName ? navigate(`/shop/${categoryName}/${id}`) : navigate(`/shop/${productType.toLowerCase()}/${id}`)
+    }
     return (
-        <div className={"text-5xl"}>
+        <div>
             <Hero background={bgImage} pageTitle={"Shop"}/>
-            <div className={"h-full bg-gray-900 text-white font-rubikPaint flex flex-row items-center justify-start"}>
+            <div className={"h-full bg-gray-900 text-white flex flex-row items-center justify-start"}>
                 <div className={"flex flex-row w-full pt-10 max-w-7xl mx-auto"}>
                     <div className={"w-[300px] flex-shrink-0 mr-8"}>
                         <Position navigate={navigate}
@@ -119,15 +128,34 @@ export const Shop = () => {
                             {
                                 !shop.loading &&
                                 shop?.products?.map((item, index) => (
-                                    <div key={index} className={"flex flex-col"}>
-                                        <img
-                                            onClick={() => categoryName ? navigate(`/shop/${categoryName}/${item.id}`) : navigate(`/shop/${item.productType.toLowerCase()}/${item.id}`)}
-                                            src={"https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"}
-                                            className={"px-0 border border-white cursor-pointer"}/>
-                                        <h1 className={"text-3xl cursor-pointer"} onClick={() => categoryName ? navigate(`/shop/${categoryName}/${item.id}`) : navigate(`/shop/${item.productType.toLowerCase()}/${item.id}`)}>
+                                    <div key={index} className={"flex flex-col relative group "}>
+                                        <div className={"relative flex flex-row justify-center"}>
+                                            <img
+                                                src={"https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"}
+                                                className={"px-0 border border-black w-full cursor-pointer"}
+                                                onClick={() => navigateToProductDetails(item.productType, item.id)}
+                                                onMouseEnter={() => setHoveredProduct(item.id)}
+                                            />
+                                            {hoveredProduct === item.id && (
+                                                <div onMouseLeave={() => setHoveredProduct(null)} className={"absolute bottom-0 h-fit w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"}>
+                                                    <Dialog  >
+                                                        <DialogTrigger asChild>
+                                                            <Button className={"w-full border border-black rounded-none text-black  bg-white hover:bg-black hover:text-white"}>Quick View</Button>
+                                                        </DialogTrigger>
+                                                        <DialogContent className="py-0 px-0 border-0 text-white max-w-3xl max-h-[80vh] data-[state=open]:!animate-none data-[state=closed]:!animate-none">
+                                                            <QuickViewProductDetails productId={item.id} category={!categoryName ? item.productType : position[0]}/>
+                                                        </DialogContent>
+                                                    </Dialog>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <h1
+                                            className={"text-3xl cursor-pointer hover:text-orange-500"}
+                                            onClick={() => navigateToProductDetails(item.productType, item.id)}
+                                        >
                                             {item.name}
                                         </h1>
-                                        <p className={"text-gray-200 text-xl cursor-text"}>
+                                        <p className={"text-gray-200 text-xl cursor-text w-fit"}>
                                             {item.price}$
                                         </p>
                                     </div>

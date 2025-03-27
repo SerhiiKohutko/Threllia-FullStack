@@ -69,7 +69,7 @@ export const Header = () => {
                     </div>
                     <p onClick={() => navigate("/releases")}
                        className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Music</p>
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Shop</p>
+                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/shop")}>Shop</p>
                     <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}
                        onClick={() => navigate("/songs")}>Songs</p>
                 </div>

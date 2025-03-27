@@ -36,13 +36,13 @@ public class ProductServiceImpl implements ProductService{
 
         return switch (type) {
             case MEDIA -> findMediaProductsFiltered(subType != null
-                    ? MediaProductType.valueOf(subType.toUpperCase()) : null, shopParametersTransfer);
+                    ? MediaProductType.valueOf(subType) : null, shopParametersTransfer);
 
             case APPAREL -> findApparelProductsFiltered(subType != null
-                    ? ApparelProductType.valueOf(subType.toUpperCase()) : null, shopParametersTransfer);
+                    ? ApparelProductType.valueOf(subType) : null, shopParametersTransfer);
 
             case ACCESSORIES -> findAccessoryProductsFiltered(subType != null
-                    ? AccessoriesProductType.valueOf(subType.toUpperCase()) : null, shopParametersTransfer);
+                    ? AccessoriesProductType.valueOf(subType) : null, shopParametersTransfer);
         };
     }
 

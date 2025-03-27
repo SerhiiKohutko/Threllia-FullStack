@@ -1,11 +1,13 @@
-import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.jsx";
-import {useEffect, useState} from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@radix-ui/react-collapsible"; // импортировать вашу кнопку
+import {Button} from "@/components/ui/button.jsx";
+import {ArrowUp} from "lucide-react"; // или используйте свою иконку стрелки
 
 export const FiltersCollapsible = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const {categoryName} = useParams();
+    const { categoryName } = useParams();
 
     const [priceSelected, setPriceSelected] = useState(null);
     const priceRanges = ["0-24.99", "25-49.99", "50-99.99", "100"];
@@ -21,10 +23,10 @@ export const FiltersCollapsible = () => {
         setAlbumSelected(null);
         setIsPriceOpen(false);
         setIsAlbumOpen(false);
-    },[categoryName])
+    }, [categoryName]);
 
     function handlePriceChange(price) {
-        setPriceSelected(prevPrice => {
+        setPriceSelected((prevPrice) => {
             const urlParams = new URLSearchParams(location.search);
 
             if (prevPrice === price) {
@@ -43,12 +45,12 @@ export const FiltersCollapsible = () => {
 
             navigate(`${location.pathname}?${urlParams.toString()}`);
 
-            return prevPrice === price ? null : price; 
+            return prevPrice === price ? null : price;
         });
     }
 
     function handleAlbumChange(album) {
-        setAlbumSelected(prevAlbum => {
+        setAlbumSelected((prevAlbum) => {
             const urlParams = new URLSearchParams(location.search);
 
             if (prevAlbum === album) {
@@ -66,11 +68,22 @@ export const FiltersCollapsible = () => {
     return (
         <div>
             <Collapsible open={isPriceOpen} onOpenChange={setIsPriceOpen}>
-                <CollapsibleTrigger className="text-xl">Price</CollapsibleTrigger>
+                <CollapsibleTrigger className="text-xl flex w-full justify-between items-center px-4 py-2 cursor-pointer">
+                    <p>Price</p>
+                    <Button
+                        className={`p-2 rounded bg-transparent ${
+                            isPriceOpen ? "text-blue-500" : "text-gray-500"
+                        } hover:bg-gray-200 transition-all`}
+                    >
+                        <ArrowUp
+                            className={`transform ${isPriceOpen ? "rotate-180" : "rotate-0"} transition-all duration-300`}
+                        />
+                    </Button>
+                </CollapsibleTrigger>
                 <CollapsibleContent className="cursor-pointer text-gray-600">
                     <div className="flex flex-col">
                         {priceRanges.map((price, index) => (
-                            <label key={index} className="flex items-center cursor-pointer">
+                            <label key={index} className="flex items-center cursor-pointer pl-5">
                                 <input
                                     type="radio"
                                     name="price"
@@ -80,10 +93,10 @@ export const FiltersCollapsible = () => {
                                     className="hidden"
                                 />
                                 <div
-                                    className={`w-5 h-5 border-2 border-black flex items-center justify-center mr-2
+                                    className={`w-5 h-5 border-2  flex items-center justify-center mr-2
                                        ${priceSelected === price ? "bg-black" : "bg-white"}`}
                                 >
-                                    {priceSelected === price && <div className="w-2 h-2 bg-white"></div>}
+                                    {priceSelected === price && <div className="w-4 h-4 bg-black"></div>}
                                 </div>
                                 <span className="text-xl">{price}</span>
                             </label>
@@ -92,11 +105,22 @@ export const FiltersCollapsible = () => {
                 </CollapsibleContent>
             </Collapsible>
             <Collapsible open={isAlbumOpen} onOpenChange={setIsAlbumOpen}>
-                <CollapsibleTrigger className="text-xl">Album</CollapsibleTrigger>
+                <CollapsibleTrigger className="text-xl flex justify-between w-full items-center px-4 py-2 cursor-pointer">
+                    <span>Album</span>
+                    <Button
+                        className={`p-2 rounded bg-transparent ${
+                            isAlbumOpen ? "text-blue-500" : "text-gray-500"
+                        } hover:bg-gray-200 transition-all`}
+                    >
+                        <ArrowUp
+                            className={`transform ${isAlbumOpen ? "rotate-180" : "rotate-0"} transition-all duration-300`}
+                        />
+                    </Button>
+                </CollapsibleTrigger>
                 <CollapsibleContent className="cursor-pointer text-gray-600">
                     <div className="flex flex-col">
                         {albums.map((album, index) => (
-                            <label key={index} className="flex items-center cursor-pointer">
+                            <label key={index} className="flex items-center cursor-pointer pl-5">
                                 <input
                                     type="radio"
                                     name="album"
@@ -106,10 +130,10 @@ export const FiltersCollapsible = () => {
                                     className="hidden"
                                 />
                                 <div
-                                    className={`w-5 h-5 border-2 border-black flex items-center justify-center mr-2
+                                    className={`w-5 h-5 border-2 flex items-center justify-center mr-2
                                        ${albumSelected === album ? "bg-black" : "bg-white"}`}
                                 >
-                                    {albumSelected === album && <div className="w-2 h-2 bg-white"></div>}
+                                    {albumSelected === album && <div className="w-4 h-4 bg-black"></div>}
                                 </div>
                                 <span className="text-xl">{album}</span>
                             </label>
