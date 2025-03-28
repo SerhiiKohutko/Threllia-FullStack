@@ -18,6 +18,7 @@ import {PhotoCollectionDetails} from "@/components/Pages/Gallery/PhotoCollection
 import {Shop} from "@/components/Pages/Shop/Shop.jsx";
 import {ProductDetails} from "@/components/Pages/Shop/ProductDetailsPage.jsx";
 import {CheckoutPage} from "@/components/Pages/Shop/CheckoutPage.jsx";
+import {AdminPanel} from "@/components/Pages/AdminPanel/AdminPanel.jsx";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                         <Route path={"/shop/:categoryName"} element={<Shop/>}/>
                         <Route path={"/shop/:categoryName/:productId"} element={<ProductDetails/>}/>
                         <Route path={"/checkout"} element={<CheckoutPage/>}/>
+                        <Route path={"/admin_panel"} element={<AdminPanel/>}/>
                     </Routes>
                 </div>
             <Footer/>

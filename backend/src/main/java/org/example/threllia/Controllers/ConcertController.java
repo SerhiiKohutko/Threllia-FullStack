@@ -1,5 +1,6 @@
 package org.example.threllia.controllers;
 
+import org.example.threllia.model.Concert.dto.ConcertDTO;
 import org.example.threllia.model.Concert.entities.Concert;
 import org.example.threllia.model.Concert.services.ConcertService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,13 @@ public class ConcertController {
     private ConcertService concertService;
 
     @PostMapping
-    public ResponseEntity<Concert> addShow(@RequestBody Concert concert){
+    public ResponseEntity<Concert> addShow(@RequestBody ConcertDTO concert) throws Exception {
         Concert savedConcert = concertService.addShow(concert);
         return new ResponseEntity<>(savedConcert, HttpStatus.CREATED);
     }
 
     @PostMapping("/addShows")
-    public ResponseEntity<List<Concert>> addShows(@RequestBody List<Concert> concerts){
+    public ResponseEntity<List<Concert>> addShows(@RequestBody List<Concert> concerts) throws Exception {
         List<Concert> concertList = concertService.addShows(concerts);
         return new ResponseEntity<>(concertList, HttpStatus.CREATED);
     }

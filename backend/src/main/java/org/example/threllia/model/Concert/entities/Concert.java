@@ -21,6 +21,7 @@ public class Concert {
     private String country;
     private String city;
     private String place;
+    private String relatedTour;
     private ConcertStatus status;
 
     @ManyToMany()

@@ -14,6 +14,7 @@ export const songReducer = (state = initialState, action) => {
                 songDetails: action.payload
             }
         case GET_ALL_SONGS_ORDERED_SUCCESS:
+            console.log(action.payload)
             return {
                 ...state,
                 songsList: action.payload

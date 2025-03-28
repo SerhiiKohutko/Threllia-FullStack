@@ -50,6 +50,7 @@ public class FileUploader {
         try {
             for (MultipartFile file : photos) {
                 String fileName = file.getOriginalFilename();
+                fileName = fileName.replace("C:\\fakepath\\", "");
                 Path filePath = uploadPath.resolve(fileName);
                 file.transferTo(filePath.toFile());
                 fileNames.add(fileName);

@@ -14,6 +14,7 @@ import {useNavigate} from "react-router-dom";
 import {ScrollArea} from "@/components/ui/scroll-area.jsx";
 import {getCart} from "@/components/Utils/CartUtils.js";
 import {CartHeader} from "@/components/Pages/Shop/CartHeader.jsx";
+import {KeyIcon} from "lucide-react";
 
 export const Header = () => {
 
@@ -78,6 +79,7 @@ export const Header = () => {
                 </div>
 
                 <div className="flex w-[20%] justify-end items-center gap-4 text-white">
+                    <KeyIcon className={"cursor-pointer hover:text-red-600"} onClick={() => navigate("/admin_panel")} />
                 <PersonIcon className={"cursor-pointer h-8 w-8"}/>
                     <CartHeader/>
                 </div>

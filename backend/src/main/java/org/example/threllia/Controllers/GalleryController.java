@@ -1,5 +1,6 @@
 package org.example.threllia.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.threllia.dto.PhotoCollectionDTO;
 import org.example.threllia.model.Gallery.entities.PhotoCollection;
 import org.example.threllia.model.Gallery.service.PhotoService;
@@ -44,7 +45,12 @@ public class GalleryController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PhotoCollection> createPhoto(@RequestPart("data") PhotoCollectionCreationRequest request, @RequestPart("photos") List<MultipartFile> photos) throws Exception {
+    public ResponseEntity<PhotoCollection> createPhoto(@RequestParam("data") String data, @RequestParam("photos") List<MultipartFile> photos) throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        PhotoCollectionCreationRequest request = objectMapper.readValue(data, PhotoCollectionCreationRequest.class);
+
+        photos.forEach(System.out::println);
         List<String> fileNames = FileUploader.saveAllPhotos(photos);
         PhotoCollection savedPhotoCollection = photoService.createGalleryItem(request, fileNames);
         return new ResponseEntity<>(savedPhotoCollection, HttpStatus.CREATED);

@@ -1,6 +1,7 @@
 package org.example.threllia.model.Concert.services;
 
 import org.example.threllia.model.Concert.concert_enum.ConcertStatus;
+import org.example.threllia.model.Concert.dto.ConcertDTO;
 import org.example.threllia.model.Concert.entities.Concert;
 import org.example.threllia.model.Concert.repositories.ConcertRepository;
 import org.example.threllia.model.Song.entities.Song;
@@ -56,7 +57,7 @@ public class ConcertServiceImpl implements ConcertService{
 
     //ADMIN FUNCTIONALITY
     @Override
-    public Concert addShow(Concert concert) {
+    public Concert addShow(ConcertDTO concert) throws Exception {
         Concert newConcert = new Concert();
 
         newConcert.setCity(concert.getCity());
@@ -66,24 +67,25 @@ public class ConcertServiceImpl implements ConcertService{
         // > the concert is not active anymore
         if (LocalDate.now().isAfter(concert.getDate())) {
             newConcert.setStatus(ConcertStatus.INACTIVE);
-            concert.setSongsList(concert.getSongsList());
+            newConcert.setSongsList(getReadyToUpdateSongsSet(concert.getSongsList()));
         } else {
             newConcert.setStatus(ConcertStatus.ACTIVE);
         }
 
+        newConcert.setRelatedTour(concert.getRelatedTour());
         newConcert.setPlace(concert.getPlace());
         newConcert.setCountry(concert.getCountry());
-
 
         return concertRepository.save(newConcert);
     }
 
+    @Deprecated
     @Override
-    public List<Concert> addShows(List<Concert> concerts) {
+    public List<Concert> addShows(List<Concert> concerts) throws Exception {
         List<Concert> savedConcerts = new ArrayList<>();
 
         for (Concert curr : concerts)
-            savedConcerts.add(addShow(curr));
+            savedConcerts.add(addShow(null));
 
         return savedConcerts;
     }
