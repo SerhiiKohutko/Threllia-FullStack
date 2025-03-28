@@ -1,17 +1,19 @@
 import {ArrowRight} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {getAllLatestUpdates} from "@/redux/news/Action.js";
+import React, {useEffect} from "react";
+import {getAllLatestUpdates, getAllNewsPaginated} from "@/redux/news/Action.js";
+import {useNavigate} from "react-router-dom";
 
 export const LatestUpdateOverviewSection = () => {
 
     const dispatch = useDispatch();
     const news = useSelector(state => state.news)
     const imagesUrl = "http://localhost:8080/news/";
+    const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(getAllLatestUpdates());
+        dispatch(getAllNewsPaginated(1, true));
     }, []);
 
     return (
@@ -35,9 +37,11 @@ export const LatestUpdateOverviewSection = () => {
                                 />
                             </div>
                             <div className="text-amber-500 text-sm mb-2">{update.dateCreated}</div>
-                            <h3 className="text-white font-tradeWinds text-2xl mb-3">{update.title}</h3>
-                            <p className="text-gray-400 mb-4">{update.content}</p>
-                            <Button variant="primary" className="font-tradeWinds text-white hover:text-amber-500 p-0 flex items-center ">
+                            <h3 className="text-white font-tradeWinds text-2xl mb-1">{update.title}</h3>
+                            <div className={"text-gray-400 mb-4"}
+                                 dangerouslySetInnerHTML={{__html: update.content}}></div>
+                            <Button onClick={() => navigate(`/news/${update.id}`)} variant="primary"
+                                    className="font-tradeWinds text-white hover:text-amber-500 p-0 flex items-center ">
                                 <span className={"ml-1"}>READ MORE</span> <ArrowRight className="ml-1 h-4 w-4" />
                             </Button>
                         </div>

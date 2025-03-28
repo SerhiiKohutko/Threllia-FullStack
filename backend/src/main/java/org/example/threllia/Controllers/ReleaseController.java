@@ -39,7 +39,7 @@ public class ReleaseController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MusicRelease> addRelease(@RequestParam("data") String  data, @RequestParam("releaseCover") MultipartFile image) throws Exception {
         String imageName = FileUploader.uploadReleaseCover(image);
-        
+
         ReleaseRequest release = objectMapper.readValue(data, ReleaseRequest.class);
 
         MusicRelease savedMusicRelease = releaseService.addRelease(release, imageName);

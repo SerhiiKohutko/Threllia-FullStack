@@ -13,6 +13,7 @@ export const LatestUpdateDetailsPage = () => {
     const news = useSelector(state => state.news);
 
     useEffect(() => {
+        console.log(latestUpdateId);
         dispatch(getLatestUpdateById(latestUpdateId))
     },[])
 

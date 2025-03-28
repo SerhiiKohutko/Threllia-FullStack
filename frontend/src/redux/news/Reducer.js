@@ -27,6 +27,7 @@ export const newsReducer = (state = initialState, action) => {
             }
 
             case GET_LATEST_UPDATE_BY_ID_SUCCESS:
+                console.log(action.payload);
                 return {
                     ...state,
                     latestUpdateDetails : action.payload

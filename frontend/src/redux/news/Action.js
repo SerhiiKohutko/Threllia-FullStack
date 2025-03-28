@@ -15,10 +15,11 @@ export const getAllLatestUpdates = () => async (dispatch) => {
     }
 }
 
-export const getAllNewsPaginated = (page) => async (dispatch) => {
+export const getAllNewsPaginated = (page, isOverview) => async (dispatch) => {
     try{
         const response = await axios.get("http://localhost:8080/api/news/paginated", {
-            params : {page : page - 1}
+            params : {page : page - 1, isOverview : isOverview}
+
         });
 
         dispatch({type : GET_ALL_NEWS_PAGINATED_SUCCESS, payload : response.data});
@@ -29,7 +30,11 @@ export const getAllNewsPaginated = (page) => async (dispatch) => {
 
 export const getLatestUpdateById = (id) => async (dispatch) => {
     try {
+        console.log(id);
+
         const response = await axios.get(`http://localhost:8080/api/news/${id}`);
+
+        console.log(response.data);
 
         dispatch({type : GET_LATEST_UPDATE_BY_ID_SUCCESS, payload : response.data});
     }catch (e) {

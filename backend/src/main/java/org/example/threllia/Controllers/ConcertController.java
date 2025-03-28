@@ -25,6 +25,7 @@ public class ConcertController {
         return new ResponseEntity<>(savedConcert, HttpStatus.CREATED);
     }
 
+    @Deprecated
     @PostMapping("/addShows")
     public ResponseEntity<List<Concert>> addShows(@RequestBody List<Concert> concerts) throws Exception {
         List<Concert> concertList = concertService.addShows(concerts);

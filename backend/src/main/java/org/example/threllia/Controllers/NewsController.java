@@ -30,8 +30,8 @@ public class NewsController {
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<Page<LatestUpdate>> getAllNewsPaginated(@RequestParam(defaultValue = "0") int page){
-        Page<LatestUpdate> news = latestUpdateService.getAllNews(page);
+    public ResponseEntity<Page<LatestUpdate>> getAllNewsPaginated(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "false") boolean isOverview){
+        Page<LatestUpdate> news = latestUpdateService.getAllNews(page, isOverview);
         return ResponseEntity.ok(news);
     }
 

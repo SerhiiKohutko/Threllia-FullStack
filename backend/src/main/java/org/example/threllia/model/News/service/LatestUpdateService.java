@@ -9,7 +9,7 @@ import java.util.List;
 public interface LatestUpdateService {
     LatestUpdate getLatestUpdateById(Long id) throws Exception;
     List<LatestUpdate> getAllNews();
-    Page<LatestUpdate> getAllNews(int page);
+    Page<LatestUpdate> getAllNews(int page, boolean isOverview);
     LatestUpdate createLatestUpdate(LatestUpdateRequest request, String fileName);
 
 }

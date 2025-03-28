@@ -27,8 +27,8 @@ public class LatestUpdateServiceImpl implements LatestUpdateService {
     }
 
     @Override
-    public Page<LatestUpdate> getAllNews(int page) {
-        PageRequest pageRequest = PageRequest.of(page, 2, Sort.by("dateCreated").descending());
+    public Page<LatestUpdate> getAllNews(int page, boolean isOverview) {
+        PageRequest pageRequest = PageRequest.of(page, isOverview ? 4 : 2, Sort.by("dateCreated").descending());
         return latestUpdateRepository.findAll(pageRequest);
     }
 

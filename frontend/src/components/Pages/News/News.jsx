@@ -37,7 +37,8 @@ export const News = () => {
                                     <div className={"text-white w-[50%] flex flex-col items-end pr-8"}>
                                         <div className="text-amber-500 text-xl mb-2 text-right">{getFormattedDate(latestUpdate.dateCreated)}</div>
                                         <h3 className="text-white font-tradeWinds text-2xl mb-3 text-right">{latestUpdate.title}</h3>
-                                        <p className="text-gray-400 mb-4 text-right">{latestUpdate.content}</p>
+                                        <div className={"text-gray-400 mb-4"}
+                                             dangerouslySetInnerHTML={{__html: latestUpdate.content}}></div>
                                         <Button onClick={() => navigate(`/news/${latestUpdate.id}`)}
                                                 variant="primary"
                                                 className="font-tradeWinds border border-orange-500 text-white rounded-none hover:text-amber-500 p-0 flex items-center">
