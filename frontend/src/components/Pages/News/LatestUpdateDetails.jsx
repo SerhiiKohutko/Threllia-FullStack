@@ -5,6 +5,7 @@ import {useParams} from "react-router-dom";
 import React, {useEffect} from "react";
 import {getLatestUpdateById} from "@/redux/news/Action.js";
 import {StoreOverviewSection} from "@/components/Pages/HomePage/Sections/StoreOverviewSection.jsx";
+import {getFormattedDate} from "@/components/Utils/DateParser.js";
 
 export const LatestUpdateDetailsPage = () => {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const LatestUpdateDetailsPage = () => {
             <Hero background={bgImage} pageTitle={"Latest Update Details"}/>
             <div className={"min-h-[35rem] bg-black text-white flex flex-row justify-center"}>
                 <div className={"w-[60%] flex flex-col justify-center my-8 space-y-5"}>
-                    <p className={"text-xl text-gray-400"}>{news.latestUpdateDetails?.dateCreated}</p>
+                    <p className={"text-xl text-gray-400"}>{getFormattedDate(news.latestUpdateDetails?.dateCreated)}</p>
                     <h1 className={"text-5xl font-tradeWinds"}>{news.latestUpdateDetails?.title}</h1>
                     <img className={"border border-orange-300 h-50"}
                          src={"http://localhost:8080/news/" + news.latestUpdateDetails?.imageName}/>

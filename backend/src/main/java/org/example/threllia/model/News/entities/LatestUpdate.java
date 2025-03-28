@@ -1,5 +1,6 @@
 package org.example.threllia.model.News.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class LatestUpdate {
     private Long id;
 
     @Builder.Default
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateCreated = LocalDate.now();
     private String title;
 

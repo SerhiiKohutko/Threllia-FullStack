@@ -50,7 +50,6 @@ public class GalleryController {
         ObjectMapper objectMapper = new ObjectMapper();
         PhotoCollectionCreationRequest request = objectMapper.readValue(data, PhotoCollectionCreationRequest.class);
 
-        photos.forEach(System.out::println);
         List<String> fileNames = FileUploader.saveAllPhotos(photos);
         PhotoCollection savedPhotoCollection = photoService.createGalleryItem(request, fileNames);
         return new ResponseEntity<>(savedPhotoCollection, HttpStatus.CREATED);

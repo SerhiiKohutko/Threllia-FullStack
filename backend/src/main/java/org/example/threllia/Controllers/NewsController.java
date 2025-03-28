@@ -1,5 +1,6 @@
 package org.example.threllia.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.threllia.model.News.entities.LatestUpdate;
 import org.example.threllia.model.News.service.LatestUpdateService;
 import org.example.threllia.requests.LatestUpdateRequest;
@@ -38,9 +39,11 @@ public class NewsController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<LatestUpdate> createLatestUpdate(@RequestPart("content") LatestUpdateRequest request, @RequestPart("image") MultipartFile image) throws Exception {
+    public ResponseEntity<LatestUpdate> createLatestUpdate(@RequestParam("content") String data, @RequestParam("image") MultipartFile image) throws Exception {
         String fileName = FileUploader.uploadLatestUpdateImage(image);
-        System.out.println("fileName");
+        ObjectMapper objectMapper = new ObjectMapper();
+        LatestUpdateRequest request = objectMapper.readValue(data, LatestUpdateRequest.class);
+
         LatestUpdate newLatestUpdate = latestUpdateService.createLatestUpdate(request, fileName);
         return new ResponseEntity<>(newLatestUpdate, HttpStatus.CREATED);
     }

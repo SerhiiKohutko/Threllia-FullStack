@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FileUploader {
     private static final String UPLOAD_DIR_NEWS = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\news";
@@ -32,7 +33,10 @@ public class FileUploader {
             Files.createDirectory(uploadPath);
         }
 
-        String fileName = image.getOriginalFilename();
+        String fileName = getCorrectFileName(Objects.requireNonNull(image.getOriginalFilename()));
+
+        System.out.println(fileName);
+
         Path filePath = uploadPath.resolve(fileName);
         image.transferTo(filePath.toFile());
 
@@ -49,8 +53,7 @@ public class FileUploader {
 
         try {
             for (MultipartFile file : photos) {
-                String fileName = file.getOriginalFilename();
-                fileName = fileName.replace("C:\\fakepath\\", "");
+                String fileName = getCorrectFileName(Objects.requireNonNull(file.getOriginalFilename()));
                 Path filePath = uploadPath.resolve(fileName);
                 file.transferTo(filePath.toFile());
                 fileNames.add(fileName);
@@ -59,5 +62,9 @@ public class FileUploader {
             throw new Exception("Files saving error");
         }
         return fileNames;
+    }
+
+    private static String getCorrectFileName(String origin){
+        return origin.replace("C:\\fakepath\\", "");
     }
 }
