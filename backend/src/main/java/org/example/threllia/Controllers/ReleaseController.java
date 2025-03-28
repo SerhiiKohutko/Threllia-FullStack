@@ -22,6 +22,8 @@ import java.util.Set;
 public class ReleaseController {
     @Autowired
     private ReleaseService releaseService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @GetMapping
     public ResponseEntity<Page<MusicRelease>> getAllReleases(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "DSC") SortingType type){
@@ -37,8 +39,7 @@ public class ReleaseController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MusicRelease> addRelease(@RequestParam("data") String  data, @RequestParam("releaseCover") MultipartFile image) throws Exception {
         String imageName = FileUploader.uploadReleaseCover(image);
-
-        ObjectMapper objectMapper = new ObjectMapper();
+        
         ReleaseRequest release = objectMapper.readValue(data, ReleaseRequest.class);
 
         MusicRelease savedMusicRelease = releaseService.addRelease(release, imageName);

@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-//TODO - make DTO for GalleryItem, no need to transfer all photos that collection has until user selects the certain collection
 
 @RestController
 @RequestMapping("/api/photos")
@@ -25,6 +24,8 @@ public class GalleryController {
 
     @Autowired
     private PhotoService photoService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @GetMapping
     public ResponseEntity<List<PhotoCollection>> getAllPhotos(){
@@ -47,7 +48,6 @@ public class GalleryController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PhotoCollection> createPhoto(@RequestParam("data") String data, @RequestParam("photos") List<MultipartFile> photos) throws Exception {
 
-        ObjectMapper objectMapper = new ObjectMapper();
         PhotoCollectionCreationRequest request = objectMapper.readValue(data, PhotoCollectionCreationRequest.class);
 
         List<String> fileNames = FileUploader.saveAllPhotos(photos);

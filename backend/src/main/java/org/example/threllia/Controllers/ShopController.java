@@ -24,8 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-//TODO - autowire object mapper in other controllers
-
 @RestController
 @RequestMapping("/api/products")
 public class ShopController {

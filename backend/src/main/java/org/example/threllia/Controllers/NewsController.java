@@ -21,6 +21,8 @@ public class NewsController {
 
     @Autowired
     private LatestUpdateService latestUpdateService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @GetMapping
     public ResponseEntity<List<LatestUpdate>> getAllNews(){
@@ -41,7 +43,6 @@ public class NewsController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<LatestUpdate> createLatestUpdate(@RequestParam("content") String data, @RequestParam("image") MultipartFile image) throws Exception {
         String fileName = FileUploader.uploadLatestUpdateImage(image);
-        ObjectMapper objectMapper = new ObjectMapper();
         LatestUpdateRequest request = objectMapper.readValue(data, LatestUpdateRequest.class);
 
         LatestUpdate newLatestUpdate = latestUpdateService.createLatestUpdate(request, fileName);
