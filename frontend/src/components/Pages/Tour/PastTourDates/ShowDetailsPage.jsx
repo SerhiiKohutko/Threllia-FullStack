@@ -36,7 +36,7 @@ export const ShowDetailsPage = () => {
             <div className={"bg-black min-h-[34rem] flex flex-col items-center pb-10"}>
                 <div className={"text-3xl text-orange-700 justify-start w-[60%] border-b border-orange-500 mb-5 pb-3 mt-8 font-deliciousHandrawn "}>
                     <p>Tour: </p>
-                    <p>Damage Inc</p>
+                    <p>{tour.tourDetails?.relatedTour || "Unknown tour"}</p>
                 </div>
                 <div className={"flex flex-row w-[60%] text-white text-3xl"}>
                     <p className={"text-amber-600 font-deliciousHandrawn"}>SETLIST:</p>

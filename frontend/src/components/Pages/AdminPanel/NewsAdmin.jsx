@@ -91,7 +91,7 @@ export const NewsAdmin = () => {
 
 
                 <Button type="submit" disabled={!isFormValid} className="w-full">
-                    Add Collection
+                    Add Latest Update
                 </Button>
             </form>
         </div>

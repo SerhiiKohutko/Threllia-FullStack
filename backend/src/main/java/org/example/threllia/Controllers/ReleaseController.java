@@ -1,5 +1,6 @@
 package org.example.threllia.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.threllia.model.Release.entities.MusicRelease;
 import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.model.Release.service.ReleaseService;
@@ -34,8 +35,12 @@ public class ReleaseController {
         return ResponseEntity.ok(release);
     }
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<MusicRelease> addRelease(@RequestPart("release") ReleaseRequest release, @RequestPart("releaseCover") MultipartFile image) throws Exception {
+    public ResponseEntity<MusicRelease> addRelease(@RequestParam("data") String  data, @RequestParam("releaseCover") MultipartFile image) throws Exception {
         String imageName = FileUploader.uploadReleaseCover(image);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ReleaseRequest release = objectMapper.readValue(data, ReleaseRequest.class);
+
         MusicRelease savedMusicRelease = releaseService.addRelease(release, imageName);
         return new ResponseEntity<>(savedMusicRelease, HttpStatus.CREATED);
     }

@@ -4,6 +4,9 @@ import {MediaAdmin} from "@/components/Pages/AdminPanel/MediaAdmin.jsx";
 import 'react-quill-new/dist/quill.snow.css';
 import {NewsAdmin} from "@/components/Pages/AdminPanel/NewsAdmin.jsx";
 import {ToastContainer} from "react-toastify";
+import {ReleaseAdmin} from "@/components/Pages/AdminPanel/ReleaseAdmin.jsx";
+import {Songs} from "@/components/Pages/Music/Songs/Songs.jsx";
+import {SongsAdmin} from "@/components/Pages/AdminPanel/SongsAdmin.jsx";
 
 export const AdminPanel = () => {
     return (
@@ -22,16 +25,75 @@ export const AdminPanel = () => {
                       <TabsTrigger value="shop">Shop</TabsTrigger>
                   </TabsList>
                   <TabsContent value="tour">
-                    <TourAdmin/>
+                      <Tabs>
+                          <TabsList>
+                              <TabsTrigger value="add">Add</TabsTrigger>
+                              <TabsTrigger value="update">Update</TabsTrigger>
+                              <TabsTrigger value="delete">Delete</TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="add">
+                              <TourAdmin/>
+                          </TabsContent>
+                          <TabsContent value="update">Tour</TabsContent>
+                          <TabsContent value="delete">Tour</TabsContent>
+                      </Tabs>
                   </TabsContent>
                   <TabsContent value="media">
-                      <MediaAdmin/>
+                      <Tabs>
+                          <TabsList>
+                              <TabsTrigger value="add">Add</TabsTrigger>
+                              <TabsTrigger value="update">Update</TabsTrigger>
+                              <TabsTrigger value="delete">Delete</TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="add">
+                              <MediaAdmin/>
+                          </TabsContent>
+                          <TabsContent value="update">Tour</TabsContent>
+                          <TabsContent value="delete">Tour</TabsContent>
+                      </Tabs>
                   </TabsContent>
                   <TabsContent value="news">
-                      <NewsAdmin/>
+                      <Tabs>
+                          <TabsList>
+                              <TabsTrigger value="add">Add</TabsTrigger>
+                              <TabsTrigger value="update">Update</TabsTrigger>
+                              <TabsTrigger value="delete">Delete</TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="add">
+                              <NewsAdmin/>
+                          </TabsContent>
+                          <TabsContent value="update">Tour</TabsContent>
+                          <TabsContent value="delete">Tour</TabsContent>
+                      </Tabs>
                   </TabsContent>
-                  <TabsContent value="music">4</TabsContent>
-                  <TabsContent value="songs">5</TabsContent>
+                  <TabsContent value="music">
+                      <Tabs>
+                          <TabsList>
+                              <TabsTrigger value="add">Add</TabsTrigger>
+                              <TabsTrigger value="update">Update</TabsTrigger>
+                              <TabsTrigger value="delete">Delete</TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="add">
+                              <ReleaseAdmin/>
+                          </TabsContent>
+                          <TabsContent value="update">Tour</TabsContent>
+                          <TabsContent value="delete">Tour</TabsContent>
+                      </Tabs>
+                  </TabsContent>
+                  <TabsContent value="songs">
+                      <Tabs>
+                          <TabsList>
+                              <TabsTrigger value="add">Add</TabsTrigger>
+                              <TabsTrigger value="update">Update</TabsTrigger>
+                              <TabsTrigger value="delete">Delete</TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="add">
+                              <SongsAdmin/>
+                          </TabsContent>
+                          <TabsContent value="update">Tour</TabsContent>
+                          <TabsContent value="delete">Tour</TabsContent>
+                      </Tabs>
+                  </TabsContent>
                   <TabsContent value="shop">6</TabsContent>
               </Tabs>
 

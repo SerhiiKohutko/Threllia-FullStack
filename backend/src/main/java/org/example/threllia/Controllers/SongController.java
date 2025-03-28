@@ -4,6 +4,7 @@ import org.example.threllia.dto.SongDTO;
 import org.example.threllia.dto.SongsOrderedDTO;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
+import org.example.threllia.requests.SongCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class SongController {
     private SongService songService;
 
     @PostMapping
-    public ResponseEntity<Song> addSong(@RequestBody Song song){
-        Song savedSong = songService.addSong(song);
+    public ResponseEntity<Song> addSong(@RequestBody SongCreationRequest request){
+        Song savedSong = songService.addSong(request);
         return ResponseEntity.ok(savedSong);
     }
 

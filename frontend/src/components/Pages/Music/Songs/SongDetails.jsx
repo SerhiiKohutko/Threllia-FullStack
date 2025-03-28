@@ -52,7 +52,7 @@ export const SongDetails = () => {
             />
 
             <div className={"relative text-white"}>
-                <PastTourDatesSection tour={tour} currPage={currPage} setCurrPage={setCurrPage}/>
+                {tour.tourList?.length > 0 && <PastTourDatesSection tour={tour} currPage={currPage} setCurrPage={setCurrPage}/>}
 
                 <div className="ash-container">
                     {[...Array(50)].map((_, i) => (

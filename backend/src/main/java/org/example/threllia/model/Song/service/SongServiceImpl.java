@@ -8,6 +8,7 @@ import org.example.threllia.model.Concert.repositories.ConcertRepository;
 import org.example.threllia.model.Release.entities.MusicRelease;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.repository.SongRepository;
+import org.example.threllia.requests.SongCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,17 +98,17 @@ public class SongServiceImpl implements SongService{
 
     //ADMIN FUNCTIONALITY
     @Override
-    public Song addSong(Song song) {
+    public Song addSong(SongCreationRequest request) {
 
-        if (songRepository.existsByTitle(song.getTitle())) {
+        if (songRepository.existsByTitle(request.getTitle())) {
             throw new IllegalArgumentException("Song exists with such title!");
         }
 
         Song savedSong = new Song();
 
-        savedSong.setTitle(song.getTitle());
+        savedSong.setTitle(request.getTitle());
 
-        savedSong.setLyrics(parseLyricsToHtml(song.getLyrics()));
+        savedSong.setLyrics(parseLyricsToHtml(request.getLyrics()));
 
         return songRepository.save(savedSong);
     }

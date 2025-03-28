@@ -45,3 +45,13 @@ export const addShow = (show) => async () => {
         });
     }
 }
+
+export const addSong = (song) => async () => {
+    try {
+        await axios.post(`http://localhost:8080/api/songs`, song);
+
+        toast.success("Add song successfully.")
+    } catch (err) {
+        toast.error("Error")
+    }
+}
