@@ -7,6 +7,7 @@ import {ToastContainer} from "react-toastify";
 import {ReleaseAdmin} from "@/components/Pages/AdminPanel/ReleaseAdmin.jsx";
 import {Songs} from "@/components/Pages/Music/Songs/Songs.jsx";
 import {SongsAdmin} from "@/components/Pages/AdminPanel/SongsAdmin.jsx";
+import {ShopAdmin} from "@/components/Pages/AdminPanel/ShopAdmin.jsx";
 
 export const AdminPanel = () => {
     return (
@@ -94,7 +95,20 @@ export const AdminPanel = () => {
                           <TabsContent value="delete">Tour</TabsContent>
                       </Tabs>
                   </TabsContent>
-                  <TabsContent value="shop">6</TabsContent>
+                  <TabsContent value="shop">
+                      <Tabs>
+                          <TabsList>
+                              <TabsTrigger value="add">Add</TabsTrigger>
+                              <TabsTrigger value="update">Update</TabsTrigger>
+                              <TabsTrigger value="delete">Delete</TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="add">
+                              <ShopAdmin/>
+                          </TabsContent>
+                          <TabsContent value="update">Tour</TabsContent>
+                          <TabsContent value="delete">Tour</TabsContent>
+                      </Tabs>
+                  </TabsContent>
               </Tabs>
 
           </div>

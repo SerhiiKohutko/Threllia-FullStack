@@ -20,7 +20,7 @@ public interface ProductService {
     List<MediaProduct> getAllMediaProducts();
     List<ApparelProduct> getAllApparel();
 
-    Product createProduct(ProductRequest request) throws Exception;
+    Product createProduct(ProductRequest request, String imageName) throws Exception;
 
     Page<? extends Product> getProductsByType(ProductType type, ShopParametersTransfer shopParametersTransfer, String subType) throws JsonProcessingException;
     List<Product> getAllProducts();

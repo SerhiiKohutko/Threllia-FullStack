@@ -7,6 +7,7 @@ import {
     GET_SHOP_OVERVIEW_REQUEST,
     GET_SHOP_OVERVIEW_SUCCESS
 } from "@/redux/shop/ActionType.js";
+import {toast} from "react-toastify";
 
 export const getShopOverviewForMVP = ({page, size}) => async (dispatch) => {
     dispatch({type: GET_SHOP_OVERVIEW_REQUEST});
@@ -76,5 +77,19 @@ export const getProductById = (id, productType) => async (dispatch) => {
         dispatch({type: GET_PRODUCT_BY_ID_SUCCESS, payload: response.data});
     }catch (err){
         console.error(err.message);
+    }
+}
+
+export const createProduct = (product) => async (dispatch) => {
+    try{
+        await axios.post(`http://localhost:8080/api/products`, product, {
+            headers : {
+                'Content-Type' : 'multipart/form-data'
+            }
+        });
+
+        toast.success("Product created!");
+    }catch(err){
+        toast.error(err.message);
     }
 }

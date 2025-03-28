@@ -184,22 +184,22 @@ public class ProductServiceImpl implements ProductService{
 
     //ADMIN FUNCTIONALITY
     @Override
-    public Product createProduct(ProductRequest request) throws Exception {
+    public Product createProduct(ProductRequest request, String imageName) throws Exception {
         switch (request.getType()){
             case MEDIA -> {
-                return createMediaProduct(request);
+                return createMediaProduct(request, imageName);
             }
             case APPAREL -> {
-                return createApparelProduct(request);
+                return createApparelProduct(request, imageName);
             }
             case ACCESSORIES -> {
-                return createAccessoryProduct(request);
+                return createAccessoryProduct(request, imageName);
             }
         }
         throw new Exception("No such type");
     }
 
-    public MediaProduct createMediaProduct(ProductRequest request){
+    public MediaProduct createMediaProduct(ProductRequest request, String imageUrl){
         MediaProduct mediaProduct = MediaProduct.builder()
                 .name(request.getName())
                 .type(request.getMediaProductType())
@@ -207,17 +207,19 @@ public class ProductServiceImpl implements ProductService{
                 .description(request.getDescription())
                 .totalQuantity(request.getTotalQuantity())
                 .dateAdded(LocalDate.now())
+                .imageUrl(imageUrl)
                 .build();
 
         return mediaProductRepository.save(mediaProduct);
     }
-    public ApparelProduct createApparelProduct(ProductRequest request){
+    public ApparelProduct createApparelProduct(ProductRequest request, String imageUrl){
         ApparelProduct apparelProduct = ApparelProduct.builder()
                 .name(request.getName())
                 .type(request.getApparelProductType())
                 .price(request.getPrice())
                 .description(request.getDescription())
                 .dateAdded(LocalDate.now())
+                .imageUrl(imageUrl)
                 .build();
 
         int totalQuantity = 0;
@@ -229,7 +231,7 @@ public class ProductServiceImpl implements ProductService{
 
         return apparelProductRepository.save(apparelProduct);
     }
-    public AccessoryProduct createAccessoryProduct(ProductRequest request){
+    public AccessoryProduct createAccessoryProduct(ProductRequest request, String imageUrl){
         AccessoryProduct accessoryProduct = AccessoryProduct.builder()
                 .type(request.getAccessoriesProductType())
                 .name(request.getName())
@@ -237,6 +239,7 @@ public class ProductServiceImpl implements ProductService{
                 .description(request.getDescription())
                 .totalQuantity(request.getTotalQuantity())
                 .dateAdded(LocalDate.now())
+                .imageUrl(imageUrl)
                 .build();
 
         return accessoriesProductRepository.save(accessoryProduct);

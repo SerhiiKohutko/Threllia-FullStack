@@ -14,12 +14,16 @@ public class FileUploader {
     private static final String UPLOAD_DIR_NEWS = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\news";
     private static final String UPLOAD_DIR_PHOTOS = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\photos";
     private static final String UPLOAD_DIR_RELEASES = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\releases";
+    private static final String UPLOAD_DIR_PRODUCTS = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\shop";
 
     public static String uploadLatestUpdateImage(MultipartFile image) throws Exception {
         return getString(image, UPLOAD_DIR_NEWS);
     }
     public static String uploadReleaseCover(MultipartFile image) throws Exception {
         return getString(image, UPLOAD_DIR_RELEASES);
+    }
+    public static String uploadProductImage(MultipartFile image) throws Exception {
+        return getString(image, UPLOAD_DIR_PRODUCTS);
     }
 
     private static String getString(MultipartFile image, String folder) throws Exception {

@@ -1,6 +1,7 @@
 package org.example.threllia.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.threllia.exceptions.ProductNotFoundException;
 import org.example.threllia.model.Shop.dto.ProductDTO;
 import org.example.threllia.model.Shop.entities.AccessoryProduct;
@@ -11,20 +12,27 @@ import org.example.threllia.model.Shop.service.ProductService;
 import org.example.threllia.model.Shop.shop_enum.ProductType;
 import org.example.threllia.model.Shop.shop_enum.ShopSortingType;
 import org.example.threllia.requests.ProductRequest;
+import org.example.threllia.utils.FileUploader;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+//TODO - autowire object mapper in other controllers
+
 @RestController
-@RequestMapping("/api/products/")
+@RequestMapping("/api/products")
 public class ShopController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     @Deprecated
@@ -113,8 +121,13 @@ public class ShopController {
         return null;
     }
 
-    @PostMapping
-    public Product createProduct(@RequestBody ProductRequest request) throws Exception {
-        return productService.createProduct(request);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Product createProduct(@RequestParam("data") String  data, @RequestParam("coverImage") MultipartFile image) throws Exception {
+
+        String imageName = FileUploader.uploadProductImage(image);
+
+        ProductRequest request = objectMapper.readValue(data, ProductRequest.class);
+
+        return productService.createProduct(request, imageName);
     }
 }
