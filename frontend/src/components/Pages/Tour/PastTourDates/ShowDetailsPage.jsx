@@ -2,18 +2,14 @@ import bgImage from "@/resources/ajfajm_big_burning_cross_7f4e8d49-44f0-4d57-b94
 import React, {useEffect} from "react";
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover.jsx"
 import { BsThreeDots } from "react-icons/bs";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {Button} from "@/components/ui/button.jsx"
 import {SignUpBannerSection} from "@/components/Pages/HomePage/Sections/SignUpBannerSection.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {getShowDetails} from "@/redux/tour/Action.js";
-import {TrackList} from "@/components/ReusableComponents/TrackList.jsx";
+import {deleteShowById, getShowDetails} from "@/redux/tour/Action.js";
+
+import {getFormattedDate} from "@/components/Utils/DateParser.js";
 
 export const ShowDetailsPage = () => {
     const [indexHovered, setIndexHovered] = React.useState(null);
@@ -21,6 +17,8 @@ export const ShowDetailsPage = () => {
     const {showId} = useParams();
     const navigate = useNavigate();
     const tour = useSelector((state) => state.tours);
+
+    const isAdmin = true;
 
     useEffect(() => {
         dispatch(getShowDetails(showId));
@@ -30,11 +28,34 @@ export const ShowDetailsPage = () => {
         console.log(tour.tourDetails.songsList)
     },[tour.tourDetails.songsList])
 
+    function handleDelete() {
+        dispatch(deleteShowById(showId));
+        navigate("/tour/past");
+    }
     return (
         <div>
-            <Hero pageTitle={"TOUR DETAILS"} background={bgImage}/>
+            <Hero pageTitle={tour.tourDetails?.country + ", " + tour.tourDetails?.city} additionalInfoForShowDetails={{place : tour.tourDetails?.place ,date : getFormattedDate(tour.tourDetails?.date)}} background={bgImage}/>
             <div className={"bg-black min-h-[34rem] flex flex-col items-center pb-10"}>
-                <div className={"text-3xl text-orange-700 justify-start w-[60%] border-b border-orange-500 mb-5 pb-3 mt-8 font-deliciousHandrawn "}>
+                <div
+                    className={"text-3xl text-orange-700 justify-start w-[60%] border-b border-orange-500 mb-5 pb-3 mt-8 font-deliciousHandrawn "}>
+                    {/*If profile is admin - edit & deletion available*/}
+                    {
+                        isAdmin && <>
+                            <Button onClick={() => navigate(`/admin/tour/${showId}`, {
+                                state: {
+                                    country : tour.tourDetails?.country,
+                                    city : tour.tourDetails?.city,
+                                    place : tour.tourDetails?.place,
+                                    date : tour.tourDetails?.date,
+                                    relatedTour : tour.tourDetails?.relatedTour,
+                                    songsList : tour.tourDetails?.songsList.map(e => e.title)
+                                }
+                            })}
+                                    variant={"ghost"} className={"border rounded-none border-orange-500 mt-5 mr-4"}>Edit</Button>
+
+                            <Button onClick={() => handleDelete()} variant={"ghost"} className={"border bg-red-700 text-white rounded-none border-orange-500 mt-5 mb-5"}>Delete</Button>
+                        </>
+                    }
                     <p>Tour: </p>
                     <p>{tour.tourDetails?.relatedTour || "Unknown tour"}</p>
                 </div>
@@ -46,10 +67,12 @@ export const ShowDetailsPage = () => {
                     {
                         (tour.tourDetails?.songsList && tour.tourDetails.songsList.length > 0) ?
                             tour.tourDetails?.songsList?.map((item, index) => (
-                                <div key={index} className={"flex flex-row items-center w-[50%] text-3xl font-tradeWinds text-white pb-6"}>
+                                <div key={index}
+                                     className={"flex flex-row items-center w-[50%] text-3xl font-tradeWinds text-white pb-6"}>
                                     <div className={"flex flex-grow max-w-[60%]"}>
                                         <p className={index % 2 === 0 ? "text-orange-700" : "text-white"}>{index + 1}.
-                                            <span className={"cursor-pointer hover:underline overflow-auto text-white"} onClick={() => navigate("/songs/" + item.id)}>{item.title}</span>
+                                            <span className={"cursor-pointer hover:underline overflow-auto text-white"}
+                                                  onClick={() => navigate("/songs/" + item.id)}>{item.title}</span>
                                         </p>
                                     </div>
 
@@ -67,7 +90,8 @@ export const ShowDetailsPage = () => {
                                             text-white border border-white/20 shadow-lg hidden
                                             group-hover:block group-focus-within:block z-20 group-hover:opacity-100">
 
-                                                <div className="h-2 absolute -top-2 left-0 right-0 bg-transparent"></div>
+                                                <div
+                                                    className="h-2 absolute -top-2 left-0 right-0 bg-transparent"></div>
                                                 <div
                                                     className="py-2 px-2 uppercase tracking-wider text-sm font-bold
                                             hover:bg-black/80 cursor-pointer border-b border-white/10"
@@ -84,7 +108,8 @@ export const ShowDetailsPage = () => {
                                     </div>
 
                                 </div>
-                            )) : <div className={"text-3xl font-tradeWinds text-white pl-[-0.75rem]"}>No Songs Found</div>
+                            )) :
+                            <div className={"text-3xl font-tradeWinds text-white pl-[-0.75rem]"}>No Songs Found</div>
                     }
                 </div>
             </div>

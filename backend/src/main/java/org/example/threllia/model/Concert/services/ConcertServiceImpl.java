@@ -79,6 +79,25 @@ public class ConcertServiceImpl implements ConcertService{
         return concertRepository.save(newConcert);
     }
 
+    @Override
+    public Concert updateConcertById(long id, ConcertDTO concert) throws Exception {
+        Concert updatedConcert = getConcertById(id);
+
+        updatedConcert.setDate(concert.getDate());
+        updatedConcert.setCity(concert.getCity());
+        updatedConcert.setPlace(concert.getPlace());
+        updatedConcert.setCountry(concert.getCountry());
+        updatedConcert.setSongsList(getReadyToUpdateSongsSet(concert.getSongsList()));
+        updatedConcert.setRelatedTour(concert.getRelatedTour());
+
+        return concertRepository.save(updatedConcert);
+    }
+
+    @Override
+    public void deleteConcertById(long id) {
+        concertRepository.deleteById(id);
+    }
+
     @Deprecated
     @Override
     public List<Concert> addShows(List<Concert> concerts) throws Exception {

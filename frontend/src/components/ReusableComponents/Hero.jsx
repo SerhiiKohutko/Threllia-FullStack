@@ -3,7 +3,7 @@ import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
 
 //TODO - fix background image
-export const Hero = ({pageTitle, background, buttonContent, navigateTo}) => {
+export const Hero = ({pageTitle, background, buttonContent, navigateTo, additionalInfoForShowDetails}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -34,6 +34,14 @@ export const Hero = ({pageTitle, background, buttonContent, navigateTo}) => {
                         <div >
                             <Button onClick={() => navigate(navigateTo)} variant={"ghost"} className={"text-3xl p-5 pt-6 border-2 rounded-none border-white mt-3 w-full transition-[200ms]"}>{buttonContent}</Button>
                         </div>
+                    }
+                    {
+                        additionalInfoForShowDetails &&
+                        <div className={"text-6xl mt-4"}>
+                            {additionalInfoForShowDetails.place},<span>     </span>
+                            <span className={"text-gray-300"}>{additionalInfoForShowDetails.date}</span>
+                        </div>
+
                     }
                 </div>
             </div>

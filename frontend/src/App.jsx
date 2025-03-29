@@ -22,7 +22,9 @@ import {AdminPanel} from "@/components/Pages/AdminPanel/AdminPanel.jsx";
 import SongDetailsInfoEditAdmin from "@/components/Pages/AdminPanel/EditPages/SongDetailsInfoEditAdmin.jsx";
 import {ToastContainer} from "react-toastify";
 import ReleaseDetailsEditAdmin from "@/components/Pages/AdminPanel/EditPages/ReleaseDetailsEditAdmin.jsx";
+import ShowDetailsEditAdmin from "@/components/Pages/AdminPanel/EditPages/ShowDetailsEditAdmin.jsx";
 
+//TODO - export admin buttons to separate component
 function App() {
 
 
@@ -53,6 +55,7 @@ function App() {
                         <Route path={"/admin_panel"} element={<AdminPanel/>}/>
                         <Route path={"/admin/songs/:songId"} element={<SongDetailsInfoEditAdmin/>}/>
                         <Route path={"/admin/releases/:releaseId"} element={<ReleaseDetailsEditAdmin/>}/>
+                        <Route path={"/admin/tour/:showId"} element={<ShowDetailsEditAdmin/>}/>
                     </Routes>
                 </div>
             <Footer/>

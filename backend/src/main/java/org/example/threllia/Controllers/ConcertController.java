@@ -3,6 +3,7 @@ package org.example.threllia.controllers;
 import org.example.threllia.model.Concert.dto.ConcertDTO;
 import org.example.threllia.model.Concert.entities.Concert;
 import org.example.threllia.model.Concert.services.ConcertService;
+import org.example.threllia.responses.DeletionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,6 @@ public class ConcertController {
 
     @Autowired
     private ConcertService concertService;
-
-    @PostMapping
-    public ResponseEntity<Concert> addShow(@RequestBody ConcertDTO concert) throws Exception {
-        Concert savedConcert = concertService.addShow(concert);
-        return new ResponseEntity<>(savedConcert, HttpStatus.CREATED);
-    }
 
     @Deprecated
     @PostMapping("/addShows")
@@ -72,5 +67,21 @@ public class ConcertController {
         return ResponseEntity.ok(updatedConcert);
     }
 
+    //ADMIN FUNCTIONALITY
 
+    @PostMapping
+    public ResponseEntity<Concert> addShow(@RequestBody ConcertDTO concert) throws Exception {
+        Concert savedConcert = concertService.addShow(concert);
+        return new ResponseEntity<>(savedConcert, HttpStatus.CREATED);
+    }
+    @PatchMapping("/admin/{id}")
+    public ResponseEntity<Concert> updateConcertById(@PathVariable long id, @RequestBody ConcertDTO concert) throws Exception {
+        return ResponseEntity.ok(concertService.updateConcertById(id, concert));
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<DeletionResponse> deleteShow(@PathVariable long id){
+        concertService.deleteConcertById(id);
+        return ResponseEntity.ok(new DeletionResponse("Show deleted successfully!"));
+    }
 }

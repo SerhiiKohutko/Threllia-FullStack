@@ -17,4 +17,8 @@ public interface ConcertService {
     List<Concert> getClosestSixConcerts();
     Page<Concert> getConcertBySong(String songTitle, int page) throws Exception;
     Concert updateSongsList(long id, Set<String> songsList) throws Exception;
+
+    Concert updateConcertById(long id, ConcertDTO concert) throws Exception;
+
+    void deleteConcertById(long id);
 }
