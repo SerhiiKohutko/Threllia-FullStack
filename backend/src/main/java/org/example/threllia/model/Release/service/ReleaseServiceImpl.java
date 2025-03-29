@@ -56,7 +56,7 @@ public class ReleaseServiceImpl implements ReleaseService{
         return releaseRepository.save(newMusicRelease);
     }
 
-    private List<Song> getTrackList(Set<String> requestList) throws Exception {
+    private List<Song> getTrackList(List<String> requestList) throws Exception {
         List<Song> trackList = new ArrayList<>();
 
         for (String s : requestList){
@@ -77,7 +77,6 @@ public class ReleaseServiceImpl implements ReleaseService{
     public MusicRelease updateMusicRelease(long id, ReleaseRequest request, String fileName) throws Exception {
         MusicRelease musicRelease = getReleaseById(id);
 
-        //Deleting previous image
 
         musicRelease.setDateReleased(request.getDateReleased());
         musicRelease.setTitle(request.getTitle());
@@ -85,13 +84,11 @@ public class ReleaseServiceImpl implements ReleaseService{
         musicRelease.setTrackList(getTrackList(request.getSongList()));
         musicRelease.setNameToInstrumentsPlayed(request.getNameToInstrumentsPlayed());
 
+        //Deleting previous image
         if (fileName != null){
-            System.out.println(fileName);
-
             try {
                 FileUploader.deleteReplacedCover(musicRelease.getCoverName());
             } catch (NoSuchFileException ignored){}
-
             musicRelease.setCoverName(fileName);
         }
 

@@ -90,6 +90,25 @@ const ReleaseDetailsEditAdmin = () => {
     };
 
 
+    const handleMoveSongUp = (index) => {
+        if (index === 0) return;
+        const newList = [...updatedTrackList];
+        const temp = newList[index];
+        newList[index] = newList[index - 1];
+        newList[index - 1] = temp;
+        setUpdatedTrackList(newList);
+    };
+
+    const handleMoveSongDown = (index) => {
+        if (index === updatedTrackList.length - 1) return;
+        const newList = [...updatedTrackList];
+        const temp = newList[index];
+        newList[index] = newList[index + 1];
+        newList[index + 1] = temp;
+        setUpdatedTrackList(newList);
+    };
+
+
     const onSaveChanges = () => {
         if (!updatedTitle || !updatedDescription || updatedTrackList.length < 1 || !updatedBandMembers) {
             toast.error("You must add a title, description, and at least one track");
@@ -107,13 +126,13 @@ const ReleaseDetailsEditAdmin = () => {
         }));
 
 
+        console.log(updatedTrackList);
 
         if (coverImage) {
             formData.append('releaseCover', coverImage);
-            console.log(JSON.stringify(formData.get("releaseCover")));
         }
 
-        console.log(formData.get("releaseCover"));
+        console.log(formData.get("data"));
 
         dispatch(updateRelease(releaseId, formData));
         navigate(`/releases/${releaseId}`);
@@ -246,8 +265,7 @@ const ReleaseDetailsEditAdmin = () => {
 
                                 <Button
                                     onClick={handleImageClick}
-                                    className="mt-4 bg-gray-800 hover:bg-gray-700 border border-orange-500"
-                                >
+                                    className="mt-4 bg-gray-800 hover:bg-gray-700 border border-orange-500">
                                     Upload New Cover
                                 </Button>
 
@@ -264,18 +282,31 @@ const ReleaseDetailsEditAdmin = () => {
                             <h2 className="text-2xl font-bold mb-4 text-orange-500">TRACKLIST</h2>
 
                             <div className="space-y-4">
-                                {updatedTrackList.map((track, index) => (
-                                    <div key={index} className="flex items-center justify-between bg-gray-800 p-3">
+                                {updatedTrackList.map((song, index) => (
+                                    <div key={index} className="flex items-center justify-between bg-gray-800 p-3 border-l-2 border-orange-500">
                                         <div className="flex items-center">
                                             <span className="text-orange-300 mr-2">{index + 1}.</span>
-                                            <span>{track}</span>
+                                            <span>{song}</span>
                                         </div>
-                                        <button
-                                            onClick={() => handleRemoveTrack(index)}
-                                            className="text-red-500 hover:text-red-400"
-                                        >
-                                            ✖
-                                        </button>
+                                        <div className="flex space-x-2">
+                                            <button
+                                                onClick={() => handleMoveSongUp(index)}
+                                                className="text-blue-500 hover:text-blue-400 px-2"
+                                                disabled={index === 0}>
+                                                ↑
+                                            </button>
+                                            <button
+                                                onClick={() => handleMoveSongDown(index)}
+                                                className="text-blue-500 hover:text-blue-400 px-2"
+                                                disabled={index === updatedTrackList.length - 1}>
+                                                ↓
+                                            </button>
+                                            <button
+                                                onClick={() => handleRemoveTrack(index)}
+                                                className="text-red-500 hover:text-red-400 px-2">
+                                                ✖
+                                            </button>
+                                        </div>
                                     </div>
                                 ))}
 
@@ -283,8 +314,7 @@ const ReleaseDetailsEditAdmin = () => {
                                     <Select
                                         onValueChange={(value) => {
                                             handleAddTrack(value);
-                                        }}
-                                    >
+                                        }}>
                                         <SelectTrigger className="w-full">
                                             <SelectValue placeholder="Select Songs" />
                                         </SelectTrigger>
@@ -305,8 +335,7 @@ const ReleaseDetailsEditAdmin = () => {
                 <div className="flex justify-center mt-8 mb-16">
                     <Button
                         onClick={onSaveChanges}
-                        className="w-full md:w-1/2 lg:w-1/3 py-3 border border-orange-500 hover:bg-orange-900 hover:border-orange-400 text-lg"
-                    >
+                        className="w-full md:w-1/2 lg:w-1/3 py-3 border border-orange-500 hover:bg-orange-900 hover:border-orange-400 text-lg">
                         Save Changes
                     </Button>
                 </div>

@@ -57,11 +57,13 @@ public class ReleaseController {
     }
 
     @PatchMapping(path = "/admin/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<MusicRelease> addRelease(@PathVariable long id, @RequestPart("data") String  data, @RequestPart(value = "releaseCover", required = false) MultipartFile image) throws Exception {
+    public ResponseEntity<MusicRelease> updateRelease(@PathVariable long id, @RequestPart("data") String  data, @RequestPart(value = "releaseCover", required = false) MultipartFile image) throws Exception {
 
         String imageName = FileUploader.uploadReleaseCover(image);
 
         ReleaseRequest release = objectMapper.readValue(data, ReleaseRequest.class);
+
+        System.out.println(release);
 
         MusicRelease savedMusicRelease = releaseService.updateMusicRelease(id, release, imageName);
         return new ResponseEntity<>(savedMusicRelease, HttpStatus.CREATED);
