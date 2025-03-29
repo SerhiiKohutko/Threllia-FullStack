@@ -21,7 +21,7 @@ import {CheckoutPage} from "@/components/Pages/Shop/CheckoutPage.jsx";
 import {AdminPanel} from "@/components/Pages/AdminPanel/AdminPanel.jsx";
 import SongDetailsInfoEditAdmin from "@/components/Pages/AdminPanel/EditPages/SongDetailsInfoEditAdmin.jsx";
 import {ToastContainer} from "react-toastify";
-
+import ReleaseDetailsEditAdmin from "@/components/Pages/AdminPanel/EditPages/ReleaseDetailsEditAdmin.jsx";
 
 function App() {
 
@@ -52,6 +52,7 @@ function App() {
 
                         <Route path={"/admin_panel"} element={<AdminPanel/>}/>
                         <Route path={"/admin/songs/:songId"} element={<SongDetailsInfoEditAdmin/>}/>
+                        <Route path={"/admin/releases/:releaseId"} element={<ReleaseDetailsEditAdmin/>}/>
                     </Routes>
                 </div>
             <Footer/>

@@ -16,4 +16,8 @@ public interface ReleaseService {
 
     MusicRelease addRelease(ReleaseRequest release, String releaseCoverName) throws Exception;
     MusicRelease updateReleaseTrackList(Set<Song> songs, long releaseId);
+
+    MusicRelease updateMusicRelease(long id, ReleaseRequest request, String fileName) throws Exception;
+
+    void deleteReleaseById(long id);
 }

@@ -6,6 +6,7 @@ import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.model.Release.service.ReleaseService;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.requests.ReleaseRequest;
+import org.example.threllia.responses.DeletionResponse;
 import org.example.threllia.utils.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,15 @@ public class ReleaseController {
         MusicRelease release = releaseService.getReleaseById(id);
         return ResponseEntity.ok(release);
     }
+
+    @Deprecated
+    @PatchMapping
+    public ResponseEntity<MusicRelease> updateTrackList(@RequestBody Set<Song> trackList, @RequestParam long releaseId){
+        MusicRelease updatedMusicRelease = releaseService.updateReleaseTrackList(trackList, releaseId);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    //ADMIN FUNCTIONALITY
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MusicRelease> addRelease(@RequestParam("data") String  data, @RequestParam("releaseCover") MultipartFile image) throws Exception {
         String imageName = FileUploader.uploadReleaseCover(image);
@@ -46,10 +56,27 @@ public class ReleaseController {
         return new ResponseEntity<>(savedMusicRelease, HttpStatus.CREATED);
     }
 
-    @PatchMapping
-    public ResponseEntity<MusicRelease> updateTrackList(@RequestBody Set<Song> trackList, @RequestParam long releaseId){
-        MusicRelease updatedMusicRelease = releaseService.updateReleaseTrackList(trackList, releaseId);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    @PatchMapping(path = "/admin/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MusicRelease> addRelease(@PathVariable long id, @RequestPart("data") String  data, @RequestPart(value = "releaseCover", required = false) MultipartFile image) throws Exception {
+
+        String imageName = FileUploader.uploadReleaseCover(image);
+
+        ReleaseRequest release = objectMapper.readValue(data, ReleaseRequest.class);
+
+        MusicRelease savedMusicRelease = releaseService.updateMusicRelease(id, release, imageName);
+        return new ResponseEntity<>(savedMusicRelease, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<DeletionResponse> deleteRelease(@PathVariable long id){
+
+        System.out.println("Deletion attempt");
+
+        releaseService.deleteReleaseById(id);
+
+        return ResponseEntity.ok(new DeletionResponse("Release deleted successfully!"));
+    }
+
+
 
 }

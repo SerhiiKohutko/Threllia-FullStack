@@ -1,16 +1,21 @@
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import bgImage from '../../../../resources/releases.bg.png';
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
-import {getReleaseById} from "@/redux/releases/Action.js";
+import React, {useEffect, useState} from "react";
+import {deleteRelease, getReleaseById} from "@/redux/releases/Action.js";
 import {TrackList} from "@/components/ReusableComponents/TrackList.jsx";
+import {Button} from "@/components/ui/button.jsx";
+import {getFormattedDate} from "@/components/Utils/DateParser.js";
 
 
 export const ReleaseDetails = () => {
     const { releaseId } = useParams();
     const release = useSelector(state => state.releases);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const isAdmin = true;
 
     // For lightning effects
     const [lightningActive, setLightningActive] = useState(false);
@@ -55,6 +60,11 @@ export const ReleaseDetails = () => {
 
         return () => clearInterval(lightningInterval);
     }, [dispatch, releaseId]);
+
+    function handleDeleteRelease() {
+        dispatch(deleteRelease(releaseId));
+        navigate("/releases")
+    }
 
     return (
         <div className="relative">
@@ -116,8 +126,27 @@ export const ReleaseDetails = () => {
                     ))}
                 </div>
 
+
                 <div className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-12 pb-24">
+                    {/*If profile is admin - edit & deletion available*/}
+                    {
+                        isAdmin && <>
+                            <Button onClick={() => navigate(`/admin/releases/${releaseId}`, {
+                                state: {
+                                   title : release.releaseDetails?.title,
+                                    coverName : release.releaseDetails?.coverName,
+                                    description : release.releaseDetails?.description,
+                                    trackList : release.releaseDetails?.trackList.map((track) => track.title),
+                                    dateReleased : release.releaseDetails?.dateReleased,
+                                    nameToInstrumentsPlayed : release.releaseDetails?.nameToInstrumentsPlayed
+                                }
+                            })} variant={"ghost"} className={"border rounded-none bg-white border-orange-500 mt-5 mr-4"}>Edit</Button>
+
+                            <Button  onClick={() => handleDeleteRelease()} variant={"ghost"} className={"border bg-red-700 rounded-none text-white border-orange-500 mt-5"}>Delete</Button>
+                        </>
+                    }
                     <div className="flex flex-col md:flex-row justify-between items-center w-full border-b border-orange-500 pb-8 mb-8">
+
                         <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                             <h3 className="text-orange-500 font-tradeWinds text-2xl mb-4">BAND MEMBERS</h3>
                             <div className="grid md:grid-cols-2 gap-4 text-white">
@@ -144,14 +173,19 @@ export const ReleaseDetails = () => {
                                     className="relative w-64 h-64 object-cover border-2 border-orange-500 shadow-lg shadow-orange-500/50 cursor-pointer transform transition-all duration-300 hover:scale-105"
                                 />
 
+
                                 <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
-                                    <span className="text-orange-500 font-tradeWinds text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        {release.releaseDetails?.releaseYear || ""}
+                                    <span className="text-white font-tradeWinds text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        {getFormattedDate(release.releaseDetails?.dateReleased) || ""}
                                     </span>
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
+
 
                     {/* Tracklist and Description */}
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
@@ -182,7 +216,11 @@ export const ReleaseDetails = () => {
                                 <div className="mb-6">
                                     <h3 className="text-white font-tradeWinds text-xl mb-2">DESCRIPTION</h3>
                                     <p className="text-orange-300 leading-relaxed">
-                                        {release.releaseDetails?.description || "No description available for this release."}
+                                        {
+                                            release.releaseDetails?.description ?
+                                            <div dangerouslySetInnerHTML={{__html : release.releaseDetails?.description }}></div> :
+                                            "No description available for this release."
+                                        }
                                     </p>
                                 </div>
 
@@ -192,7 +230,7 @@ export const ReleaseDetails = () => {
                                         <div>
                                             <p className="text-gray-400">Released:</p>
                                             <p className="text-orange-300 font-tradeWinds">
-                                                {release.releaseDetails?.dateReleased || "Unknown"}
+                                                {getFormattedDate(release.releaseDetails?.dateReleased) || "Unknown"}
                                             </p>
                                         </div>
                                     </div>

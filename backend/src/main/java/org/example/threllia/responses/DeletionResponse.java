@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SongDeletionResponse {
+public class DeletionResponse {
     private String message;
 }

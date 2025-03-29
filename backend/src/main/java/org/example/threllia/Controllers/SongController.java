@@ -5,7 +5,7 @@ import org.example.threllia.dto.SongsOrderedDTO;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
 import org.example.threllia.requests.SongCreationRequest;
-import org.example.threllia.responses.SongDeletionResponse;
+import org.example.threllia.responses.DeletionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,9 +38,9 @@ public class SongController {
     //ADMIN FUNCTIONALITY
 
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<SongDeletionResponse> deleteSong(@PathVariable long id){
+    public ResponseEntity<DeletionResponse> deleteSong(@PathVariable long id){
         songService.deleteSong(id);
-        return ResponseEntity.ok(new SongDeletionResponse("Deleted successfully!"));
+        return ResponseEntity.ok(new DeletionResponse("Deleted successfully!"));
     }
 
     @PatchMapping("/admin/{id}")

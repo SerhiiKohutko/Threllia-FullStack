@@ -42,3 +42,27 @@ export const addRelease = (release) => async () => {
         toast.error(err.response.data.message)
     }
 }
+
+export const updateRelease = (id, release) => async () => {
+    try {
+        console.log(JSON.stringify(release))
+        await axios.patch(`http://localhost:8080/api/releases/admin/${id}`, release, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
+
+        toast.success("Release successfully updated");
+    }catch(err) {
+        toast.error("Error");
+    }
+}
+
+export const deleteRelease = (id) => async () => {
+    try{
+        await axios.delete(`http://localhost:8080/api/releases/admin/${id}`);
+        toast.success("Release successfully deleted");
+    }catch (err){
+        toast.error(err.response.data.message)
+    }
+}

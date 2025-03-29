@@ -24,6 +24,10 @@ export const ReleaseAdmin = () => {
     }, []);
     const songs = useSelector(state => state.song);
 
+    useEffect(() => {
+        form.setValue('songList', songList);
+    }, [songList]);
+
     const form = useForm({
         defaultValues: {
             title: "",
@@ -76,6 +80,7 @@ export const ReleaseAdmin = () => {
     };
 
     const onSubmit = (data) => {
+        console.log(data);
         if (!data.title || !data.description || !data.dateReleased || !data.coverImage || !data.songList || !data.nameToInstrumentsPlayed) {
             toast.error("Please fill in all required fields", {
                 position: "top-right",

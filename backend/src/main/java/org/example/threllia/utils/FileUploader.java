@@ -20,10 +20,25 @@ public class FileUploader {
         return getString(image, UPLOAD_DIR_NEWS);
     }
     public static String uploadReleaseCover(MultipartFile image) throws Exception {
+        if (image == null){
+            return null;
+        }
+
         return getString(image, UPLOAD_DIR_RELEASES);
     }
     public static String uploadProductImage(MultipartFile image) throws Exception {
         return getString(image, UPLOAD_DIR_PRODUCTS);
+    }
+
+    public static void deleteReplacedCover(String fileName) throws Exception{
+        if (fileName == null){
+            return;
+        }
+
+        Path deletionPath = Paths.get(UPLOAD_DIR_RELEASES + "\\" + fileName);
+        Files.delete(deletionPath);
+
+        System.out.println("FILE DELETED");
     }
 
     private static String getString(MultipartFile image, String folder) throws Exception {
@@ -38,8 +53,6 @@ public class FileUploader {
         }
 
         String fileName = getCorrectFileName(Objects.requireNonNull(image.getOriginalFilename()));
-
-        System.out.println(fileName);
 
         Path filePath = uploadPath.resolve(fileName);
         image.transferTo(filePath.toFile());
