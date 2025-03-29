@@ -18,5 +18,6 @@ public class SongDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lastTimePlayed;
 
+    private Set<String> authors;
     private Set<MusicReleaseDTO> appearedOn;
 }

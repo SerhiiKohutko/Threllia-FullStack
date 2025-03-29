@@ -58,6 +58,7 @@ public class SongServiceImpl implements SongService{
         SongDTO songDTO = new SongDTO();
         songDTO.setLyrics(song.getLyrics());
         songDTO.setTitle(song.getTitle());
+        songDTO.setAuthors(song.getAuthors());
         songDTO.setAppearedOn(mapEveryToMusicReleaseDTO(song.getAppearedOn()));
 
         List<Concert> concerts = song.getConcertPlayed();
@@ -97,6 +98,21 @@ public class SongServiceImpl implements SongService{
 
 
     //ADMIN FUNCTIONALITY
+    @Override
+    public Song updateSong(long id, SongCreationRequest songCreationRequest) throws Exception {
+        Song song = songRepository.findSongById(id).orElseThrow(() -> new Exception("No song found"));
+        song.setLyrics(parseLyricsToHtml(songCreationRequest.getLyrics()));
+        song.setTitle(songCreationRequest.getTitle());
+        song.setAuthors(songCreationRequest.getAuthors());
+
+        return songRepository.save(song);
+    }
+
+    @Override
+    public void deleteSong(long id) {
+        songRepository.deleteById(id);
+    }
+
     @Override
     public Song addSong(SongCreationRequest request) {
 

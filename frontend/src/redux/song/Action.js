@@ -6,6 +6,7 @@ export const getSongDetails = (id) => async (dispatch) => {
     try {
         const response = await axios.get(`http://localhost:8080/api/songs/${id}`);
         dispatch({type: GET_SONG_DETAILS_SUCCESS, payload: response.data});
+        console.log(JSON.stringify(response.data));
     }catch(err) {
         console.log(err);
     }
@@ -52,6 +53,27 @@ export const addSong = (song) => async () => {
 
         toast.success("Add song successfully.")
     } catch (err) {
+        toast.error("Error")
+    }
+}
+
+export const updateSong = (id, data) => async () => {
+
+    try {
+        await axios.patch(`http://localhost:8080/api/songs/admin/${id}`, data);
+
+        toast.success("Update song successfully.")
+    }catch (e){
+        toast.error("Error")
+    }
+}
+
+export const deleteSong = (id) => async () => {
+    try {
+        await axios.delete(`http://localhost:8080/api/songs/admin/${id}`);
+
+        toast.success("Delete successfully.")
+    }catch(err){
         toast.error("Error")
     }
 }

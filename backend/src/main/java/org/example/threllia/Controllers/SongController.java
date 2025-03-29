@@ -5,6 +5,7 @@ import org.example.threllia.dto.SongsOrderedDTO;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
 import org.example.threllia.requests.SongCreationRequest;
+import org.example.threllia.responses.SongDeletionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,6 @@ public class SongController {
 
     @Autowired
     private SongService songService;
-
-    @PostMapping
-    public ResponseEntity<Song> addSong(@RequestBody SongCreationRequest request){
-        Song savedSong = songService.addSong(request);
-        return ResponseEntity.ok(savedSong);
-    }
 
     @GetMapping
     public ResponseEntity<List<Song>> getAllSongs(){
@@ -37,6 +32,26 @@ public class SongController {
     @GetMapping("/{id}")
     public ResponseEntity<SongDTO> getSongById(@PathVariable long id) throws Exception {
         return ResponseEntity.ok(songService.getSongById(id));
+    }
+
+
+    //ADMIN FUNCTIONALITY
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<SongDeletionResponse> deleteSong(@PathVariable long id){
+        songService.deleteSong(id);
+        return ResponseEntity.ok(new SongDeletionResponse("Deleted successfully!"));
+    }
+
+    @PatchMapping("/admin/{id}")
+    public ResponseEntity<Song> updateSong(@RequestBody SongCreationRequest request, @PathVariable long id) throws Exception {
+        return ResponseEntity.ok(songService.updateSong(id, request));
+    }
+
+    @PostMapping
+    public ResponseEntity<Song> addSong(@RequestBody SongCreationRequest request){
+        Song savedSong = songService.addSong(request);
+        return ResponseEntity.ok(savedSong);
     }
 
     @DeleteMapping

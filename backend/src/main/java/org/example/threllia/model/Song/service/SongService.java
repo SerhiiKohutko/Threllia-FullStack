@@ -15,4 +15,9 @@ public interface SongService {
     Song getSongByTitle(String title) throws Exception;
     void deleteAllSongs();
     List<Song> findAllSongs();
+
+
+    //ADMIN FUNCTIONALITY
+    Song updateSong(long id, SongCreationRequest songCreationRequest) throws Exception;
+    void deleteSong(long id);
 }

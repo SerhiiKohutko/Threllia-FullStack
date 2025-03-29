@@ -20,6 +20,7 @@ import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {
     PastTourDatesSection
 } from "@/components/Pages/Tour/PastTourDates/PastTourDatesSection.jsx";
+import {Button} from "@/components/ui/button.jsx";
 
 
 export const SongDetails = () => {
@@ -43,12 +44,16 @@ export const SongDetails = () => {
     return (
         <div>
             <Hero pageTitle={song.songDetails?.title} background={bgImage}/>
+
+            {/*If profile is admin - edit & deletion available*/}
             <SongDetailsInfo title={song.songDetails?.title}
                              lyrics={song.songDetails?.lyrics}
                              totalShows={tour.pageablePart?.totalElements}
                              lastTimePlayed={song.songDetails?.lastTimePlayed}
                              firstTimePlayed={song.songDetails?.firstTimePlayed}
                              appearedOn={song.songDetails?.appearedOn}
+                             songId = {songId}
+                             authors = {song.songDetails?.authors}
             />
 
             <div className={"relative text-white"}>

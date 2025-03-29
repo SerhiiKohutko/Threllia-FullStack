@@ -21,6 +21,10 @@ public class Song {
     @Column(unique = true)
     private String title;
 
+    @ElementCollection
+    @CollectionTable(name = "song_authors", joinColumns = @JoinColumn(name = "song_id"))
+    private Set<String> authors;
+
     @Lob
     private String lyrics;
 
@@ -31,4 +35,13 @@ public class Song {
     @ManyToMany(mappedBy = "trackList")
     @JsonIgnore
     private Set<MusicRelease> appearedOn;
+
+    @PreRemove
+    private void removeAssociations() {
+        for (MusicRelease release : appearedOn)
+            release.getTrackList().remove(this);
+
+        for (Concert concert : concertPlayed)
+            concert.getSongsList().remove(this);
+    }
 }

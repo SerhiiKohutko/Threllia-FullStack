@@ -2,10 +2,20 @@ import React from 'react';
 import { Button } from '@/components/ui/button.jsx';
 import { Play } from 'lucide-react';
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {deleteSong} from "@/redux/song/Action.js";
 
 
-const SongDetailsInfo = ({title, lyrics, totalShows, firstTimePlayed, lastTimePlayed, appearedOn}) => {
+const SongDetailsInfo = ({title, lyrics, totalShows, firstTimePlayed, lastTimePlayed, appearedOn, songId, authors}) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const isAdmin = true;
+
+    function handleDelete(){
+        dispatch(deleteSong(songId));
+        navigate("/songs");
+    }
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-b from-black to-gray-700 text-white">
@@ -14,7 +24,37 @@ const SongDetailsInfo = ({title, lyrics, totalShows, firstTimePlayed, lastTimePl
                     <span className="text-white font-rubikPaint"></span>
                     <span className="text-orange-500 font-rubikPaint">{title}</span>
                 </h1>
-                <p className="text-xl text-gray-400 italic font-rubikPaint">WRITTEN BY JACK MORRIS</p>
+                <p className="text-xl text-gray-400 italic font-rubikPaint">
+                    WRITTEN BY{" "}
+                    {authors?.length === 1 ? (
+                        <span>{authors[0]}</span>
+                    ) : authors?.length === 2 ? (
+                        <span>{authors[0]} & {authors[1]}</span>
+                    ) : (
+                        authors?.map((item, index) => (
+                            <span key={index}>
+                                 {item}{index !== authors.length - 1 ? ", " : ""}
+                            </span>
+                        ))
+                    )}
+                </p>
+
+                {/*If profile is admin - edit & deletion available*/}
+                {
+                    isAdmin && <>
+                        <Button onClick={() => navigate(`/admin/songs/${songId}`, {
+                            state: {
+                                title,
+                                lyrics,
+                                authors
+                            }
+                        })}
+                                variant={"ghost"} className={"border rounded-none border-orange-500 mt-5 mr-4"}>Edit</Button>
+
+                    <Button onClick={() => handleDelete()} variant={"ghost"} className={"border bg-red-700 rounded-none border-orange-500 mt-5"}>Delete</Button>
+                    </>
+                }
+
             </div>
 
             <div className="container mx-auto px-4 py-8">

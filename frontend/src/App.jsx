@@ -19,6 +19,8 @@ import {Shop} from "@/components/Pages/Shop/Shop.jsx";
 import {ProductDetails} from "@/components/Pages/Shop/ProductDetailsPage.jsx";
 import {CheckoutPage} from "@/components/Pages/Shop/CheckoutPage.jsx";
 import {AdminPanel} from "@/components/Pages/AdminPanel/AdminPanel.jsx";
+import SongDetailsInfoEditAdmin from "@/components/Pages/AdminPanel/EditPages/SongDetailsInfoEditAdmin.jsx";
+import {ToastContainer} from "react-toastify";
 
 
 function App() {
@@ -28,6 +30,7 @@ function App() {
     <>
             <ScrollTop />
             <Header/>
+                <ToastContainer/>
                 <div className={"min-h-full"}>
                     <Routes>
                         <Route path="/" element={<HomePage/>}/>
@@ -46,7 +49,9 @@ function App() {
                         <Route path={"/shop/:categoryName"} element={<Shop/>}/>
                         <Route path={"/shop/:categoryName/:productId"} element={<ProductDetails/>}/>
                         <Route path={"/checkout"} element={<CheckoutPage/>}/>
+
                         <Route path={"/admin_panel"} element={<AdminPanel/>}/>
+                        <Route path={"/admin/songs/:songId"} element={<SongDetailsInfoEditAdmin/>}/>
                     </Routes>
                 </div>
             <Footer/>
