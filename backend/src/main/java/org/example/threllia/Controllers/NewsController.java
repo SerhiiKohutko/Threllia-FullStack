@@ -49,4 +49,13 @@ public class NewsController {
         return new ResponseEntity<>(newLatestUpdate, HttpStatus.CREATED);
     }
 
+    @PatchMapping(path = "/admin/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<LatestUpdate> updateLatestUpdate(@RequestParam("content") String data, @RequestParam(value = "image", required = false) MultipartFile image, @PathVariable long id) throws Exception {
+        String fileName = FileUploader.uploadLatestUpdateImage(image);
+        LatestUpdateRequest request = objectMapper.readValue(data, LatestUpdateRequest.class);
+
+        LatestUpdate newLatestUpdate = latestUpdateService.updateLatestUpdateById(id, request, fileName);
+        return new ResponseEntity<>(newLatestUpdate, HttpStatus.OK);
+    }
+
 }

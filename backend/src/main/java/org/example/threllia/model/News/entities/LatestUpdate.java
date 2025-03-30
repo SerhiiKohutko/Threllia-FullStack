@@ -3,7 +3,9 @@ package org.example.threllia.model.News.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.threllia.utils.FileUploader;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 @Entity
@@ -25,4 +27,9 @@ public class LatestUpdate {
     private String content;
 
     private String imageName;
+
+    @PreRemove
+    public void deleteImage() throws IOException {
+        FileUploader.removeLatestUpdateImage(imageName);
+    }
 }

@@ -12,4 +12,5 @@ public interface LatestUpdateService {
     Page<LatestUpdate> getAllNews(int page, boolean isOverview);
     LatestUpdate createLatestUpdate(LatestUpdateRequest request, String fileName);
 
+    LatestUpdate updateLatestUpdateById(long id, LatestUpdateRequest request, String fileName) throws Exception;
 }

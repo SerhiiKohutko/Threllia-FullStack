@@ -56,3 +56,16 @@ export const addLatestUpdate = (payload) => async () => {
             toast.error(e.response.data);
     }
 }
+
+export const updateLatestUpdateById = (id, payload) => async (dispatch) => {
+    try {
+        await axios.patch(`http://localhost:8080/api/news/admin/${id}`,payload, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
+        toast.success("Content updated successfully!");
+    }catch (err){
+        toast.error(err.message)
+    }
+}

@@ -17,6 +17,10 @@ public class FileUploader {
     private static final String UPLOAD_DIR_PRODUCTS = "E:\\JavaProjects\\threllia\\backend\\src\\main\\resources\\static\\shop";
 
     public static String uploadLatestUpdateImage(MultipartFile image) throws Exception {
+        if (image == null) {
+            return null;
+        }
+
         return getString(image, UPLOAD_DIR_NEWS);
     }
     public static String uploadReleaseCover(MultipartFile image) throws Exception {
@@ -40,6 +44,18 @@ public class FileUploader {
 
         System.out.println("FILE DELETED");
     }
+
+    public static void removeLatestUpdateImage(String fileName) throws IOException {
+        if (fileName == null){
+            return;
+        }
+
+        Path deletionPath = Paths.get(UPLOAD_DIR_NEWS + "\\" + fileName);
+        Files.delete(deletionPath);
+
+        System.out.println("FILE DELETED");
+    }
+
 
 
     public static void deleteReplacedCover(String fileName) throws Exception{

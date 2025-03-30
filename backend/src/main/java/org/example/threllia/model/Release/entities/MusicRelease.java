@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.threllia.model.Song.entities.Song;
+import org.example.threllia.utils.FileUploader;
 
 import java.util.Date;
 import java.util.List;
@@ -39,5 +40,10 @@ public class MusicRelease {
     @Column(name = "instruments")
     @CollectionTable(name = "members", joinColumns = @JoinColumn(name = "id"))
     private Map<String, String> nameToInstrumentsPlayed;
+
+    @PreRemove
+    public void removeImage() throws Exception {
+        FileUploader.deleteReplacedCover(coverName);
+    }
 }
 

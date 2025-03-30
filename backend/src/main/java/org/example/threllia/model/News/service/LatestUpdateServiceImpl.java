@@ -3,6 +3,7 @@ package org.example.threllia.model.News.service;
 import org.example.threllia.model.News.entities.LatestUpdate;
 import org.example.threllia.model.News.repository.LatestUpdateRepository;
 import org.example.threllia.requests.LatestUpdateRequest;
+import org.example.threllia.utils.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +35,26 @@ public class LatestUpdateServiceImpl implements LatestUpdateService {
 
     @Override
     public LatestUpdate createLatestUpdate(LatestUpdateRequest request, String fileName) {
-        LatestUpdate latestUpdate = LatestUpdate.builder().content(request.getContent()).imageName(fileName).title(request.getTitle()).build();
+        LatestUpdate latestUpdate = LatestUpdate.builder()
+                .content(request.getContent())
+                .imageName(fileName)
+                .title(request.getTitle())
+                .build();
+
+        return latestUpdateRepository.save(latestUpdate);
+    }
+
+    @Override
+    public LatestUpdate updateLatestUpdateById(long id, LatestUpdateRequest request, String fileName) throws Exception {
+        LatestUpdate latestUpdate = getLatestUpdateById(id);
+        latestUpdate.setContent(request.getContent());
+        latestUpdate.setTitle(request.getTitle());
+
+        if (fileName != null){
+            FileUploader.removeLatestUpdateImage(latestUpdate.getImageName());
+            latestUpdate.setImageName(fileName);
+        }
+
         return latestUpdateRepository.save(latestUpdate);
     }
 }
