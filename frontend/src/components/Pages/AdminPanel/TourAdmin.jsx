@@ -8,6 +8,8 @@ import {addShow, getAllSongsOrdered} from "@/redux/song/Action.js";
 import {Cross1Icon} from "@radix-ui/react-icons";
 import {Button} from "@/components/ui/button.jsx";
 import {toast, ToastContainer} from "react-toastify";
+import {parse} from "date-fns";
+import {getDateObject} from "@/components/Utils/DateParser.js";
 
 
 
@@ -18,6 +20,7 @@ export const TourAdmin = () => {
     useEffect(() => {
         dispatch(getAllSongsOrdered());
     }, []);
+
 
     const form = useForm({
         defaultValues: {
@@ -53,7 +56,12 @@ export const TourAdmin = () => {
         }
 
         dispatch(addShow(data));
+        resetEverything();
     };
+
+    function resetEverything(){
+        form.reset();
+    }
 
     function handleSongsListChange(newValue) {
         const currentSongs = form.getValues("songsList");
@@ -63,6 +71,31 @@ export const TourAdmin = () => {
 
         form.setValue("songsList", updatedSongs);
     }
+
+    const handleMoveSongUp = (index) => {
+        if (index === 0) return;
+        const currentSongs = [...form.getValues("songsList")];
+        const temp = currentSongs[index];
+        currentSongs[index] = currentSongs[index - 1];
+        currentSongs[index - 1] = temp;
+        form.setValue("songsList", currentSongs);
+    };
+
+    const handleMoveSongDown = (index) => {
+        const currentSongs = [...form.getValues("songsList")];
+        if (index === currentSongs.length - 1) return;
+        const temp = currentSongs[index];
+        currentSongs[index] = currentSongs[index + 1];
+        currentSongs[index + 1] = temp;
+        form.setValue("songsList", currentSongs);
+    };
+
+    // Function to remove a song at a specific index
+    const removeSongAtIndex = (index) => {
+        const currentSongs = form.getValues("songsList");
+        const updatedSongs = currentSongs.filter((_, i) => i !== index);
+        form.setValue("songsList", updatedSongs);
+    };
 
     const isFormValid =
         form.watch('date') &&
@@ -147,15 +180,41 @@ export const TourAdmin = () => {
                                 </FormControl>
 
                                 {field.value && field.value.length > 0 && (
-                                    <div className="flex gap-2 flex-wrap mt-2">
-                                        {field.value.map((item) => (
+                                    <div className="space-y-2 mt-2">
+                                        {field.value.map((item, index) => (
                                             <div
                                                 key={item}
-                                                onClick={() => handleSongsListChange(item)}
-                                                className="flex items-center bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm cursor-pointer hover:bg-blue-200 transition-colors"
+                                                className="flex items-center justify-between bg-blue-50 p-2 rounded-md border border-blue-100"
                                             >
-                                                {item}
-                                                <Cross1Icon className="ml-2 h-4 w-4 text-blue-500" />
+                                                <div className="flex items-center">
+                                                    <span className="text-blue-500 mr-2">{index + 1}.</span>
+                                                    <span className="text-blue-800">{item}</span>
+                                                </div>
+                                                <div className="flex space-x-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleMoveSongUp(index)}
+                                                        className="text-blue-500 hover:text-blue-700 px-2"
+                                                        disabled={index === 0}
+                                                    >
+                                                        ↑
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleMoveSongDown(index)}
+                                                        className="text-blue-500 hover:text-blue-700 px-2"
+                                                        disabled={index === field.value.length - 1}
+                                                    >
+                                                        ↓
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeSongAtIndex(index)}
+                                                        className="text-red-500 hover:text-red-700 px-2"
+                                                    >
+                                                        ✖
+                                                    </button>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>

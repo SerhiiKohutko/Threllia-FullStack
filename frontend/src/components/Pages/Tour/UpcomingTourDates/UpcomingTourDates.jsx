@@ -64,8 +64,6 @@ export const UpcomingTourDates = () => {
                     </p>
 
                     <TourDatesCarousel/>
-                    <TourDatesCarousel/>
-                    <TourDatesCarousel/>
 
                     <Button
                         onClick={() => {navigate("/tour/past")}}

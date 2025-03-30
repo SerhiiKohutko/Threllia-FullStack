@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'react-toastify';
 import {createProduct} from "@/redux/shop/Action.js";
 
-// Enums as defined in your backend
+
 const ProductType = {
     APPAREL: 'APPAREL',
     MEDIA: 'MEDIA',

@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Button} from "@/components/ui/button.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {getClosestShows} from "@/redux/tour/Action.js";
+import {getFormattedDate} from "@/components/Utils/DateParser.js";
 
 export const TourCard = ({ date, city, country, place }) => {
     return (
@@ -9,7 +10,7 @@ export const TourCard = ({ date, city, country, place }) => {
             <div className="absolute -z-10 top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-orange-800/20"></div>
             <h3 className="text-3xl font-bold mb-1 font-rubikPaint">{city}</h3>
             <h4 className="text-xl font-bold mb-4 text-orange-400"> {country}</h4>
-            <p className="text-lg mb-2 font-tradeWinds">{date}</p>
+            <p className="text-lg mb-2 font-tradeWinds">{getFormattedDate(date)}</p>
             <p className="text-sm text-gray-400 mb-6">{place}</p>
 
             <div className="space-y-3 mt-auto">
@@ -33,11 +34,14 @@ export const TourDatesCarousel = () => {
 
     return (
         <div className="w-full max-w-6xl mx-auto px-4 relative">
+            {tour.tourList?.length > 0 ?
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-transform duration-500">
                 {tour.tourList?.map((tour, index) => (
                     <TourCard key={index} {...tour} />
                 ))}
             </div>
+                :
+                <div className={"flex text-center text-white text-5xl font-tradeWinds justify-center"}><span>No shows planned yet.</span></div>}
         </div>
     );
 };

@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'react-toastify';
 import {addRelease} from "@/redux/releases/Action.js";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
-import {Cross1Icon} from "@radix-ui/react-icons";
 import {getAllSongsOrdered} from "@/redux/song/Action.js";
 
 export const ReleaseAdmin = () => {
@@ -60,6 +59,24 @@ export const ReleaseAdmin = () => {
 
         setSongList(updatedSongs);
     }
+
+    const handleMoveSongUp = (index) => {
+        if (index === 0) return;
+        const newList = [...songList];
+        const temp = newList[index];
+        newList[index] = newList[index - 1];
+        newList[index - 1] = temp;
+        setSongList(newList);
+    };
+
+    const handleMoveSongDown = (index) => {
+        if (index === songList.length - 1) return;
+        const newList = [...songList];
+        const temp = newList[index];
+        newList[index] = newList[index + 1];
+        newList[index + 1] = temp;
+        setSongList(newList);
+    };
 
     const removeSong = (index) => {
         setSongList(prev => prev.filter((_, i) => i !== index));
@@ -252,7 +269,7 @@ export const ReleaseAdmin = () => {
                             </FormItem>
                         )}
                     />
-                    {/* Song List with Add Button */}
+                    {/* Song List with Add Button and Up/Down controls */}
 
                     <div>
                         <div className="flex">
@@ -280,14 +297,35 @@ export const ReleaseAdmin = () => {
                                         key={index}
                                         className="flex justify-between items-center bg-gray-100 p-2 rounded mb-1"
                                     >
-                                        <span>{song}</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => removeSong(index)}
-                                            className="text-red-500"
-                                        >
-                                            ✖
-                                        </button>
+                                        <div className="flex items-center">
+                                            <span className="text-gray-500 mr-2">{index + 1}.</span>
+                                            <span>{song}</span>
+                                        </div>
+                                        <div className="flex space-x-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => handleMoveSongUp(index)}
+                                                className="text-blue-500 hover:text-blue-700 px-2"
+                                                disabled={index === 0}
+                                            >
+                                                ↑
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleMoveSongDown(index)}
+                                                className="text-blue-500 hover:text-blue-700 px-2"
+                                                disabled={index === songList.length - 1}
+                                            >
+                                                ↓
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeSong(index)}
+                                                className="text-red-500 hover:text-red-700 px-2"
+                                            >
+                                                ✖
+                                            </button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
