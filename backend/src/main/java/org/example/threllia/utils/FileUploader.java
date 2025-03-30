@@ -30,6 +30,18 @@ public class FileUploader {
         return getString(image, UPLOAD_DIR_PRODUCTS);
     }
 
+    public static void removePhotoImage(String fileName) throws IOException {
+        if (fileName == null){
+            return;
+        }
+
+        Path deletionPath = Paths.get(UPLOAD_DIR_PHOTOS + "\\" + fileName);
+        Files.delete(deletionPath);
+
+        System.out.println("FILE DELETED");
+    }
+
+
     public static void deleteReplacedCover(String fileName) throws Exception{
         if (fileName == null){
             return;
@@ -61,6 +73,11 @@ public class FileUploader {
     }
 
     public static List<String> saveAllPhotos(List<MultipartFile> photos) throws Exception {
+
+        if (photos == null){
+            return null;
+        }
+
         Path uploadPath = Paths.get(UPLOAD_DIR_PHOTOS);
         List<String> fileNames = new ArrayList<>();
 

@@ -1,8 +1,8 @@
 package org.example.threllia.model.Gallery.service;
 
 import org.example.threllia.dto.PhotoCollectionDTO;
-import org.example.threllia.model.Gallery.entities.PhotoCollection;
 import org.example.threllia.model.Gallery.entities.Photo;
+import org.example.threllia.model.Gallery.entities.PhotoCollection;
 import org.example.threllia.model.Gallery.entities.Photographer;
 import org.example.threllia.model.Gallery.repository.PhotoRepository;
 import org.example.threllia.model.Release.enums.SortingType;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -70,11 +71,21 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public PhotoCollection addPhotos(List<String> fileNames, String author, long id) throws Exception {
-        PhotoCollection item = getById(id);
-        Photographer photographer = photographerService.getPhotographer(author.trim());
-        addAllPhotosToGalleryItem(fileNames, photographer, item);
-        return photoRepository.save(item);
+    public PhotoCollection updatePhotoCollection(long id, PhotoCollectionCreationRequest request, List<String> fileNames) throws Exception {
+        PhotoCollection updatedPhotoCollection = getById(id);
+
+        Photographer author = photographerService.getPhotographer(request.getAuthor().trim());
+
+        updatePhotoCollectionAuthorAndFilter(author, updatedPhotoCollection, request.getPhotos());
+
+        if (fileNames != null) addAllPhotosToGalleryItem(fileNames, author, updatedPhotoCollection);
+
+        updatedPhotoCollection.getPhotos().forEach(e -> System.out.println(e.getId()));
+
+        updatedPhotoCollection.setTitle(request.getTitle());
+        updatedPhotoCollection.setDate(request.getDate());
+
+        return photoRepository.save(updatedPhotoCollection);
     }
 
     private void addAllPhotosToGalleryItem(List<String> fileNames, Photographer author, PhotoCollection item){
@@ -86,5 +97,35 @@ public class PhotoServiceImpl implements PhotoService {
             item.getPhotos().add(newPhoto);
         }
     }
+    private void updatePhotoCollectionAuthorAndFilter(Photographer author, PhotoCollection collection, Set<Long> photoId){
+
+        List<Photo> filteredPhotos = collection.getPhotos()
+                .stream()
+                .filter(e -> photoId.contains(e.getId()))
+                .toList();
+
+        collection.getPhotos().clear();
+        collection.getPhotos().addAll(filteredPhotos);
+
+        for (Photo photo : collection.getPhotos()) {
+            photo.setAuthor(author);
+        }
+    }
+
+    @Override
+    public void deletePhotoCollectionById(long id) {
+        photoRepository.deleteById(id);
+    }
+
+
+    @Deprecated
+    @Override
+    public PhotoCollection addPhotos(List<String> fileNames, String author, long id) throws Exception {
+        PhotoCollection item = getById(id);
+        Photographer photographer = photographerService.getPhotographer(author.trim());
+        addAllPhotosToGalleryItem(fileNames, photographer, item);
+        return photoRepository.save(item);
+    }
+
 
 }

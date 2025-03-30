@@ -125,14 +125,9 @@ const ReleaseDetailsEditAdmin = () => {
             nameToInstrumentsPlayed: updatedBandMembers,
         }));
 
-
-        console.log(updatedTrackList);
-
         if (coverImage) {
             formData.append('releaseCover', coverImage);
         }
-
-        console.log(formData.get("data"));
 
         dispatch(updateRelease(releaseId, formData));
         navigate(`/releases/${releaseId}`);

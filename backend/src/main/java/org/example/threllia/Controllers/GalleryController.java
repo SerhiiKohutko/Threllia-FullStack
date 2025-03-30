@@ -6,6 +6,7 @@ import org.example.threllia.model.Gallery.entities.PhotoCollection;
 import org.example.threllia.model.Gallery.service.PhotoService;
 import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.requests.PhotoCollectionCreationRequest;
+import org.example.threllia.responses.DeletionResponse;
 import org.example.threllia.utils.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,8 +46,11 @@ public class GalleryController {
         return ResponseEntity.ok(photoService.getById(id));
     }
 
+    //ADMIN FUNCTIONALITY
+
+    //change endpoint to admin
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PhotoCollection> createPhoto(@RequestParam("data") String data, @RequestParam("photos") List<MultipartFile> photos) throws Exception {
+    public ResponseEntity<PhotoCollection> createPhotoCollection(@RequestParam("data") String data, @RequestParam("photos") List<MultipartFile> photos) throws Exception {
 
         PhotoCollectionCreationRequest request = objectMapper.readValue(data, PhotoCollectionCreationRequest.class);
 
@@ -54,11 +58,31 @@ public class GalleryController {
         PhotoCollection savedPhotoCollection = photoService.createGalleryItem(request, fileNames);
         return new ResponseEntity<>(savedPhotoCollection, HttpStatus.CREATED);
     }
+
+    @Deprecated
     @PatchMapping("/{id}")
     public ResponseEntity<PhotoCollection> addPhotosToGalleryItem(@PathVariable long id, @RequestParam String authorName, @RequestPart("photos") List<MultipartFile> photos) throws Exception {
         List<String> fileNames = FileUploader.saveAllPhotos(photos);
         PhotoCollection updatedPhotoCollection = photoService.addPhotos(fileNames, authorName, id);
         return new ResponseEntity<>(updatedPhotoCollection, HttpStatus.OK);
+    }
+
+    @PatchMapping(path = "/admin/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<PhotoCollection> updatePhotoCollection(@PathVariable long id, @RequestParam("data") String data, @RequestParam(value = "photos", required = false) List<MultipartFile> photos) throws Exception {
+
+        PhotoCollectionCreationRequest request = objectMapper.readValue(data, PhotoCollectionCreationRequest.class);
+
+        List<String> fileNames = FileUploader.saveAllPhotos(photos);
+
+        PhotoCollection savedPhotoCollection = photoService.updatePhotoCollection(id, request, fileNames);
+        return new ResponseEntity<>(savedPhotoCollection, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<DeletionResponse> deletePhotoCollectionById(@PathVariable long id){
+
+        photoService.deletePhotoCollectionById(id);
+        return ResponseEntity.ok(new DeletionResponse("Deleted successfully!"));
     }
 
 }

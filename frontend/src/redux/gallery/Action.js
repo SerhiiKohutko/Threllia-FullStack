@@ -70,3 +70,25 @@ export const addPhotoCollection = (data) => async () => {
         });
     }
 }
+
+export  const updatePhotoCollection = (id, data) => async () => {
+    try {
+        await axios.patch(`http://localhost:8080/api/photos/admin/${id}`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        toast.success("Collection updated successfully.")
+    }catch (error) {
+        toast.error(error.message)
+    }
+}
+
+export const deletePhotoCollection = (id) => async (dispatch) => {
+    try {
+        await axios.delete(`http://localhost:8080/api/photos/admin/${id}`)
+        toast.success("Successfully deleted photoCollection");
+    }catch(error){
+        toast.error(error.message)
+    }
+}

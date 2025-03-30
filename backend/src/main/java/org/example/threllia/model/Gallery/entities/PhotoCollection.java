@@ -16,9 +16,9 @@ public class PhotoCollection {
     private Long id;
 
     private String title;
-    @JsonFormat(pattern = "yyyy-MM-d")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "photoCollection")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "photoCollection", orphanRemoval = true)
     List<Photo> photos = new ArrayList<>();
 }

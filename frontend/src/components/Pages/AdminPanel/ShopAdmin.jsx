@@ -378,8 +378,7 @@ export const ShopAdmin = () => {
                                         <label
                                             htmlFor="coverImageInput"
                                             className="
-                                                block 
-                                                w-full 
+                                                w-full
                                                 p-3 
                                                 border 
                                                 border-gray-300 
@@ -393,10 +392,9 @@ export const ShopAdmin = () => {
                                                 flex 
                                                 items-center 
                                                 justify-between
-                                            "
-                                        >
+                                            ">
                                             <span>
-                                                {files.length > 0 ? files[0].name : 'Выберите файл'}
+                                                {files.length > 0 ? files[0].name : 'Choose product image'}
                                             </span>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

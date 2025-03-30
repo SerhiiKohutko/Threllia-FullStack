@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
+//TODO - change concertDTO from set to list to keep the order
+
 @RestController
 @RequestMapping("api/concerts")
 public class ConcertController {

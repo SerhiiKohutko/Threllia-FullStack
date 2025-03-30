@@ -23,8 +23,10 @@ import SongDetailsInfoEditAdmin from "@/components/Pages/AdminPanel/EditPages/So
 import {ToastContainer} from "react-toastify";
 import ReleaseDetailsEditAdmin from "@/components/Pages/AdminPanel/EditPages/ReleaseDetailsEditAdmin.jsx";
 import ShowDetailsEditAdmin from "@/components/Pages/AdminPanel/EditPages/ShowDetailsEditAdmin.jsx";
+import PhotoCollectionEditAdmin from "@/components/Pages/AdminPanel/EditPages/PhotoCollectionEditAdmin.jsx";
 
 //TODO - export admin buttons to separate component
+//TODO - refactor selection of songs on admin pages to avoid code duplication (select and all the related functions can be exported to separate component)
 function App() {
 
 
@@ -56,6 +58,7 @@ function App() {
                         <Route path={"/admin/songs/:songId"} element={<SongDetailsInfoEditAdmin/>}/>
                         <Route path={"/admin/releases/:releaseId"} element={<ReleaseDetailsEditAdmin/>}/>
                         <Route path={"/admin/tour/:showId"} element={<ShowDetailsEditAdmin/>}/>
+                        <Route path={"/admin/gallery/:photoCollectionId"} element={<PhotoCollectionEditAdmin/>}/>
                     </Routes>
                 </div>
             <Footer/>

@@ -26,88 +26,22 @@ export const AdminPanel = () => {
                       <TabsTrigger value="shop">Shop</TabsTrigger>
                   </TabsList>
                   <TabsContent value="tour">
-                      <Tabs>
-                          <TabsList>
-                              <TabsTrigger value="add">Add</TabsTrigger>
-                              <TabsTrigger value="update">Update</TabsTrigger>
-                              <TabsTrigger value="delete">Delete</TabsTrigger>
-                          </TabsList>
-                          <TabsContent value="add">
                               <TourAdmin/>
-                          </TabsContent>
-                          <TabsContent value="update">Tour</TabsContent>
-                          <TabsContent value="delete">Tour</TabsContent>
-                      </Tabs>
                   </TabsContent>
                   <TabsContent value="media">
-                      <Tabs>
-                          <TabsList>
-                              <TabsTrigger value="add">Add</TabsTrigger>
-                              <TabsTrigger value="update">Update</TabsTrigger>
-                              <TabsTrigger value="delete">Delete</TabsTrigger>
-                          </TabsList>
-                          <TabsContent value="add">
                               <MediaAdmin/>
-                          </TabsContent>
-                          <TabsContent value="update">Tour</TabsContent>
-                          <TabsContent value="delete">Tour</TabsContent>
-                      </Tabs>
                   </TabsContent>
                   <TabsContent value="news">
-                      <Tabs>
-                          <TabsList>
-                              <TabsTrigger value="add">Add</TabsTrigger>
-                              <TabsTrigger value="update">Update</TabsTrigger>
-                              <TabsTrigger value="delete">Delete</TabsTrigger>
-                          </TabsList>
-                          <TabsContent value="add">
                               <NewsAdmin/>
-                          </TabsContent>
-                          <TabsContent value="update">Tour</TabsContent>
-                          <TabsContent value="delete">Tour</TabsContent>
-                      </Tabs>
                   </TabsContent>
                   <TabsContent value="music">
-                      <Tabs>
-                          <TabsList>
-                              <TabsTrigger value="add">Add</TabsTrigger>
-                              <TabsTrigger value="update">Update</TabsTrigger>
-                              <TabsTrigger value="delete">Delete</TabsTrigger>
-                          </TabsList>
-                          <TabsContent value="add">
-                              <ReleaseAdmin/>
-                          </TabsContent>
-                          <TabsContent value="update">Tour</TabsContent>
-                          <TabsContent value="delete">Tour</TabsContent>
-                      </Tabs>
+                      <ReleaseAdmin/>
                   </TabsContent>
                   <TabsContent value="songs">
-                      <Tabs>
-                          <TabsList>
-                              <TabsTrigger value="add">Add</TabsTrigger>
-                              <TabsTrigger value="update">Update</TabsTrigger>
-                              <TabsTrigger value="delete">Delete</TabsTrigger>
-                          </TabsList>
-                          <TabsContent value="add">
                               <SongsAdmin/>
-                          </TabsContent>
-                          <TabsContent value="update">Tour</TabsContent>
-                          <TabsContent value="delete">Tour</TabsContent>
-                      </Tabs>
                   </TabsContent>
                   <TabsContent value="shop">
-                      <Tabs>
-                          <TabsList>
-                              <TabsTrigger value="add">Add</TabsTrigger>
-                              <TabsTrigger value="update">Update</TabsTrigger>
-                              <TabsTrigger value="delete">Delete</TabsTrigger>
-                          </TabsList>
-                          <TabsContent value="add">
                               <ShopAdmin/>
-                          </TabsContent>
-                          <TabsContent value="update">Tour</TabsContent>
-                          <TabsContent value="delete">Tour</TabsContent>
-                      </Tabs>
                   </TabsContent>
               </Tabs>
 

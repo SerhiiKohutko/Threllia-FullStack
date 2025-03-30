@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.example.threllia.utils.FileUploader;
 
 @Entity
 @Data
@@ -21,5 +23,12 @@ public class Photo {
     private PhotoCollection photoCollection;
     @ManyToOne
     @JoinColumn(name = "photographer_id")
+    @ToString.Exclude
     private Photographer author;
+
+
+    @PreRemove
+    public void removePhotoImage() throws Exception {
+        FileUploader.removePhotoImage(imageName);
+    }
 }
