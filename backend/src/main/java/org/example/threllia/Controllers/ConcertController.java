@@ -60,6 +60,7 @@ public class ConcertController {
         return new ResponseEntity<>(closestSix, HttpStatus.OK);
     }
 
+    @Deprecated
     @PatchMapping("/{id}/updateSongsList")
     public ResponseEntity<Concert> updateSongList(@PathVariable long id,
                                                   @RequestBody Set<String> updatedSongsList) throws Exception {

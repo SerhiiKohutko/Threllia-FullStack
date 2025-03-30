@@ -7,8 +7,8 @@ import org.example.threllia.model.Concert.concert_enum.ConcertStatus;
 import org.example.threllia.model.Song.entities.Song;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,5 +28,5 @@ public class Concert {
     @JoinTable(name = "concert_song_list",
             joinColumns = @JoinColumn(name = "concert_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private Set<Song> songsList = new HashSet<>();
+    private List<Song> songsList = new ArrayList<>();
 }

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class ConcertDTO {
@@ -16,5 +16,5 @@ public class ConcertDTO {
     private String place;
     private String relatedTour;
 
-    private Set<String> songsList = new HashSet<>();
+    private List<String> songsList = new ArrayList<>();
 }
