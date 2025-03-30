@@ -7,6 +7,7 @@ import {deleteRelease, getReleaseById} from "@/redux/releases/Action.js";
 import {TrackList} from "@/components/ReusableComponents/TrackList.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
+import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
 
 
 export const ReleaseDetails = () => {
@@ -14,8 +15,6 @@ export const ReleaseDetails = () => {
     const release = useSelector(state => state.releases);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const isAdmin = true;
 
     // For lightning effects
     const [lightningActive, setLightningActive] = useState(false);
@@ -128,23 +127,16 @@ export const ReleaseDetails = () => {
 
 
                 <div className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-12 pb-24">
-                    {/*If profile is admin - edit & deletion available*/}
-                    {
-                        isAdmin && <>
-                            <Button onClick={() => navigate(`/admin/releases/${releaseId}`, {
-                                state: {
-                                   title : release.releaseDetails?.title,
-                                    coverName : release.releaseDetails?.coverName,
-                                    description : release.releaseDetails?.description,
-                                    trackList : release.releaseDetails?.trackList.map((track) => track.title),
-                                    dateReleased : release.releaseDetails?.dateReleased,
-                                    nameToInstrumentsPlayed : release.releaseDetails?.nameToInstrumentsPlayed
-                                }
-                            })} variant={"ghost"} className={"border rounded-none bg-white border-orange-500 mt-5 mr-4"}>Edit</Button>
 
-                            <Button  onClick={() => handleDeleteRelease()} variant={"ghost"} className={"border bg-red-700 rounded-none text-white border-orange-500 mt-5"}>Delete</Button>
-                        </>
-                    }
+                    <AdminEditDeleteButtons state={{
+                        title : release.releaseDetails?.title,
+                        coverName : release.releaseDetails?.coverName,
+                        description : release.releaseDetails?.description,
+                        trackList : release.releaseDetails?.trackList.map((track) => track.title),
+                        dateReleased : release.releaseDetails?.dateReleased,
+                        nameToInstrumentsPlayed : release.releaseDetails?.nameToInstrumentsPlayed
+                    }} navigationLink={`/admin/releases/${releaseId}`} handleDelete={handleDeleteRelease}/>
+
                     <div className="flex flex-col md:flex-row justify-between items-center w-full border-b border-orange-500 pb-8 mb-8">
 
                         <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">

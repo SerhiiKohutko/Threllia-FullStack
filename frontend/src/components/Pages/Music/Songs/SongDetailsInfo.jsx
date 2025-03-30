@@ -4,13 +4,12 @@ import { Play } from 'lucide-react';
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {deleteSong} from "@/redux/song/Action.js";
+import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
 
 
 const SongDetailsInfo = ({title, lyrics, totalShows, firstTimePlayed, lastTimePlayed, appearedOn, songId, authors}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const isAdmin = true;
 
     function handleDelete(){
         dispatch(deleteSong(songId));
@@ -39,21 +38,11 @@ const SongDetailsInfo = ({title, lyrics, totalShows, firstTimePlayed, lastTimePl
                     )}
                 </p>
 
-                {/*If profile is admin - edit & deletion available*/}
-                {
-                    isAdmin && <>
-                        <Button onClick={() => navigate(`/admin/songs/${songId}`, {
-                            state: {
-                                title,
-                                lyrics,
-                                authors
-                            }
-                        })}
-                                variant={"ghost"} className={"border rounded-none border-orange-500 mt-5 mr-4"}>Edit</Button>
-
-                    <Button onClick={() => handleDelete()} variant={"ghost"} className={"border bg-red-700 rounded-none border-orange-500 mt-5"}>Delete</Button>
-                    </>
-                }
+                <AdminEditDeleteButtons state={{
+                    title,
+                    lyrics,
+                    authors
+                }} navigationLink={`/admin/songs/${songId}`} handleDelete={handleDelete} />
 
             </div>
 

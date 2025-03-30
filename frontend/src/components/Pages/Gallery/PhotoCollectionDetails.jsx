@@ -6,6 +6,7 @@ import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import bgImage from  "@/resources/bg_2.png"
 import {Button} from "@/components/ui/button.jsx";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
+import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
 
 
 export const PhotoCollectionDetails = () => {
@@ -14,7 +15,6 @@ export const PhotoCollectionDetails = () => {
     const navigate = useNavigate();
     const photoCollection = useSelector(state => state.photo.galleryItemDetails);
 
-    const isAdmin = true;
 
     useEffect(() => {
         dispatch(getPhotoCollectionDetails(photoCollectionId));
@@ -59,21 +59,12 @@ export const PhotoCollectionDetails = () => {
             <div className="flex flex-col items-center bg-black">
                 <div className="text-white text-5xl flex-row text-center font-deliciousHandrawn border-b border-orange-300 w-[70%] mb-6">
                     <p className={"pb-3"}>{getFormattedDate(photoCollection?.date)}</p>
-                    {/*If profile is admin - edit & deletion available*/}
-                    {
-                        isAdmin && <>
-                            <Button onClick={() => navigate(`/admin/gallery/${photoCollectionId}`, {
-                                state: {
-                                    title : photoCollection?.title,
-                                    date : photoCollection?.date,
-                                    photos : photoCollection?.photos
-                                }
-                            })}
-                                    variant={"ghost"} className={"border rounded-none border-orange-500 mt-5 mr-4"}>Edit</Button>
+                    <AdminEditDeleteButtons state={{
+                        title : photoCollection?.title,
+                        date : photoCollection?.date,
+                        photos : photoCollection?.photos
+                    }} navigationLink={`/admin/releases/${photoCollectionId}`} handleDelete={handleDelete} />
 
-                            <Button onClick={() => handleDelete()} variant={"ghost"} className={"border bg-red-700 text-white rounded-none border-orange-500 mt-5 mb-5"}>Delete</Button>
-                        </>
-                    }
                 </div>
 
                 <div className="w-[70%] max-w-7xl">

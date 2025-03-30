@@ -32,7 +32,6 @@ export const SongDetails = () => {
     const [currPage, setCurrPage] = useState(1);
 
     useEffect(() => {
-        console.log(songId)
         dispatch(getSongDetails(songId));
     },[])
 
@@ -45,7 +44,6 @@ export const SongDetails = () => {
         <div>
             <Hero pageTitle={song.songDetails?.title} background={bgImage}/>
 
-            {/*If profile is admin - edit & deletion available*/}
             <SongDetailsInfo title={song.songDetails?.title}
                              lyrics={song.songDetails?.lyrics}
                              totalShows={tour.pageablePart?.totalElements}

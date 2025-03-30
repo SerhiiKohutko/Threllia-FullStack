@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteShowById, getShowDetails} from "@/redux/tour/Action.js";
 
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
+import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
 
 export const ShowDetailsPage = () => {
     const [indexHovered, setIndexHovered] = React.useState(null);
@@ -17,8 +18,6 @@ export const ShowDetailsPage = () => {
     const {showId} = useParams();
     const navigate = useNavigate();
     const tour = useSelector((state) => state.tours);
-
-    const isAdmin = true;
 
     useEffect(() => {
         dispatch(getShowDetails(showId));
@@ -38,24 +37,16 @@ export const ShowDetailsPage = () => {
             <div className={"bg-black min-h-[34rem] flex flex-col items-center pb-10"}>
                 <div
                     className={"text-3xl text-orange-700 justify-start w-[60%] border-b border-orange-500 mb-5 pb-3 mt-8 font-deliciousHandrawn "}>
-                    {/*If profile is admin - edit & deletion available*/}
-                    {
-                        isAdmin && <>
-                            <Button onClick={() => navigate(`/admin/tour/${showId}`, {
-                                state: {
-                                    country : tour.tourDetails?.country,
-                                    city : tour.tourDetails?.city,
-                                    place : tour.tourDetails?.place,
-                                    date : tour.tourDetails?.date,
-                                    relatedTour : tour.tourDetails?.relatedTour,
-                                    songsList : tour.tourDetails?.songsList.map(e => e.title)
-                                }
-                            })}
-                                    variant={"ghost"} className={"border rounded-none border-orange-500 mt-5 mr-4"}>Edit</Button>
 
-                            <Button onClick={() => handleDelete()} variant={"ghost"} className={"border bg-red-700 text-white rounded-none border-orange-500 mt-5 mb-5"}>Delete</Button>
-                        </>
-                    }
+                    <AdminEditDeleteButtons state={{
+                        country : tour.tourDetails?.country,
+                        city : tour.tourDetails?.city,
+                        place : tour.tourDetails?.place,
+                        date : tour.tourDetails?.date,
+                        relatedTour : tour.tourDetails?.relatedTour,
+                        songsList : tour.tourDetails?.songsList?.map(e => e.title)
+                    }} navigationLink={`/admin/tour/${showId}`} handleDelete={handleDelete}/>
+
                     <p>Tour: </p>
                     <p>{tour.tourDetails?.relatedTour || "Unknown tour"}</p>
                 </div>

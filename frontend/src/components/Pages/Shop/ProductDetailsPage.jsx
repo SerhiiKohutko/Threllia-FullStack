@@ -6,6 +6,7 @@ import {variants} from "@/components/Pages/Shop/Shop.jsx";
 import {deleteProductById, getProductById} from "@/redux/shop/Action.js";
 import {Button} from "@/components/ui/button.jsx";
 import {useCart} from "@/components/Utils/CartProvider.jsx";
+import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
 
 
 export const ProductDetails = () => {
@@ -17,7 +18,6 @@ export const ProductDetails = () => {
     const dispatch = useDispatch();
     const {handleAddProductToCart} = useCart();
 
-    const isAdmin = true;
 
     useEffect(() => {
         getCurrPosition(setPosition, variants, categoryName);
@@ -48,25 +48,17 @@ export const ProductDetails = () => {
 
                 <div className="w-full md:w-1/2">
                     <Position position={position} navigate={navigate} categoryName={categoryName}/>
-                    {/*If profile is admin - edit & deletion available*/}
-                    {
-                        isAdmin && <>
-                            <Button onClick={() => navigate(`/admin/shop/${categoryName}/${productId}`, {
-                                state: {
-                                    name : product.name,
-                                    price : product.price,
-                                    description : product.description,
-                                    totalQuantity : product.totalQuantity,
-                                    imageUrl : product.imageUrl,
-                                    productType : product.productType,
-                                    sizes : product.sizeToQuantityMap,
-                                }
-                            })}
-                                    variant={"ghost"} className={"border rounded-none border-orange-500 mt-5 mr-4"}>Edit</Button>
 
-                            <Button onClick={() => handleDelete()} variant={"ghost"} className={"border bg-red-700 text-white rounded-none border-orange-500 mt-5 mb-5"}>Delete</Button>
-                        </>
-                    }
+                    <AdminEditDeleteButtons state={{
+                        name : product.name,
+                        price : product.price,
+                        description : product.description,
+                        totalQuantity : product.totalQuantity,
+                        imageUrl : product.imageUrl,
+                        productType : product.productType,
+                        sizes : product.sizeToQuantityMap,
+                    }} navigationLink={`/admin/shop/${categoryName}/${productId}`} handleDelete={handleDelete}/>
+
                     <h1 className="text-4xl font-bold mb-4 uppercase tracking-wider mt-3">
                         {product?.name}
                     </h1>

@@ -24,8 +24,8 @@ export const ProductDetailsEditAdmin = () => {
     } = location.state || {};
 
     useEffect(() => {
-        console.log(sizes);
-    }, []);
+        console.log(imageUrl);
+    },[])
     const [updatedName, setUpdatedName] = useState(name || '');
     const [updatedPrice, setUpdatedPrice] = useState(price || 0);
     const [updatedDescription, setUpdatedDescription] = useState(description || '');
@@ -33,14 +33,14 @@ export const ProductDetailsEditAdmin = () => {
 
     // Size quantities for apparel
     const [sizeQuantities, setSizeQuantities] = useState(
-        sizes || {
+        sizes && Object.keys(sizes).length === 0 ? {
             'S': 0,
             'M': 0,
             'L': 0,
             'XL': 0,
             'XXL': 0,
             'XXXL': 0
-        }
+        } : sizes
     );
 
     // Image upload state
@@ -209,7 +209,7 @@ export const ProductDetailsEditAdmin = () => {
                                     onClick={handleImageClick}
                                 >
                                     <img
-                                        src={imagePreview}
+                                        src={"http://localhost:8080/shop/" + imagePreview}
                                         alt={updatedName || "Product image"}
                                         className="w-full h-full object-cover border-2 border-red-600 shadow-lg transition-all duration-300 group-hover:opacity-70"
                                     />
