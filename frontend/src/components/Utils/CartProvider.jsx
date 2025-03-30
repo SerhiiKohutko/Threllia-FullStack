@@ -9,7 +9,7 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
         setCart(getCart())
-    },[])
+    },[cart.length])
 
 
     const handleAddProductToCart = (product) => {

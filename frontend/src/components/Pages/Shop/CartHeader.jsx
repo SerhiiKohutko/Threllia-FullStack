@@ -3,7 +3,7 @@ import {BoxIcon} from "@radix-ui/react-icons";
 import THRLAnimation from "@/components/Pages/HomePage/Sections/SectionComponents/Logo.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import React from "react";
+import React, {useEffect} from "react";
 import {useCart} from "@/components/Utils/CartProvider.jsx";
 import {useNavigate} from "react-router-dom";
 

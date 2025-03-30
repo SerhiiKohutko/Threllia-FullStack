@@ -93,3 +93,31 @@ export const createProduct = (product) => async (dispatch) => {
         toast.error(err.message);
     }
 }
+
+export const updateProductById = (id, product) => async (dispatch) => {
+    try {
+        await axios.patch(`http://localhost:8080/api/products/admin/${id}`,product, {
+            headers : {
+                'Content-Type' : 'multipart/form-data'
+            }
+        })
+        toast.success("Product updated!");
+    }catch(err){
+        toast.error(err.message);
+    }
+}
+
+export const deleteProductById = (id, categoryName) => async () => {
+    try {
+
+        await axios.delete(`http://localhost:8080/api/products/admin/${id}`, {
+            params: {
+                type : categoryName.toUpperCase()
+            }
+        })
+
+        toast.success("Product deleted!");
+    }catch (e) {
+        toast.error(e.message);
+    }
+}

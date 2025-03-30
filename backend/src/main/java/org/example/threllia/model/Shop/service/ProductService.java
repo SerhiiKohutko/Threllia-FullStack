@@ -11,6 +11,7 @@ import org.example.threllia.requests.ProductRequest;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.data.domain.Page;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,4 +28,11 @@ public interface ProductService {
     Page<ProductDTO> getAllProductsPaginated(ShopParametersTransfer shopParametersTransfer);
 
     Optional<? extends Product> getProductById(int id, ProductType productType);
+
+    Product updateProductById(long id, ProductRequest request, String imageName) throws IOException;
+
+    void deleteProductById(long id, ProductType type);
 }
+
+
+

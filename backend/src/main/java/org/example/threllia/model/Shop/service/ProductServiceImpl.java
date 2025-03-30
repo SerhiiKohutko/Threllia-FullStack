@@ -1,5 +1,6 @@
 package org.example.threllia.model.Shop.service;
 
+import org.example.threllia.exceptions.ProductNotFoundException;
 import org.example.threllia.model.Shop.dto.ProductDTO;
 import org.example.threllia.model.Shop.entities.AccessoryProduct;
 import org.example.threllia.model.Shop.entities.ApparelProduct;
@@ -10,6 +11,7 @@ import org.example.threllia.model.Shop.repositories.ApparelProductRepository;
 import org.example.threllia.model.Shop.repositories.MediaProductRepository;
 import org.example.threllia.model.Shop.shop_enum.*;
 import org.example.threllia.requests.ProductRequest;
+import org.example.threllia.utils.FileUploader;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -67,7 +70,6 @@ public class ProductServiceImpl implements ProductService{
     }
 
     private Page<ApparelProduct> findApparelProductsFiltered(ApparelProductType subtype, ShopParametersTransfer shopParametersTransfer){
-        System.out.println("PAGE : " + shopParametersTransfer.getPage());
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
                 shopParametersTransfer.getSize(), getSortingOrder(shopParametersTransfer.getSortingType()));
 
@@ -129,6 +131,7 @@ public class ProductServiceImpl implements ProductService{
             case ACCESSORIES -> getAccessoryById(id);
         };
     }
+
 
     private Optional<ApparelProduct> getApparelById(long id) {
         return apparelProductRepository.getApparelProductById(id);
@@ -199,6 +202,8 @@ public class ProductServiceImpl implements ProductService{
         throw new Exception("No such type");
     }
 
+
+
     public MediaProduct createMediaProduct(ProductRequest request, String imageUrl){
         MediaProduct mediaProduct = MediaProduct.builder()
                 .name(request.getName())
@@ -222,12 +227,8 @@ public class ProductServiceImpl implements ProductService{
                 .imageUrl(imageUrl)
                 .build();
 
-        int totalQuantity = 0;
-        for (Map.Entry<ApparelSizeType, Integer> el : request.getMap().entrySet()){
-            apparelProduct.getSizeToQuantityMap().put(el.getKey(), el.getValue());
-            totalQuantity += el.getValue();
-        }
-        apparelProduct.setTotalQuantity(totalQuantity);
+
+        apparelProduct.setTotalQuantity(apparelProduct.calculateTotalQuantity(request));
 
         return apparelProductRepository.save(apparelProduct);
     }
@@ -243,6 +244,82 @@ public class ProductServiceImpl implements ProductService{
                 .build();
 
         return accessoriesProductRepository.save(accessoryProduct);
+    }
+
+    @Override
+    public Product updateProductById(long id, ProductRequest request, String imageName) throws IOException {
+        return switch (request.getType()) {
+            case MEDIA -> updateMediaProduct(id, request, imageName);
+
+            case APPAREL -> updateApparelProduct(id, request, imageName);
+
+            case ACCESSORIES -> updateAccessoryProduct(id, request, imageName);
+        };
+    }
+
+
+
+    private MediaProduct updateMediaProduct(long id, ProductRequest request, String imageName) throws IOException {
+        MediaProduct mediaProduct = getMediaProductById(id).orElseThrow(() -> new ProductNotFoundException("Not found"));
+
+        mediaProduct.setName(request.getName());
+        mediaProduct.setPrice(request.getPrice());
+        mediaProduct.setDescription(request.getDescription());
+        mediaProduct.setTotalQuantity(request.getTotalQuantity());
+
+        if (imageName != null) {
+            FileUploader.removeProductImage(mediaProduct.getImageUrl());
+            mediaProduct.setImageUrl(imageName);
+        }
+
+        return mediaProductRepository.save(mediaProduct);
+
+    }
+    private ApparelProduct updateApparelProduct(long id, ProductRequest request, String imageName) throws IOException {
+        ApparelProduct apparelProduct = getApparelById(id).orElseThrow(() -> new ProductNotFoundException("Not found"));
+
+        apparelProduct.setName(request.getName());
+        apparelProduct.setPrice(request.getPrice());
+        apparelProduct.setDescription(request.getDescription());
+
+        apparelProduct.setTotalQuantity(apparelProduct.calculateTotalQuantity(request));
+        apparelProduct.setSizeToQuantityMap(request.getMap());
+
+        if (imageName != null) {
+            FileUploader.removeProductImage(apparelProduct.getImageUrl());
+            apparelProduct.setImageUrl(imageName);
+        }
+        System.out.println(apparelProduct.getSizeToQuantityMap());
+
+        return apparelProductRepository.save(apparelProduct);
+
+    }
+
+
+    private AccessoryProduct updateAccessoryProduct(long id, ProductRequest request, String imageName) throws IOException {
+        AccessoryProduct accessoryProduct = getAccessoryById(id).orElseThrow(() -> new ProductNotFoundException("Not found"));
+
+        accessoryProduct.setName(request.getName());
+        accessoryProduct.setPrice(request.getPrice());
+        accessoryProduct.setDescription(request.getDescription());
+        accessoryProduct.setTotalQuantity(request.getTotalQuantity());
+
+        if (imageName != null) {
+            FileUploader.removeProductImage(accessoryProduct.getImageUrl());
+            accessoryProduct.setImageUrl(imageName);
+        }
+
+        return accessoriesProductRepository.save(accessoryProduct);
+    }
+
+
+    @Override
+    public void deleteProductById(long id, ProductType type){
+        switch (type){
+            case MEDIA -> mediaProductRepository.deleteById(id);
+            case ACCESSORIES -> accessoriesProductRepository.deleteById(id);
+            case APPAREL -> apparelProductRepository.deleteById(id);
+        }
     }
 
 }

@@ -1,11 +1,8 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {getCurrPosition, Position} from "@/components/ReusableComponents/Position.jsx";
-import {variants} from "@/components/Pages/Shop/Shop.jsx";
 import {getProductById} from "@/redux/shop/Action.js";
 import {Button} from "@/components/ui/button.jsx";
-import {addProduct} from "@/components/Utils/CartUtils.js";
 import {useCart} from "@/components/Utils/CartProvider.jsx";
 
 export const QuickViewProductDetails = ({productId, category}) => {
@@ -29,7 +26,7 @@ export const QuickViewProductDetails = ({productId, category}) => {
                 <div className="w-full md:w-1/2 mb-8 md:mb-0 md:mr-12">
                     <div className="border border-gray-800">
                         <img
-                            src={"https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"}
+                            src={"http://localhost:8080/shop/" + product.imageUrl}
                             className="w-full object-cover"
                             alt="Product"
                         />

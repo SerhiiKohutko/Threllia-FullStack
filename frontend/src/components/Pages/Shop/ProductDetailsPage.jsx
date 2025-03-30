@@ -1,9 +1,9 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getCurrPosition, Position} from "@/components/ReusableComponents/Position.jsx";
 import {variants} from "@/components/Pages/Shop/Shop.jsx";
-import {getProductById} from "@/redux/shop/Action.js";
+import {deleteProductById, getProductById} from "@/redux/shop/Action.js";
 import {Button} from "@/components/ui/button.jsx";
 import {useCart} from "@/components/Utils/CartProvider.jsx";
 
@@ -17,15 +17,21 @@ export const ProductDetails = () => {
     const dispatch = useDispatch();
     const {handleAddProductToCart} = useCart();
 
+    const isAdmin = true;
+
     useEffect(() => {
         getCurrPosition(setPosition, variants, categoryName);
     }, []);
 
     useEffect(() => {
-        console.log(position)
         dispatch(getProductById(productId, position[0]));
     }, [position]);
 
+
+    function handleDelete() {
+        dispatch(deleteProductById(productId, categoryName))
+        navigate("/shop");
+    }
     return (
         <div className="min-h-screen bg-black text-white">
             <div className={"h-[6rem] bg-black border-b border-white"}></div>
@@ -33,7 +39,7 @@ export const ProductDetails = () => {
                 <div className="w-full md:w-1/2 mb-8 md:mb-0 md:mr-12">
                     <div className="border border-gray-800">
                         <img
-                            src={"https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"}
+                            src={"http://localhost:8080/shop/" + product.imageUrl}
                             className="w-full object-cover"
                             alt="Product"
                         />
@@ -42,6 +48,25 @@ export const ProductDetails = () => {
 
                 <div className="w-full md:w-1/2">
                     <Position position={position} navigate={navigate} categoryName={categoryName}/>
+                    {/*If profile is admin - edit & deletion available*/}
+                    {
+                        isAdmin && <>
+                            <Button onClick={() => navigate(`/admin/shop/${categoryName}/${productId}`, {
+                                state: {
+                                    name : product.name,
+                                    price : product.price,
+                                    description : product.description,
+                                    totalQuantity : product.totalQuantity,
+                                    imageUrl : product.imageUrl,
+                                    productType : product.productType,
+                                    sizes : product.sizeToQuantityMap,
+                                }
+                            })}
+                                    variant={"ghost"} className={"border rounded-none border-orange-500 mt-5 mr-4"}>Edit</Button>
+
+                            <Button onClick={() => handleDelete()} variant={"ghost"} className={"border bg-red-700 text-white rounded-none border-orange-500 mt-5 mb-5"}>Delete</Button>
+                        </>
+                    }
                     <h1 className="text-4xl font-bold mb-4 uppercase tracking-wider mt-3">
                         {product?.name}
                     </h1>
@@ -94,7 +119,7 @@ export const ProductDetails = () => {
                                 productType: position[0],
                                 price: product?.price,
                                 quantity: quantity,
-                                imageUrl: "https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"
+                                imageUrl: "http://localhost:8080/shop/" + product.imageUrl
                             })
                         }
                         disabled={product.totalQuantity === 0}
@@ -107,7 +132,7 @@ export const ProductDetails = () => {
                                 Description
                             </summary>
                             <div className="mt-4 text-gray-300">
-                                {product?.description}
+                                <div dangerouslySetInnerHTML={{__html : product?.description}}></div>
                             </div>
                         </details>
                     </div>

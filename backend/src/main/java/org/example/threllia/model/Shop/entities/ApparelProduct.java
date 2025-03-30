@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 import org.example.threllia.model.Shop.shop_enum.ApparelProductType;
 import org.example.threllia.model.Shop.shop_enum.ApparelSizeType;
+import org.example.threllia.requests.ProductRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,4 +34,14 @@ public class ApparelProduct extends Product{
         }
     }
 
+
+    public int calculateTotalQuantity(ProductRequest request){
+        int totalQuantity = 0;
+        for (Map.Entry<ApparelSizeType, Integer> el : request.getMap().entrySet()){
+            this.getSizeToQuantityMap().put(el.getKey(), el.getValue());
+            totalQuantity += el.getValue();
+        }
+
+        return totalQuantity;
+    }
 }

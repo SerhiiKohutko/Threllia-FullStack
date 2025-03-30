@@ -131,7 +131,7 @@ export const Shop = () => {
                                     <div key={index} className={"flex flex-col relative group "}>
                                         <div className={"relative flex flex-row justify-center"}>
                                             <img
-                                                src={"https://www.metallica.com/dw/image/v2/BCPJ_PRD/on/demandware.static/-/Sites-met-master/default/dw76259a49/images/hi-res/Wherever_I_May_Roam_Guest_Pass_Plaque.jpg?sw=650"}
+                                                src={"http://localhost:8080/shop/" + item.imageUrl}
                                                 className={"px-0 border border-black w-full cursor-pointer"}
                                                 onClick={() => navigateToProductDetails(item.productType, item.id)}
                                                 onMouseEnter={() => setHoveredProduct(item.id)}

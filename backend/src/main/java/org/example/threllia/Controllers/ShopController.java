@@ -12,6 +12,7 @@ import org.example.threllia.model.Shop.service.ProductService;
 import org.example.threllia.model.Shop.shop_enum.ProductType;
 import org.example.threllia.model.Shop.shop_enum.ShopSortingType;
 import org.example.threllia.requests.ProductRequest;
+import org.example.threllia.responses.DeletionResponse;
 import org.example.threllia.utils.FileUploader;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,9 +103,6 @@ public class ShopController {
 
     @GetMapping("/{productType}/{id}")
     public ResponseEntity<? extends Product> getProductById(@PathVariable int id, @PathVariable ProductType productType){
-
-        System.out.println("ID: " + id + " Category : " + productType);
-
         return ResponseEntity.ok(productService.getProductById(id, productType)
                 .orElseThrow(() ->  new ProductNotFoundException("No product with such id")));
     }
@@ -114,10 +112,6 @@ public class ShopController {
         return ResponseEntity.internalServerError().body(e.getMessage());
     }
 
-    @GetMapping("/{release_name}/get_related_merch")
-    public ResponseEntity<List<Product>> getRelatedMerch(@PathVariable String release_name){
-        return null;
-    }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Product createProduct(@RequestParam("data") String  data, @RequestParam("coverImage") MultipartFile image) throws Exception {
@@ -127,5 +121,21 @@ public class ShopController {
         ProductRequest request = objectMapper.readValue(data, ProductRequest.class);
 
         return productService.createProduct(request, imageName);
+    }
+
+    @PatchMapping(path = "/admin/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Product> updateProduct(@RequestParam("data") String  data, @RequestParam(value = "coverImage", required = false) MultipartFile image, @PathVariable long id) throws Exception {
+
+        String imageName = FileUploader.uploadProductImage(image);
+
+        ProductRequest request = objectMapper.readValue(data, ProductRequest.class);
+
+        return ResponseEntity.ok(productService.updateProductById(id, request, imageName));
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<DeletionResponse> deleteProduct(@PathVariable long id, @RequestParam ProductType type) {
+        productService.deleteProductById(id, type);
+        return ResponseEntity.ok(new DeletionResponse("Deleted successfully!"));
     }
 }
