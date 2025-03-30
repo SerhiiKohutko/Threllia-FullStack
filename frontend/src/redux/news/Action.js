@@ -69,3 +69,12 @@ export const updateLatestUpdateById = (id, payload) => async (dispatch) => {
         toast.error(err.message)
     }
 }
+
+export const deleteLatestUpdateById = (id) => async () => {
+    try{
+        await axios.delete(`http://localhost:8080/api/news/admin/${id}`)
+        toast.success("Latest Update deleted successfully!");
+    }catch (e) {
+        toast.error(e.message);
+    }
+}

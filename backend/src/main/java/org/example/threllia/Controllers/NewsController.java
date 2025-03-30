@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.threllia.model.News.entities.LatestUpdate;
 import org.example.threllia.model.News.service.LatestUpdateService;
 import org.example.threllia.requests.LatestUpdateRequest;
+import org.example.threllia.responses.DeletionResponse;
 import org.example.threllia.utils.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,4 +59,9 @@ public class NewsController {
         return new ResponseEntity<>(newLatestUpdate, HttpStatus.OK);
     }
 
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<DeletionResponse> deleteLatestUpdate(@PathVariable long id){
+        latestUpdateService.deleteLatestUpdateById(id);
+        return ResponseEntity.ok(new DeletionResponse("Deleted successfully!"));
+    }
 }

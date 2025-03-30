@@ -3,7 +3,7 @@ import bgImage from "@/resources/bg_2.png";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect} from "react";
-import {getLatestUpdateById} from "@/redux/news/Action.js";
+import {deleteLatestUpdateById, getLatestUpdateById} from "@/redux/news/Action.js";
 import {StoreOverviewSection} from "@/components/Pages/HomePage/Sections/StoreOverviewSection.jsx";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {Button} from "@/components/ui/button.jsx";
@@ -22,7 +22,8 @@ export const LatestUpdateDetailsPage = () => {
     },[])
 
     function handleDelete() {
-
+        dispatch(deleteLatestUpdateById(latestUpdateId))
+        navigate("/news");
     }
     return (
         <div className={"relative"}>

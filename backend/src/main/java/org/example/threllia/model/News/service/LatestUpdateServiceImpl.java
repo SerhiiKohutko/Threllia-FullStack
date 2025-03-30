@@ -57,4 +57,9 @@ public class LatestUpdateServiceImpl implements LatestUpdateService {
 
         return latestUpdateRepository.save(latestUpdate);
     }
+
+    @Override
+    public void deleteLatestUpdateById(long id) {
+        latestUpdateRepository.deleteById(id);
+    }
 }
