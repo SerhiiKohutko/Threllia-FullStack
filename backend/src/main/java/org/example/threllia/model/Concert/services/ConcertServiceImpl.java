@@ -89,7 +89,9 @@ public class ConcertServiceImpl implements ConcertService{
         updatedConcert.setCity(concert.getCity());
         updatedConcert.setPlace(concert.getPlace());
         updatedConcert.setCountry(concert.getCountry());
+
         updatedConcert.setSongsList(getReadyToUpdateSongsSet(concert.getSongsList()));
+
         updatedConcert.setRelatedTour(concert.getRelatedTour());
 
         return concertRepository.save(updatedConcert);

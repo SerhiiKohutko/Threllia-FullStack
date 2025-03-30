@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '@/components/ui/button.jsx';
-import { Play } from 'lucide-react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import ReactQuill from "react-quill-new";
 import {Input} from "@/components/ui/input.jsx";

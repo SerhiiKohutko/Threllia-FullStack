@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {deletePhotoCollection, getPhotoCollectionDetails} from "@/redux/gallery/Action.js";
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import bgImage from  "@/resources/bg_2.png"
-import {Button} from "@/components/ui/button.jsx";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
 

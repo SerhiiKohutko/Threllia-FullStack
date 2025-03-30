@@ -60,24 +60,6 @@ export const ReleaseAdmin = () => {
         setSongList(updatedSongs);
     }
 
-    const handleMoveSongUp = (index) => {
-        if (index === 0) return;
-        const newList = [...songList];
-        const temp = newList[index];
-        newList[index] = newList[index - 1];
-        newList[index - 1] = temp;
-        setSongList(newList);
-    };
-
-    const handleMoveSongDown = (index) => {
-        if (index === songList.length - 1) return;
-        const newList = [...songList];
-        const temp = newList[index];
-        newList[index] = newList[index + 1];
-        newList[index + 1] = temp;
-        setSongList(newList);
-    };
-
     const removeSong = (index) => {
         setSongList(prev => prev.filter((_, i) => i !== index));
     };
@@ -269,7 +251,6 @@ export const ReleaseAdmin = () => {
                             </FormItem>
                         )}
                     />
-                    {/* Song List with Add Button and Up/Down controls */}
 
                     <div>
                         <div className="flex">

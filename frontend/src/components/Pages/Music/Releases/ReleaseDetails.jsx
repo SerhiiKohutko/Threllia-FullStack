@@ -132,7 +132,7 @@ export const ReleaseDetails = () => {
                         title : release.releaseDetails?.title,
                         coverName : release.releaseDetails?.coverName,
                         description : release.releaseDetails?.description,
-                        trackList : release.releaseDetails?.trackList.map((track) => track.title),
+                        trackList : release.releaseDetails?.trackList?.map((track) => track.title),
                         dateReleased : release.releaseDetails?.dateReleased,
                         nameToInstrumentsPlayed : release.releaseDetails?.nameToInstrumentsPlayed
                     }} navigationLink={`/admin/releases/${releaseId}`} handleDelete={handleDeleteRelease}/>

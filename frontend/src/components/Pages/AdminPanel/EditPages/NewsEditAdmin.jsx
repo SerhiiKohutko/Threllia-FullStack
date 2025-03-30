@@ -2,7 +2,6 @@ import {useDispatch} from "react-redux";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useRef, useState} from "react";
 import {toast} from "react-toastify";
-import {updateRelease} from "@/redux/releases/Action.js";
 import {Input} from "@/components/ui/input.jsx";
 import ReactQuill from "react-quill-new";
 import {Button} from "@/components/ui/button.jsx";

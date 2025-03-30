@@ -33,6 +33,7 @@ public class MusicRelease {
     @JoinTable(name = "releases_song",
                 joinColumns = @JoinColumn(name = "release_id"),
                 inverseJoinColumns = @JoinColumn(name = "song_id"))
+    @OrderColumn(name = "song_order")
     private List<Song> trackList;
 
     @ElementCollection

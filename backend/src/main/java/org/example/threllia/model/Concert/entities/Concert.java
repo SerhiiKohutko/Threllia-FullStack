@@ -28,5 +28,6 @@ public class Concert {
     @JoinTable(name = "concert_song_list",
             joinColumns = @JoinColumn(name = "concert_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id"))
+    @OrderColumn(name = "song_order")
     private List<Song> songsList = new ArrayList<>();
 }
