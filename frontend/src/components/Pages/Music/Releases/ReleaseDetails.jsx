@@ -16,7 +16,7 @@ export const ReleaseDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // For lightning effects
+
     const [lightningActive, setLightningActive] = useState(false);
     const [lightningPosition, setLightningPosition] = useState({ x: 50, y: 30 });
 

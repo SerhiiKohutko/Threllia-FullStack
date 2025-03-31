@@ -55,6 +55,7 @@ public class SongServiceImpl implements SongService{
     public SongDTO getSongById(long id) throws Exception {
         Song song = songRepository.findSongById(id).orElseThrow(() -> new Exception("No such song found with id = " + id));
 
+
         SongDTO songDTO = new SongDTO();
         songDTO.setLyrics(song.getLyrics());
         songDTO.setTitle(song.getTitle());

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import THRLAnimation from "@/components/Pages/HomePage/Sections/SectionComponents/Logo.jsx";
 import {HamburgerMenuIcon, PersonIcon} from "@radix-ui/react-icons";
 import {
@@ -13,10 +13,21 @@ import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
 import {CartHeader} from "@/components/Pages/Shop/CartHeader.jsx";
 import {KeyIcon} from "lucide-react";
+import {useSelector} from "react-redux";
 
 export const Header = () => {
 
     const navigate = useNavigate();
+
+    const [isAdmin, setIsAdmin] = React.useState(false);
+
+    useEffect(() => {
+        console.log(localStorage.getItem("role"));
+
+        if (localStorage.getItem("role") === "ROLE_ADMIN"){
+            setIsAdmin(true);
+        }
+    }, []);
 
     return (
         <div className="absolute top-0 z-30 flex flex-row justify-center w-full h-24">
@@ -77,8 +88,11 @@ export const Header = () => {
                 </div>
 
                 <div className="flex w-[20%] justify-end items-center gap-4 text-white">
-                    <KeyIcon className={"cursor-pointer hover:text-red-600"} onClick={() => navigate("/admin_panel")} />
-                <PersonIcon onClick={() => navigate("/login")} className={"cursor-pointer h-8 w-8"}/>
+                    {
+                        isAdmin &&
+                        <KeyIcon className={"cursor-pointer hover:text-red-600"} onClick={() => navigate("/admin_panel")} />
+                    }
+                    <PersonIcon onClick={() => navigate("/login")} className={"cursor-pointer h-8 w-8"}/>
                     <CartHeader/>
                 </div>
             </div>

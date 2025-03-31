@@ -4,6 +4,7 @@ import org.example.threllia.configuration.JWT.JwtProvider;
 import org.example.threllia.configuration.Profile;
 import org.example.threllia.model.User.entities.CustomUserDetails;
 import org.example.threllia.model.User.entities.User;
+import org.example.threllia.requests.UserCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,18 +19,21 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public User registerUser(UserDTO user) throws Exception {
-        if (userRepository.findUserByEmail(user.getEmail()).isPresent()){
+    public void registerUser(UserCreationRequest request) throws Exception {
+        if (userRepository.findUserByEmail(request.getEmail()).isPresent()){
             throw new Exception("User already registered");
         }
 
         User newUser = new User();
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        newUser.setRole(user.getRole() == null ? Profile.USER : user.getRole());
+        newUser.setEmail(request.getEmail());
+        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        newUser.setCountry(request.getCountry());
+        newUser.setDateOfBirth(request.getDateOfBirth());
+        newUser.setFirstName(request.getFirstName());
+        newUser.setLastName(request.getLastName());
+        newUser.setRole(Profile.USER);
 
-
-        return userRepository.save(newUser);
+       userRepository.save(newUser);
     }
 
     @Override

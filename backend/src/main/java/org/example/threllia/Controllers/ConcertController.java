@@ -22,14 +22,6 @@ public class ConcertController {
     @Autowired
     private ConcertService concertService;
 
-    @Deprecated
-    @PostMapping("/addShows")
-    public ResponseEntity<List<Concert>> addShows(@RequestBody List<Concert> concerts) throws Exception {
-        List<Concert> concertList = concertService.addShows(concerts);
-        return new ResponseEntity<>(concertList, HttpStatus.CREATED);
-    }
-
-
     @GetMapping("/active")
     public ResponseEntity<List<Concert>> getActiveConcerts(){
         List<Concert> activeConcerts = concertService.getAllActiveConcerts();

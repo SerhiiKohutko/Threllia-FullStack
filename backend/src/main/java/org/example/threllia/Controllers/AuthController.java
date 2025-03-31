@@ -2,7 +2,8 @@ package org.example.threllia.controllers;
 
 import org.example.threllia.model.User.UserDTO;
 import org.example.threllia.model.User.UserService;
-import org.example.threllia.model.User.entities.User;
+import org.example.threllia.requests.UserCreationRequest;
+import org.example.threllia.responses.AuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +23,10 @@ public class AuthController {
         return ResponseEntity.ok(userService.authenticate(user));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody(required = false) UserDTO user) throws Exception {
-
-        System.out.println(user);
-        User registeredUser = userService.registerUser(user);
-
-        return ResponseEntity.ok(registeredUser);
+    @PostMapping(path = "/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody UserCreationRequest request) throws Exception {
+        System.out.println(request);
+        userService.registerUser(request);
+        return ResponseEntity.ok(new AuthResponse("User successfully registered!"));
     }
 }

@@ -1,5 +1,6 @@
 package org.example.threllia.model.User.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,7 @@ public class User {
 
     private String firstName;
     private String lastName;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
     private String country;
 }

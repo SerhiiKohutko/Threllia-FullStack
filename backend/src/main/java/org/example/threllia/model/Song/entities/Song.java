@@ -30,18 +30,22 @@ public class Song {
 
     @ManyToMany(mappedBy = "songsList")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private List<Concert> concertPlayed;
 
     @ManyToMany(mappedBy = "trackList")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<MusicRelease> appearedOn;
 
     @PreRemove
     private void removeAssociations() {
-        for (MusicRelease release : appearedOn)
+        for (MusicRelease release : appearedOn) {
             release.getTrackList().remove(this);
+        }
 
-        for (Concert concert : concertPlayed)
+        for (Concert concert : concertPlayed) {
             concert.getSongsList().remove(this);
+        }
     }
 }

@@ -10,7 +10,7 @@ import {toast} from "react-toastify";
 export const getClosestShows = () => async (dispatch) => {
     dispatch({type: "GET_CLOSEST_SHOWS_REQUEST"});
     try{
-        const response = await axios.get("http://localhost:8080/api/concerts/closest");
+        const response = await axios.get("http://localhost:8080/api/concerts/closest",);
         dispatch({type: "GET_CLOSEST_SHOWS_SUCCESS", payload: response.data});
     }catch(err){
         dispatch({type: "GET_CLOSEST_SHOWS_ERROR", error : err});
@@ -35,7 +35,7 @@ export const getPastDateShows = (page) => async (dispatch) => {
 export const getShowDetails = (id) => async (dispatch) => {
     dispatch({type : GET_SHOW_DETAILS_REQUEST});
     try{
-        const response = await axios.get(`http://localhost:8080/api/concerts/${id}`);
+        const response = await axios.get(`http://localhost:8080/api/concerts/${id}`,);
         dispatch({type: GET_SHOW_DETAILS_SUCCESS, payload: response.data});
     }catch (err) {
         dispatch({type : GET_SHOW_DETAILS_FAILURE, err : err});

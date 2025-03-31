@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {Input} from "@/components/ui/input.jsx";
 import {login} from "@/redux/auth/Action.js";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 
 export const BackgroundEffects = () => {
@@ -278,8 +279,17 @@ export const AuthPage = () => {
     const [passwordError, setPasswordError] = useState('');
     const [authError, setAuthError] = useState('');
 
+    const auth = useSelector((state) => state.auth);
+
     const dispatch = useDispatch();
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth.userDetails && localStorage.getItem('token')) {
+            navigate("/account");
+        }
+    },[])
 
     const validateForm = () => {
         let isValid = true;
@@ -307,11 +317,11 @@ export const AuthPage = () => {
     const handleSignIn = (e) => {
         e.preventDefault();
 
-        if (validateForm()) {
+        if (!validateForm()) {
             setAuthError('Invalid email or password. Please try again.');
         }
 
-        dispatch(login({email: email, password: password}));
+        dispatch(login({email: email, password: password}, navigate));
     };
 
     return (
@@ -380,8 +390,7 @@ export const AuthPage = () => {
                             <Button
                                 className="w-full bg-red-700 hover:bg-red-800 text-white font-medium py-3 rounded-sm transition-all duration-200 mt-auto"
                                 onClick={() => {
-                                    // Handle redirect to registration page
-                                    console.log('Redirecting to registration page');
+                                    navigate("/register");
                                 }}
                             >
                                 Create an account!
