@@ -1,20 +1,19 @@
 package org.example.threllia.model.User.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.example.threllia.configuration.Profile;
+import org.example.threllia.model.Order.Order;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
 
     private String email;
@@ -26,4 +25,7 @@ public class User {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
     private String country;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> ordersList;
 }

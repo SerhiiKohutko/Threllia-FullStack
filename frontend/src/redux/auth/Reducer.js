@@ -1,4 +1,4 @@
-import {LOGIN_SUCCESS} from "@/redux/auth/ActionType.js";
+import {GET_USER_DETAILS_SUCCESS, LOGIN_SUCCESS} from "@/redux/auth/ActionType.js";
 import {decodeJWT} from "@/components/Utils/JwtDecoder.js";
 
 
@@ -25,6 +25,10 @@ export const authReducer = (state = initialState, action) => {
                     role: role
                 }
             } }
+
+            case GET_USER_DETAILS_SUCCESS:
+                console.log(action.payload);
+                return { userDetails: action.payload };
 
             default:
                 return state;

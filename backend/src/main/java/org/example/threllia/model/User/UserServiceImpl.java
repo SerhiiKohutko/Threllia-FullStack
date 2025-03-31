@@ -17,6 +17,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @Override
     public void registerUser(UserCreationRequest request) throws Exception {
@@ -48,4 +50,19 @@ public class UserServiceImpl implements UserService {
         CustomUserDetails userDetails = new CustomUserDetails(user.getEmail(), user.getPassword(), user.getRole());
         return JwtProvider.generateToken(userDetails);
     }
+
+    @Override
+    public UserDTO getUserDetails(String jwt) throws Exception {
+        String email = jwtProvider.getUsernameFromToken(jwt);
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new Exception("Error while getting user details with email " + email));
+        return UserDTO.mapToUserDto(user);
+    }
+
+    @Override
+    public User getUserFromJwt(String jwt) throws Exception {
+        String email = jwtProvider.getUsernameFromToken(jwt);
+        return userRepository.findUserByEmail(email).orElseThrow(() -> new Exception("Error while getting user details with email " + email));
+    }
+
+
 }

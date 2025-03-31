@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LOGIN_SUCCESS} from "@/redux/auth/ActionType.js";
+import {GET_USER_DETAILS_SUCCESS, LOGIN_SUCCESS} from "@/redux/auth/ActionType.js";
 
 
 export const login = (data, navigate) => async(dispatch) => {
@@ -24,6 +24,20 @@ export const registerUser = (data, navigate) => async() => {
         await axios.post("http://localhost:8080/auth/register", data, {});
 
         navigate("/login");
+    }catch (error) {
+        console.log(error);
+    }
+}
+
+export const getUserDetails = (token) => async(dispatch) => {
+    try {
+        const response = await axios.get("http://localhost:8080/api/user", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        dispatch({type : GET_USER_DETAILS_SUCCESS, payload : response.data})
     }catch (error) {
         console.log(error);
     }

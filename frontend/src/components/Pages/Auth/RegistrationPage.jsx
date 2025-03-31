@@ -109,7 +109,7 @@ export const RegistrationPage = () => {
             dateOfBirth: dobDate.toISOString().split('T')[0], // Format: YYYY-MM-DD
             country
         };
-        
+
         dispatch(registerUser(registrationData, navigate))
     };
 
