@@ -26,6 +26,7 @@ import ShowDetailsEditAdmin from "@/components/Pages/AdminPanel/EditPages/ShowDe
 import PhotoCollectionEditAdmin from "@/components/Pages/AdminPanel/EditPages/PhotoCollectionEditAdmin.jsx";
 import {NewsEditAdmin} from "@/components/Pages/AdminPanel/EditPages/NewsEditAdmin.jsx";
 import {ProductDetailsEditAdmin} from "@/components/Pages/AdminPanel/EditPages/ProductEditAdmin.jsx";
+import {AuthPage} from "@/components/Pages/Auth/AuthPage.jsx";
 
 //TODO - export admin buttons to separate component
 //TODO - refactor selection of songs on admin pages to avoid code duplication (select and all the related functions can be exported to separate component)
@@ -63,6 +64,8 @@ function App() {
                         <Route path={"/admin/gallery/:photoCollectionId"} element={<PhotoCollectionEditAdmin/>}/>
                         <Route path={"/admin/news/:latestUpdateId"} element={<NewsEditAdmin/>}/>
                         <Route path={"/admin/shop/:categoryName/:productId"} element={<ProductDetailsEditAdmin/>}/>
+
+                        <Route path={"/login"} element={<AuthPage/>}/>
                     </Routes>
                 </div>
             <Footer/>

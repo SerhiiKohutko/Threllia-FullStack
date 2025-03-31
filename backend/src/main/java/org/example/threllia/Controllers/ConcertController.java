@@ -72,7 +72,7 @@ public class ConcertController {
 
     //ADMIN FUNCTIONALITY
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Concert> addShow(@RequestBody ConcertDTO concert) throws Exception {
         Concert savedConcert = concertService.addShow(concert);
         return new ResponseEntity<>(savedConcert, HttpStatus.CREATED);

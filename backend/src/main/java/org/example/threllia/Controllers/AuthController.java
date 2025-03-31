@@ -18,8 +18,8 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDTO user){
-        return userService.authenticate(user);
+    public ResponseEntity<String> login(@RequestBody UserDTO user){
+        return ResponseEntity.ok(userService.authenticate(user));
     }
 
     @PostMapping("/register")

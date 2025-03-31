@@ -1,6 +1,6 @@
 import React from 'react';
 import THRLAnimation from "@/components/Pages/HomePage/Sections/SectionComponents/Logo.jsx";
-import {BoxIcon, HamburgerMenuIcon, PersonIcon} from "@radix-ui/react-icons";
+import {HamburgerMenuIcon, PersonIcon} from "@radix-ui/react-icons";
 import {
     Sheet,
     SheetContent,
@@ -11,8 +11,6 @@ import {
 } from "@/components/ui/sheet.jsx"
 import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
-import {ScrollArea} from "@/components/ui/scroll-area.jsx";
-import {getCart} from "@/components/Utils/CartUtils.js";
 import {CartHeader} from "@/components/Pages/Shop/CartHeader.jsx";
 import {KeyIcon} from "lucide-react";
 
@@ -21,7 +19,7 @@ export const Header = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="absolute top-0 z-20 flex flex-row justify-center w-full h-24">
+        <div className="absolute top-0 z-30 flex flex-row justify-center w-full h-24">
             <div className="flex flex-row items-center w-[90%] border-b py-4">
                 <div className="w-[20%] flex justify-start text-white items-center text-center">
                     <Sheet>
@@ -80,7 +78,7 @@ export const Header = () => {
 
                 <div className="flex w-[20%] justify-end items-center gap-4 text-white">
                     <KeyIcon className={"cursor-pointer hover:text-red-600"} onClick={() => navigate("/admin_panel")} />
-                <PersonIcon className={"cursor-pointer h-8 w-8"}/>
+                <PersonIcon onClick={() => navigate("/login")} className={"cursor-pointer h-8 w-8"}/>
                     <CartHeader/>
                 </div>
             </div>
