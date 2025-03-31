@@ -30,8 +30,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersByUserId(user.getId()));
     }
 
-    @PostMapping
-    public ResponseEntity<OrderDTO> createOrder(@RequestHeader("Authorization") String jwt, @RequestBody OrderCreationRequest orderCreationRequest) throws Exception {
+    public ResponseEntity<OrderDTO> createOrder(String jwt, OrderCreationRequest orderCreationRequest) throws Exception {
         return new ResponseEntity<>(orderService.createOrder(jwt, orderCreationRequest), HttpStatus.CREATED);
     }
 }

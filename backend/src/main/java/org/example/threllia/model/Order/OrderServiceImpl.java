@@ -56,9 +56,10 @@ public class OrderServiceImpl implements OrderService{
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItem orderItem : request.getProducts()) {
-            orderItem.setOrder(order); 
+            orderItem.setOrder(order);
             orderItems.add(orderItem);
         }
+
         order.setOrderItems(orderItems);
 
         orderRepository.save(order);

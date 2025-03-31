@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserDetails} from "@/redux/auth/Action.js";
 import {Button} from "@/components/ui/button.jsx";
+import {Input} from "@/components/ui/input.jsx";
 
 
 export const Account = () => {
@@ -247,7 +248,6 @@ export const PersonalInformationPage = () => {
                                 />
                             </div>
 
-                            {/* Email */}
                             <div>
                                 <label htmlFor="email" className="text-sm text-gray-300 block mb-1">Email</label>
                                 <Input
@@ -259,8 +259,6 @@ export const PersonalInformationPage = () => {
                                     required
                                 />
                             </div>
-
-                            {/* Date of Birth */}
                             <div>
                                 <label htmlFor="dateOfBirth" className="text-sm text-gray-300 block mb-1">Date of Birth</label>
                                 <Input
@@ -273,7 +271,6 @@ export const PersonalInformationPage = () => {
                                 />
                             </div>
 
-                            {/* Country */}
                             <div>
                                 <label htmlFor="country" className="text-sm text-gray-300 block mb-1">Country</label>
                                 <select
@@ -288,12 +285,10 @@ export const PersonalInformationPage = () => {
                                     <option value="CA">Canada</option>
                                     <option value="UK">United Kingdom</option>
                                     <option value="AU">Australia</option>
-                                    {/* Add more countries as needed */}
                                 </select>
                             </div>
                         </div>
 
-                        {/* Change Password Link */}
                         <div className="pt-4 border-t border-gray-700">
                             <h3 className="text-xl font-bold text-white mb-4">Password</h3>
                             <Button
