@@ -1,51 +1,49 @@
 package org.example.threllia.configuration.JWT;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.crypto.SecretKey;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 public class JwtProvider {
 
     private static final SecretKey secretKey = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRET.getBytes());
 
-    public static String generateToken(Authentication auth) {
-        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
-
-        String roles = populateAuthorities(authorities);
+    public static String generateToken(UserDetails userDetails) {
 
         return Jwts.builder()
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + 86400000))
-                .claim("email", auth.getName())
-                .claim("authorities", roles)
+                .claim("role", userDetails.getAuthorities().iterator().next().getAuthority())
                 .signWith(secretKey)
                 .compact();
     }
 
-    public static String getEmailFromToken(String token) {
-        token = token.substring(7);
-
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token).getBody();
-
-        return String.valueOf(claims.get("email"));
+    public boolean validateToken(String token, UserDetails userDetails) {
+        String username = getUsernameFromToken(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-    private static String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        Set<String> auth = new HashSet<>();
 
-        authorities
-                .forEach(authority -> auth.add(authority.getAuthority()));
+    public String getUsernameFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
 
-        return String.join(",", auth);
+    private boolean isTokenExpired(String token) {
+        return getExpirationDateFromToken(token).before(new Date());
+    }
+
+    private Date getExpirationDateFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration();
     }
 }

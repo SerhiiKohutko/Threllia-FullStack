@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,6 +21,10 @@ import java.util.List;
 public class JwtTokenValidator extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (request.getRequestURI().startsWith("/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 
         if (jwt != null) {
@@ -34,10 +38,10 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                         .build()
                         .parseClaimsJws(jwt).getBody();
 
-                String email = String.valueOf(claims.get("email"));
-                String authorities = String.valueOf(claims.get("authorities"));
+                String email = String.valueOf(claims.getSubject());
+                String role = String.valueOf(claims.get("role"));
 
-                List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
+                List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(role));
 
                 Authentication auth =
                         new UsernamePasswordAuthenticationToken(email, null, grantedAuthorities);
@@ -45,7 +49,9 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
             }catch(Exception e){
-                throw new RuntimeException(e.getMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid or expired token");
+                return;
             }
 
 

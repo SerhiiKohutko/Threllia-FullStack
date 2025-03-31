@@ -5,12 +5,8 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {addShow, getAllSongsOrdered} from "@/redux/song/Action.js";
-import {Cross1Icon} from "@radix-ui/react-icons";
 import {Button} from "@/components/ui/button.jsx";
-import {toast, ToastContainer} from "react-toastify";
-import {parse} from "date-fns";
-import {getDateObject} from "@/components/Utils/DateParser.js";
-
+import {toast} from "react-toastify";
 
 
 export const TourAdmin = () => {
