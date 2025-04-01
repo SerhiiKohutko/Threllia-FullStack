@@ -37,12 +37,9 @@ import {useEffect} from "react";
 import {checkAuthState} from "@/redux/auth/Action.js";
 import {ChangePassword} from "@/components/Pages/Account/ChangePassword.jsx";
 
-//TODO - export admin buttons to separate component
-function OrderDetails() {
-    return null;
-}
 
-//TODO - refactor selection of songs on admin pages to avoid code duplication (select and all the related functions can be exported to separate component)
+//TODO - cancel payment page
+//TODO - select galleryCollection
 function App() {
 
     const dispatch = useDispatch();

@@ -65,7 +65,7 @@ export const HeroSection = () => {
                 <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-amber-700/40 to-transparent"></div>
             </div>
 
-            <style jsx>{`
+            <style jsx={"true"}>{`
                 .ash-container {
                     position: absolute;
                     bottom: 0;

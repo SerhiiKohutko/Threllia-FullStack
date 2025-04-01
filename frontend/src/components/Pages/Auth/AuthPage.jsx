@@ -236,7 +236,7 @@ export const BackgroundEffects = () => {
                 className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-amber-700/40 to-transparent"></div>
 
             {/* Animations */}
-            <style jsx>{`
+            <style jsx={"true"}>{`
                 @keyframes float {
                     0%, 100% {
                         transform: translateY(0) rotate(0deg);
@@ -284,7 +284,6 @@ export const AuthPage = () => {
 
     const navigate = useNavigate();
     useEffect(() => {
-        console.log(auth.user);
         if (auth.user && localStorage.getItem('token')) {
             navigate("/account");
         }
@@ -396,8 +395,7 @@ export const AuthPage = () => {
                                 className="w-full bg-red-700 hover:bg-red-800 text-white font-medium py-3 rounded-sm transition-all duration-200 mt-auto"
                                 onClick={() => {
                                     navigate("/register");
-                                }}
-                            >
+                                }}>
                                 Create an account!
                             </Button>
                         </section>

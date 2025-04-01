@@ -71,7 +71,7 @@ export const Footer = () => {
             </div>
 
             {/* Add the CSS for ash particles */}
-            <style jsx>{`
+            <style jsx={"true"}>{`
                 @keyframes riseUp {
                     0% {
                         transform: translateY(0) rotate(0deg);

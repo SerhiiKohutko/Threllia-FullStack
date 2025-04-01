@@ -20,7 +20,7 @@ export const ProductDetails = () => {
 
 
     useEffect(() => {
-        getCurrPosition(setPosition, variants, categoryName);
+        getCurrPosition(setPosition, variants, categoryName.toLowerCase());
     }, []);
 
     useEffect(() => {

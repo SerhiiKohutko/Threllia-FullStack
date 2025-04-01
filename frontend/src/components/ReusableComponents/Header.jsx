@@ -13,7 +13,6 @@ import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
 import {CartHeader} from "@/components/Pages/Shop/CartHeader.jsx";
 import {KeyIcon} from "lucide-react";
-import {useSelector} from "react-redux";
 
 export const Header = () => {
 

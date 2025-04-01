@@ -55,7 +55,7 @@ export const PhotoCollectionDetails = () => {
         <div>
             <Hero pageTitle={photoCollection?.title} background={bgImage} />
 
-            <div className="flex flex-col items-center bg-black">
+            <div jsx="true" className="flex flex-col items-center bg-black">
                 <div className="text-white text-5xl flex-row text-center font-deliciousHandrawn border-b border-orange-300 w-[70%] mb-6">
                     <p className={"pb-3"}>{getFormattedDate(photoCollection?.date)}</p>
                     <AdminEditDeleteButtons state={{

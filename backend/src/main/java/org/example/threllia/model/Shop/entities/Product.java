@@ -28,7 +28,6 @@ public class Product {
     private String description;
     private int totalQuantity;
 
-
     @PreRemove
     public void removeProductImage() throws IOException {
         FileUploader.removeProductImage(imageUrl);

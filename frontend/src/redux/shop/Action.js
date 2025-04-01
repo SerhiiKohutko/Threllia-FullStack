@@ -71,12 +71,17 @@ export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
 
 export const getProductById = (id, productType) => async (dispatch) => {
     try{
+
+        if (!productType){
+            return;
+        }
+
         const response = await axios.get(`http://localhost:8080/api/products/${productType.toUpperCase()}/${id}`)
 
         console.log(JSON.stringify(response.data));
         dispatch({type: GET_PRODUCT_BY_ID_SUCCESS, payload: response.data});
     }catch (err){
-        console.error(err.message);
+        console.log(err.message);
     }
 }
 
