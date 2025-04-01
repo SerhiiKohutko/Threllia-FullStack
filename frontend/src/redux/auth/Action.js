@@ -1,5 +1,10 @@
 import axios from "axios";
-import {GET_USER_DETAILS_SUCCESS, LOGIN_SUCCESS} from "@/redux/auth/ActionType.js";
+import {
+    GET_ALL_ORDER_REQUEST, GET_ALL_ORDERS_FAILURE,
+    GET_ALL_ORDERS_SUCCESS,
+    GET_USER_DETAILS_SUCCESS,
+    LOGIN_SUCCESS
+} from "@/redux/auth/ActionType.js";
 
 
 export const login = (data, navigate) => async(dispatch) => {
@@ -39,6 +44,23 @@ export const getUserDetails = (token) => async(dispatch) => {
 
         dispatch({type : GET_USER_DETAILS_SUCCESS, payload : response.data})
     }catch (error) {
+        console.log(error);
+    }
+}
+
+export const getAllOrders = (token) => async(dispatch) => {
+    dispatch({type : GET_ALL_ORDER_REQUEST});
+    try {
+        const response = await axios.get("http://localhost:8080/api/orders", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        console.log(JSON.stringify(response.data))
+        dispatch({type : GET_ALL_ORDERS_SUCCESS, payload : response.data});
+    }catch (error) {
+        dispatch({type : GET_ALL_ORDERS_FAILURE, payload : error})
         console.log(error);
     }
 }

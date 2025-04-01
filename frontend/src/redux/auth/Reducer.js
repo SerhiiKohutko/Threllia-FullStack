@@ -1,11 +1,20 @@
-import {GET_USER_DETAILS_SUCCESS, LOGIN_SUCCESS} from "@/redux/auth/ActionType.js";
+import {
+    GET_ALL_ORDER_REQUEST, GET_ALL_ORDERS_FAILURE,
+    GET_ALL_ORDERS_SUCCESS,
+    GET_USER_DETAILS_SUCCESS,
+    LOGIN_SUCCESS
+} from "@/redux/auth/ActionType.js";
 import {decodeJWT} from "@/components/Utils/JwtDecoder.js";
 
 
 const initialState = {
     userDetails: {
         sub : "", role : ""
-    }
+    },
+    loading: false,
+    error : null,
+    orders : [],
+    orderDetails: {}
 }
 
 
@@ -29,6 +38,17 @@ export const authReducer = (state = initialState, action) => {
             case GET_USER_DETAILS_SUCCESS:
                 console.log(action.payload);
                 return { userDetails: action.payload };
+
+        case GET_ALL_ORDER_REQUEST:
+            return { loading: true };
+        case GET_ALL_ORDERS_SUCCESS:
+            return {
+                loading: false,
+                orders : action.payload
+            };
+        case GET_ALL_ORDERS_FAILURE:
+            return { loading: false, error: action.payload };
+
 
             default:
                 return state;

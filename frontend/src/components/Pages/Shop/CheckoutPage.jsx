@@ -22,6 +22,7 @@ export const CheckoutPage = () => {
     function handleCheckout(){
         const products = getAllItems();
         dispatch(createPayment(products, localStorage.getItem("token")))
+        removeAllItemsFromCart();
     }
     return (
         <div className="min-h-screen bg-[#121212] text-white">
