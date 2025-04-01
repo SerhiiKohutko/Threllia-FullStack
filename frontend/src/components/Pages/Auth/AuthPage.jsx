@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {Input} from "@/components/ui/input.jsx";
-import {login} from "@/redux/auth/Action.js";
+import {getUserDetails, login} from "@/redux/auth/Action.js";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
@@ -270,7 +270,6 @@ export const BackgroundEffects = () => {
 
 
 
-
 export const AuthPage = () => {
     // State for form values and validation
     const [email, setEmail] = useState('');
@@ -284,12 +283,18 @@ export const AuthPage = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-
     useEffect(() => {
-        if (auth.userDetails && localStorage.getItem('token')) {
+        console.log(auth.user);
+        if (auth.user && localStorage.getItem('token')) {
             navigate("/account");
         }
-    },[])
+    }, [auth.user, dispatch, navigate]);
+
+    useEffect(() => {
+        if (auth.error){
+            setAuthError(auth.error);
+        }
+    }, [auth]);
 
     const validateForm = () => {
         let isValid = true;

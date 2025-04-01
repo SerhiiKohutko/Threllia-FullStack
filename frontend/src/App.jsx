@@ -27,11 +27,15 @@ import PhotoCollectionEditAdmin from "@/components/Pages/AdminPanel/EditPages/Ph
 import {NewsEditAdmin} from "@/components/Pages/AdminPanel/EditPages/NewsEditAdmin.jsx";
 import {ProductDetailsEditAdmin} from "@/components/Pages/AdminPanel/EditPages/ProductEditAdmin.jsx";
 import {AuthPage} from "@/components/Pages/Auth/AuthPage.jsx";
-import {Account, OrdersPage} from "@/components/Pages/Account/Account.jsx";
+import {Account} from "@/components/Pages/Account/Account.jsx";
 import {RegistrationPage} from "@/components/Pages/Auth/RegistrationPage.jsx";
 import {SuccessPayment} from "@/components/Pages/Shop/SuccessPayment.jsx";
 import {Orders} from "@/components/Pages/Account/Orders.jsx";
 import {PersonalInfo} from "@/components/Pages/Account/PersonalInfo.jsx";
+import {useDispatch} from "react-redux";
+import {useEffect} from "react";
+import {checkAuthState} from "@/redux/auth/Action.js";
+import {ChangePassword} from "@/components/Pages/Account/ChangePassword.jsx";
 
 //TODO - export admin buttons to separate component
 function OrderDetails() {
@@ -41,6 +45,11 @@ function OrderDetails() {
 //TODO - refactor selection of songs on admin pages to avoid code duplication (select and all the related functions can be exported to separate component)
 function App() {
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(checkAuthState());
+    }, [dispatch]);
 
   return (
     <>
@@ -78,6 +87,7 @@ function App() {
                         <Route path={"/account"} element={<Account/>}/>
                         <Route path={"/account/orders"} element={<Orders/>}/>
                         <Route path={"/account/personal-information"} element={<PersonalInfo/>}/>
+                        <Route path={"/account/personal-information/change_password"} element={<ChangePassword/>}/>
                         <Route path={"/register"} element={<RegistrationPage/>}/>
                         <Route path={"/order/success"} element={<SuccessPayment/>}/>
                     </Routes>

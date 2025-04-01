@@ -1,6 +1,5 @@
 package org.example.threllia.model.User;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
 import org.example.threllia.model.User.entities.User;
@@ -14,7 +13,6 @@ public class UserDTO {
     private String password;
     private String firstName;
     private String lastName;
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
     private String country;
 

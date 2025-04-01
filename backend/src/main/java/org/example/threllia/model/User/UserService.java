@@ -9,4 +9,8 @@ public interface UserService {
 
     UserDTO getUserDetails(String jwt) throws Exception;
     User getUserFromJwt(String jwt) throws Exception;
+
+    String updateUserDetails(String jwt, UserDTO user) throws Exception;
+
+    void changePassword(ChangePasswordDTO request) throws Exception;
 }

@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserDetails} from "@/redux/auth/Action.js";
+import {getUserDetails, logout} from "@/redux/auth/Action.js";
 import {Button} from "@/components/ui/button.jsx";
 
 export const Account = () => {
@@ -16,14 +16,22 @@ export const Account = () => {
         "2023";
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) {
-            navigate("/auth");
-        }
-    }, [auth, navigate]);
+        dispatch(getUserDetails());
+    }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getUserDetails(localStorage.getItem('token')));
-    },[])
+        if (!auth.loading && !auth.user) {
+            navigate("/login");
+        }
+    }, [auth.loading, auth.user, navigate]);
+
+    if (auth.loading) return <h1>Loading...</h1>;
+
+
+    function handleLogout() {
+        dispatch(logout());
+        navigate("/login");
+    }
 
     return (
         <div className="min-h-screen bg-black">
@@ -106,6 +114,13 @@ export const Account = () => {
                 </div>
 
                 <div className="mt-12 flex justify-end">
+                    <Button
+                        className="bg-transparent hover:bg-white text-white hover:text-black border border-white font-medium py-3 px-6 transition-all duration-200"
+                        onClick={() => {
+                            handleLogout()
+                        }}>
+                        Log Out
+                    </Button>
                     <Button
                         className="bg-transparent hover:bg-white text-white hover:text-black border border-white font-medium py-3 px-6 transition-all duration-200"
                         onClick={() => {

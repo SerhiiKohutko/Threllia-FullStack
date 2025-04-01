@@ -13,5 +13,5 @@ public interface OrderService {
     Order updateOrderStatus(String jwt, UpgradeOrderStatusRequest request) throws Exception;
 
     void saveOrderPayment(Payment payment, Order order);
-    
+
 }

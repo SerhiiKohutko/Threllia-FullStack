@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {Button} from "@/components/ui/button.jsx";
 import {Input} from "@/components/ui/input.jsx";
+import {updateUserDetails} from "@/redux/auth/Action.js";
+import {ToastContainer} from "react-toastify";
 
 export const PersonalInfo = () => {
         const [firstName, setFirstName] = useState('');
@@ -18,11 +20,12 @@ export const PersonalInfo = () => {
         const navigate = useNavigate();
 
         useEffect(() => {
-            if (!localStorage.getItem('token')) {
-                navigate("/auth");
-                return;
+            if (!auth.loading && !auth.user) {
+                navigate("/login");
             }
+        }, [auth.loading, auth.user, navigate]);
 
+        useEffect(() => {
             if (auth.userDetails) {
                 setFirstName(auth.userDetails.firstName || '');
                 setLastName(auth.userDetails.lastName || '');
@@ -46,10 +49,13 @@ export const PersonalInfo = () => {
                 country
             };
 
+            dispatch(updateUserDetails(userData, navigate));
+
         };
 
         return (
             <div className="min-h-screen bg-black">
+                <ToastContainer />
                 <div className={"h-[6rem] bg-black"}></div>
                 <div className="max-w-7xl mx-auto px-4 py-12">
                     <div className="mb-6">
@@ -157,7 +163,7 @@ export const PersonalInfo = () => {
                                 <Button
                                     type="button"
                                     className="bg-transparent hover:bg-gray-800 text-white border border-white py-2 px-4 transition-colors duration-200"
-                                    onClick={() => navigate("/account/change-password")}
+                                    onClick={() => navigate("/account/personal-information/change_password")}
                                 >
                                     Change Password
                                 </Button>

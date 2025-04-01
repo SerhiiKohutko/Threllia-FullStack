@@ -205,7 +205,6 @@ export const RegistrationPage = () => {
                                             <option value="CA">Canada</option>
                                             <option value="UK">United Kingdom</option>
                                             <option value="AU">Australia</option>
-                                            {/* Add more countries as needed */}
                                         </select>
                                         {countryError && <p className="text-red-500 text-xs mt-1">{countryError}</p>}
                                     </div>
@@ -242,8 +241,7 @@ export const RegistrationPage = () => {
                                 <div className="mt-6">
                                     <Button
                                         type="submit"
-                                        className="w-full bg-red-700 hover:bg-red-800 text-white font-medium py-3 rounded-sm transition-all duration-200 mt-4"
-                                    >
+                                        className="w-full bg-red-700 hover:bg-red-800 text-white font-medium py-3 rounded-sm transition-all duration-200 mt-4">
                                         Create Account
                                     </Button>
                                 </div>

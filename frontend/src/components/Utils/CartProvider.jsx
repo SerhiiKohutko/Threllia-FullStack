@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {addProduct, getCart, removeAllItems, removeItem} from "@/components/Utils/CartUtils.js";
+import {addProduct, cleanCart, getCart, removeAllItems, removeItem} from "@/components/Utils/CartUtils.js";
 
 const CartContext = createContext();
 
@@ -27,6 +27,10 @@ export const CartProvider = ({ children }) => {
         setCart(getCart());
     }
 
+    const cleanTheCart = () => {
+        cleanCart();
+    }
+
     const getAllItems = () => {
         return {
             totalCost : cart.reduce((total, item) => total + item.price, 0),
@@ -40,7 +44,7 @@ export const CartProvider = ({ children }) => {
         }
     }
     return (
-        <CartContext.Provider value={{cart, handleAddProductToCart, removeProductFromCart, removeAllItemsFromCart, getAllItems}}>
+        <CartContext.Provider value={{cart, handleAddProductToCart, removeProductFromCart, removeAllItemsFromCart, getAllItems, cleanTheCart}}>
             {children}
         </CartContext.Provider>
     );
