@@ -121,3 +121,37 @@ export const deleteProductById = (id, categoryName) => async () => {
         toast.error(e.message);
     }
 }
+
+export const createPayment = (products, jwt) => async () => {
+    try{
+        const response = await axios.post(`http://localhost:8080/api/payment`, products, {
+            headers : {
+                Authorization : `Bearer ${jwt}`
+            }
+        })
+
+        if (response.data.payment_link_url){
+            window.location.href = response.data.payment_link_url;
+        }
+    }catch(err){
+        console.log(err);
+    }
+
+}
+
+export const updateOrderStatus = (jwt, paymentId) => async () => {
+    try {
+        const response = await axios.post(`http://localhost:8080/api/orders/update_order_status`, {
+            paymentId : paymentId,
+        }, {
+            headers : {
+                Authorization : `Bearer ${jwt}`
+            }
+        })
+
+        console.log(JSON.stringify(response.data));
+    }catch(err){
+
+    }
+
+}

@@ -4,16 +4,25 @@ import React, {useState} from "react";
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {createPayment} from "@/redux/shop/Action.js";
 
 export const CheckoutPage = () => {
     const navigate = useNavigate();
-    const { cart, removeAllItemsFromCart, removeProductFromCart } = useCart();
+    const { cart, removeAllItemsFromCart, removeProductFromCart, getAllItems } = useCart();
     const [asAGuest, setAsAGuest] = useState(false);
+    const dispatch = useDispatch();
+
 
     const calculateSubtotal = () => {
         return cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
     };
 
+
+    function handleCheckout(){
+        const products = getAllItems();
+        dispatch(createPayment(products, localStorage.getItem("token")))
+    }
     return (
         <div className="min-h-screen bg-[#121212] text-white">
             <div className={"bg-black h-[6rem] border-white border-b"}></div>
@@ -148,6 +157,7 @@ export const CheckoutPage = () => {
                             />
                         )}
                         <Button
+                            onClick={() => handleCheckout()}
                             className="
                                 w-full
                                 bg-orange-700
@@ -156,9 +166,7 @@ export const CheckoutPage = () => {
                                 transition-colors
                                 duration-300
                                 rounded-none
-                                py-3
-                            "
-                        >
+                                py-3">
                             Complete Purchase
                         </Button>
                         <Button

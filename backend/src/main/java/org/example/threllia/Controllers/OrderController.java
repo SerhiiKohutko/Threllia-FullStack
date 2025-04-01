@@ -1,13 +1,13 @@
 package org.example.threllia.controllers;
 
 import org.example.threllia.configuration.JWT.JwtProvider;
-import org.example.threllia.model.Order.OrderCreationRequest;
+import org.example.threllia.model.Order.Order;
 import org.example.threllia.model.Order.OrderDTO;
 import org.example.threllia.model.Order.OrderService;
 import org.example.threllia.model.User.UserService;
 import org.example.threllia.model.User.entities.User;
+import org.example.threllia.requests.UpgradeOrderStatusRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +30,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersByUserId(user.getId()));
     }
 
-    public ResponseEntity<OrderDTO> createOrder(String jwt, OrderCreationRequest orderCreationRequest) throws Exception {
-        return new ResponseEntity<>(orderService.createOrder(jwt, orderCreationRequest), HttpStatus.CREATED);
+    @PostMapping("/update_order_status")
+    public ResponseEntity<Order> updateOrder(@RequestHeader("Authorization") String jwt, @RequestBody UpgradeOrderStatusRequest request) throws Exception {
+        return ResponseEntity.ok(orderService.updateOrderStatus(jwt, request));
     }
+
 }

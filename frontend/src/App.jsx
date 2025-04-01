@@ -29,6 +29,7 @@ import {ProductDetailsEditAdmin} from "@/components/Pages/AdminPanel/EditPages/P
 import {AuthPage} from "@/components/Pages/Auth/AuthPage.jsx";
 import {Account} from "@/components/Pages/Auth/Account.jsx";
 import {RegistrationPage} from "@/components/Pages/Auth/RegistrationPage.jsx";
+import {SuccessPayment} from "@/components/Pages/Shop/SuccessPayment.jsx";
 
 //TODO - export admin buttons to separate component
 //TODO - refactor selection of songs on admin pages to avoid code duplication (select and all the related functions can be exported to separate component)
@@ -70,6 +71,7 @@ function App() {
                         <Route path={"/login"} element={<AuthPage/>}/>
                         <Route path={"/account"} element={<Account/>}/>
                         <Route path={"/register"} element={<RegistrationPage/>}/>
+                        <Route path={"/order/success"} element={<SuccessPayment/>}/>
                     </Routes>
                 </div>
             <Footer/>

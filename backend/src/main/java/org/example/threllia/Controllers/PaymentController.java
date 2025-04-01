@@ -2,11 +2,10 @@ package org.example.threllia.controllers;
 
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-import org.example.threllia.model.Order.OrderCreationRequest;
-import org.example.threllia.model.Order.OrderItem;
+import org.example.threllia.model.Order.*;
+import org.example.threllia.model.Payment.Payment;
 import org.example.threllia.model.Payment.PaymentService;
 import org.example.threllia.model.Payment.PaymentStatus;
-import org.example.threllia.model.User.UserService;
 import org.example.threllia.responses.PaymentLinkResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +18,12 @@ import java.util.List;
 @RequestMapping("/api/payment")
 public class PaymentController {
 
-    @Autowired
-    private UserService userService;
+
     @Autowired
     private PaymentService paymentService;
     @Autowired
-    private OrderController orderController;
+    private OrderService orderService;
+
 
     @PostMapping
     public ResponseEntity<PaymentLinkResponse> createPaymentLink(
@@ -32,7 +31,7 @@ public class PaymentController {
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
 
-        orderController.createOrder(jwt, request);
+        Order order = orderService.createOrder(jwt ,request);
 
         try {
 
@@ -48,7 +47,7 @@ public class PaymentController {
                                                 .setUnitAmount((long) (item.getPrice() * 100))
                                                 .setProductData(
                                                         SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                .setName(item.getName())
+                                                                .setName(item.getProductName())
                                                                 .build()
                                                 )
                                                 .build()
@@ -60,9 +59,10 @@ public class PaymentController {
             SessionCreateParams params = SessionCreateParams.builder()
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl("http://localhost:5173/upgrade_plan/success?&payment_id={CHECKOUT_SESSION_ID}")
+                    .setSuccessUrl("http://localhost:5173/order/success?&payment_id={CHECKOUT_SESSION_ID}")
                     .setCancelUrl("http://localhost:5173/cancel")
                     .addAllLineItem(lineItems)
+                    .putMetadata("order_id", String.valueOf(order.getId()))
                     .build();
 
             Session session = Session.create(params);
@@ -71,7 +71,8 @@ public class PaymentController {
             response.setPayment_link_url(session.getUrl());
             response.setPayment_link_id(session.getId());
 
-            paymentService.createPayment(session.getId(), PaymentStatus.PENDING);
+            Payment createdPayment = paymentService.createPayment(session.getId(), PaymentStatus.PENDING);
+            orderService.saveOrderPayment(createdPayment, order);
 
             return ResponseEntity.ok(response);
 

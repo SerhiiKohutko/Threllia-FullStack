@@ -10,6 +10,7 @@ import java.util.Optional;
 public class PaymentServiceImpl implements PaymentService{
     @Autowired
     private PaymentRepository paymentRepository;
+
     @Override
     public boolean isPaymentSucceed(String paymentId) throws Exception {
         Optional<Payment> payment = paymentRepository.findByPaymentId(paymentId);
@@ -38,7 +39,8 @@ public class PaymentServiceImpl implements PaymentService{
     public Payment createPayment(String paymentId, PaymentStatus status) {
         Payment payment = new Payment();
         payment.setPaymentStatus(status);
-        payment.setPaymentId(paymentId);
+        payment.setPaymentId(paymentId);;
+
         return paymentRepository.save(payment);
     }
 }

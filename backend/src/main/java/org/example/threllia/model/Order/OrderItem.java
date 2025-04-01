@@ -16,7 +16,7 @@ public class OrderItem {
     private long productId;
     private int quantity;
     private double price;
-    private String name;
+    private String productName;
     private String imageUrl;
 
     @ManyToOne

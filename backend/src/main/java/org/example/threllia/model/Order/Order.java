@@ -1,6 +1,7 @@
 package org.example.threllia.model.Order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.example.threllia.model.Payment.Payment;
@@ -25,6 +26,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id",  referencedColumnName = "id")
+    @JsonIgnore
     private User user;
 
 

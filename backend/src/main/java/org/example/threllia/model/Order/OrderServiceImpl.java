@@ -1,8 +1,12 @@
 package org.example.threllia.model.Order;
 
+import com.stripe.model.checkout.Session;
 import jakarta.transaction.Transactional;
+import org.example.threllia.model.Payment.Payment;
+import org.example.threllia.model.Payment.PaymentService;
 import org.example.threllia.model.User.UserService;
 import org.example.threllia.model.User.entities.User;
+import org.example.threllia.requests.UpgradeOrderStatusRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +20,9 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    private OrderItemRepository orderItemRepository;
-    @Autowired
     private UserService userService;
+    @Autowired
+    private PaymentService paymentService;
 
     @Override
     @Transactional
@@ -43,7 +47,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderDTO createOrder(String jwt, OrderCreationRequest request) throws Exception {
+    public Order createOrder(String jwt, OrderCreationRequest request) throws Exception {
         User user = userService.getUserFromJwt(jwt);
 
         Order order = new Order();
@@ -62,8 +66,29 @@ public class OrderServiceImpl implements OrderService{
 
         order.setOrderItems(orderItems);
 
-        orderRepository.save(order);
 
-        return mapToOrderDTO(order);
+        return order;
+    }
+
+    @Override
+    public Order updateOrderStatus(String jwt, UpgradeOrderStatusRequest request) throws Exception {
+        Session session = Session.retrieve(request.getPaymentId());
+        long orderId = Long.parseLong(session.getMetadata().get("order_id"));
+
+        Order order = orderRepository.findOrderById(orderId).orElseThrow(() -> new Exception("No order found with such id"));
+
+        if (paymentService.isPaymentSucceed(request.getPaymentId())){
+            order.setStatus(OrderStatus.SUCCESS);
+        } else {
+            order.setStatus(OrderStatus.FAILED);
+        }
+
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public void saveOrderPayment(Payment payment, Order order) {
+        order.setPayment(payment);
+        orderRepository.save(order);
     }
 }

@@ -26,8 +26,21 @@ export const CartProvider = ({ children }) => {
         removeAllItems(id);
         setCart(getCart());
     }
+
+    const getAllItems = () => {
+        return {
+            totalCost : cart.reduce((total, item) => total + item.price, 0),
+            products : cart.map((item) => {return {
+                productName : item.productName,
+                quantity : item.quantity,
+                price : item.price,
+                productId:item.productId,
+                imageUrl : item.imageUrl,
+            }}),
+        }
+    }
     return (
-        <CartContext.Provider value={{cart, handleAddProductToCart, removeProductFromCart, removeAllItemsFromCart}}>
+        <CartContext.Provider value={{cart, handleAddProductToCart, removeProductFromCart, removeAllItemsFromCart, getAllItems}}>
             {children}
         </CartContext.Provider>
     );
