@@ -13,4 +13,6 @@ public interface UserService {
     String updateUserDetails(String jwt, UserDTO user) throws Exception;
 
     void changePassword(ChangePasswordDTO request) throws Exception;
+
+    User getCurrentUser();
 }

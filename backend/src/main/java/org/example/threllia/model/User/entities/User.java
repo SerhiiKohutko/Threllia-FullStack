@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.example.threllia.configuration.Profile;
+import org.example.threllia.model.Adress.Address;
 import org.example.threllia.model.Order.Order;
+import org.example.threllia.model.PaymentDetails.PaymentDetail;
 
 import java.util.Date;
 import java.util.List;
@@ -28,4 +30,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> ordersList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PaymentDetail> paymentDetails;
 }
