@@ -30,11 +30,8 @@ export const getAllNewsPaginated = (page, isOverview) => async (dispatch) => {
 
 export const getLatestUpdateById = (id) => async (dispatch) => {
     try {
-        console.log(id);
 
         const response = await axios.get(`http://localhost:8080/api/news/${id}`);
-
-        console.log(response.data);
 
         dispatch({type : GET_LATEST_UPDATE_BY_ID_SUCCESS, payload : response.data});
     }catch (e) {

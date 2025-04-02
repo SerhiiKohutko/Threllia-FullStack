@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+    GET_ALL_PHOTOS_PAGINATED_SUCCESS,
     GET_ALL_PHOTOS_REQUEST,
     GET_ALL_PHOTOS_SUCCESS,
     GET_PHOTO_COLLECTION_BY_ID_SUCCESS
@@ -25,7 +26,7 @@ export const getAllPhotosPaginated  = (page, order) => async (dispatch) => {
                 order : order
             }
         });
-        dispatch({type: GET_ALL_NEWS_PAGINATED_SUCCESS, payload: response.data});
+        dispatch({type: GET_ALL_PHOTOS_PAGINATED_SUCCESS, payload: response.data});
     }catch(error){
         console.log(error);
     }

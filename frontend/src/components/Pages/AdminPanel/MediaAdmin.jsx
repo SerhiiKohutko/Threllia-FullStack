@@ -75,7 +75,6 @@ export const MediaAdmin = () => {
             formData.append('photos', file);
         });
 
-        console.log(data);
         dispatch(addPhotoCollection(formData))
     };
 

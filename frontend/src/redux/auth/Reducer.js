@@ -29,6 +29,8 @@ import {decodeJWT} from "@/components/Utils/JwtDecoder.js";
 const initialState = {
     user: null,
     isAuthenticated: false,
+    userObtained: false,
+    userAdmin : false,
     userDetails: {},
     loading: false,
     error : null,
@@ -44,20 +46,20 @@ const initialState = {
 export const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
-            { const {sub, role} = decodeJWT(action.payload);
-                if (role === "ROLE_ADMIN") {
-                    localStorage.setItem("role", role);
-                }else{
-                    localStorage.setItem("role", role);
-                }
+            {
+                const {sub, role} = decodeJWT(action.payload);
+
             return {
                 ...state,
                 user: {
                     email: sub,
                     role: role
                 },
-                isAuthenticated: true
-            } }
+                isAuthenticated: true,
+                userAdmin: role === "ROLE_ADMIN",
+            }
+
+            }
             case LOGIN_FAILURE:
                 return {
                     ...state,
@@ -67,12 +69,22 @@ export const authReducer = (state = initialState, action) => {
         case GET_USER_DETAILS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
             };
             case GET_USER_DETAILS_SUCCESS:
-                return {...state, userDetails: action.payload, loading: false };
+                return {
+                    ...state,
+                    userDetails: action.payload,
+                    loading: false ,
+                    userObtained: true
+                };
                 case GET_USER_DETAILS_FAILURE:
-                    return {...state, error: action.payload, loading: false };
+                    return {
+                        ...state,
+                        error: action.payload,
+                        loading: false,
+                        userObtained: true
+                    };
         case GET_ALL_ORDER_REQUEST:
             return {...state, loading: true };
         case GET_ALL_ORDERS_SUCCESS:
@@ -193,6 +205,7 @@ export const authReducer = (state = initialState, action) => {
                     error: action.error
                 }
             case USER_LOGOUT:
+                localStorage.removeItem('token');
                 return initialState;
 
             default:

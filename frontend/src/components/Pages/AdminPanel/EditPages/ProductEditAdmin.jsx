@@ -23,9 +23,6 @@ export const ProductDetailsEditAdmin = () => {
         sizes
     } = location.state || {};
 
-    useEffect(() => {
-        console.log(imageUrl);
-    },[])
     const [updatedName, setUpdatedName] = useState(name || '');
     const [updatedPrice, setUpdatedPrice] = useState(price || 0);
     const [updatedDescription, setUpdatedDescription] = useState(description || '');
@@ -67,7 +64,6 @@ export const ProductDetailsEditAdmin = () => {
             setProductImage(file);
 
             const imageUrl = URL.createObjectURL(file);
-            console.log(imageUrl);
             setImagePreview(imageUrl);
         }
     };

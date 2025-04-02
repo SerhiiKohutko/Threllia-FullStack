@@ -97,7 +97,6 @@ export const ReleaseAdmin = () => {
     };
 
     const onSubmit = (data) => {
-        console.log(data);
         if (!data.title || !data.description || !data.dateReleased || !data.coverImage || !data.songList || !data.nameToInstrumentsPlayed) {
             toast.error("Please fill in all required fields", {
                 position: "top-right",

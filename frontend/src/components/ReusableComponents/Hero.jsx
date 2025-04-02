@@ -1,14 +1,10 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
 
-//TODO - fix background image
 export const Hero = ({pageTitle, background, buttonContent, navigateTo, additionalInfoForShowDetails}) => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log(buttonContent);
-    },[])
     return (
         <div>
             <div className="relative min-h-screen">

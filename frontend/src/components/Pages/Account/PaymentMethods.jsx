@@ -16,10 +16,10 @@ export const PaymentMethods = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!auth.loading && !auth.user) {
+        if (auth.userObtained  && !auth.user) {
             navigate("/login");
         }
-    }, [auth.loading, auth.user, navigate]);
+    }, [auth.userObtained , auth.user, navigate]);
 
     useEffect(() => {
        dispatch(getAllPaymentDetails(localStorage.getItem("token")));

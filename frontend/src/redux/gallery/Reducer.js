@@ -1,4 +1,8 @@
-import {GET_ALL_PHOTOS_SUCCESS, GET_PHOTO_COLLECTION_BY_ID_SUCCESS} from "@/redux/gallery/ActionType.js";
+import {
+    GET_ALL_PHOTOS_PAGINATED_SUCCESS,
+    GET_ALL_PHOTOS_SUCCESS,
+    GET_PHOTO_COLLECTION_BY_ID_SUCCESS
+} from "@/redux/gallery/ActionType.js";
 import {GET_ALL_NEWS_PAGINATED_SUCCESS} from "@/redux/news/ActionType.js";
 
 const initialState = {
@@ -17,7 +21,7 @@ export const photoReducer = (state = initialState, action) => {
                 photos: action.payload
             }
 
-        case GET_ALL_NEWS_PAGINATED_SUCCESS:
+        case GET_ALL_PHOTOS_PAGINATED_SUCCESS:
             return {
                 ...state,
                 pageablePart: action.payload,

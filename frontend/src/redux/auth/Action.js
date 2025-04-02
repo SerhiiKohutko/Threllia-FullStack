@@ -37,7 +37,6 @@ export const login = (data, navigate) => async(dispatch) => {
         const response = await axios.post("http://localhost:8080/auth/login", data, {});
 
         localStorage.setItem("token", response.data);
-        console.log(response.data);
 
         dispatch({type : LOGIN_SUCCESS,  payload : response.data})
         navigate("/account");
@@ -89,7 +88,6 @@ export const updateUserDetails = (data, navigate) => async(dispatch) => {
         })
 
         localStorage.setItem("token", response.data);
-        console.log(response.data);
 
         dispatch({type : LOGIN_SUCCESS,  payload : response.data})
         navigate("/account");
@@ -120,7 +118,6 @@ export const getAllOrders = (token) => async(dispatch) => {
             }
         })
 
-        console.log(JSON.stringify(response.data))
         dispatch({type : GET_ALL_ORDERS_SUCCESS, payload : response.data});
     }catch (error) {
         dispatch({type : GET_ALL_ORDERS_FAILURE, payload : error})
@@ -137,7 +134,6 @@ export const getAllAddresses = (token) => async(dispatch) => {
             }
         })
 
-        console.log(JSON.stringify(response.data))
         dispatch({type : GET_ALL_ADDRESSES_SUCCESS, payload : response.data});
     }catch (e) {
         dispatch({type : GET_ALL_ADDRESSES_FAILURE, error : e.response.data.message});
@@ -200,12 +196,11 @@ export const updateAddress = (id, data, setSuccess) => async(dispatch) => {
 }
 export const createPaymentDetails = (data, navigate) => async() => {
     try {
-        const response = await axios.post("http://localhost:8080/api/payment_details", data, {
+        await axios.post("http://localhost:8080/api/payment_details", data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
-        console.log(response.data)
         navigate("/account");
     } catch (e) {
         console.log(e)
@@ -221,7 +216,6 @@ export const getAllPaymentDetails = (token) => async(dispatch) => {
             }
         })
 
-        console.log(JSON.stringify(response.data))
         dispatch({type : GET_ALL_PAYMENT_DETAILS_SUCCESS, payload : response.data});
     }catch (error) {
         dispatch({type : GET_ALL_PAYMENT_DETAILS_FAILURE, payload : error})

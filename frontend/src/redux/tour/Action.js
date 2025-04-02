@@ -54,7 +54,6 @@ export const getShowsContainSongByTitle = (songTitle, page) => async (dispatch) 
         });
 
         dispatch({type: GET_PAST_SHOWS_SUCCESS, payload: response.data});
-        console.log(JSON.stringify(response.data));
     }catch(err){
         console.log(err);
     }

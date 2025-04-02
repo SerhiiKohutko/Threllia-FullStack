@@ -45,7 +45,6 @@ export const addRelease = (release) => async () => {
 
 export const updateRelease = (id, release) => async () => {
     try {
-        console.log(JSON.stringify(release))
         await axios.patch(`http://localhost:8080/api/releases/admin/${id}`, release, {
             headers: {
                 "Content-Type": "multipart/form-data"

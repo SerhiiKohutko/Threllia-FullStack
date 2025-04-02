@@ -20,10 +20,11 @@ export const Account = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (!auth.loading && !auth.user) {
+        if (auth.userObtained && !auth.user) {
+            console.log("NAVIGATING LOGIN");
             navigate("/login");
         }
-    }, [auth.loading, auth.user, navigate]);
+    }, [auth.userObtained , auth.user, navigate]);
 
     if (auth.loading) return <h1>Loading...</h1>;
 

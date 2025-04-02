@@ -12,9 +12,6 @@ export const MyPagination = ({plural, currPage, setCurrPage}) => {
     const [startPage, setStartPage] = useState(1);
     const [endPage, setEndPage] = useState(3);
 
-    useEffect(() => {
-        console.log("PLURAL" + plural);
-    }, []);
     function handleNextPageChange() {
 
         setCurrPage(prevPage => {

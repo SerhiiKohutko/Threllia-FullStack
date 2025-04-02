@@ -23,9 +23,6 @@ export const ShowDetailsPage = () => {
         dispatch(getShowDetails(showId));
     },[])
 
-    useEffect(() => {
-        console.log(tour.tourDetails.songsList)
-    },[tour.tourDetails.songsList])
 
     function handleDelete() {
         dispatch(deleteShowById(showId));

@@ -19,7 +19,6 @@ export const getShopOverviewForMVP = ({page, size}) => async (dispatch) => {
             }
         });
         dispatch({type: GET_SHOP_OVERVIEW_SUCCESS, payload: response.data});
-        console.log(response.data);
     }catch(err){
         dispatch({type: GET_SHOP_OVERVIEW_FAILURE, payload: err});
         console.error(err);
@@ -50,8 +49,6 @@ export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
 export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
     dispatch({type : GET_ALL_PRODUCTS_PAGINATED_REQUEST});
     try {
-
-        console.log(filters.categoryName.toUpperCase());
         const response = await axios.get(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}`, {
             params: {
                 page : page,
@@ -78,7 +75,6 @@ export const getProductById = (id, productType) => async (dispatch) => {
 
         const response = await axios.get(`http://localhost:8080/api/products/${productType.toUpperCase()}/${id}`)
 
-        console.log(JSON.stringify(response.data));
         dispatch({type: GET_PRODUCT_BY_ID_SUCCESS, payload: response.data});
     }catch (err){
         console.log(err.message);
@@ -154,9 +150,5 @@ export const updateOrderStatus = (jwt, paymentId) => async () => {
             }
         })
 
-        console.log(JSON.stringify(response.data));
-    }catch(err){
-
-    }
-
+    }catch(ignored){}
 }

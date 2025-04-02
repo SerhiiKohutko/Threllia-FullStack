@@ -16,7 +16,6 @@ export const LatestUpdateDetailsPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(latestUpdateId);
         dispatch(getLatestUpdateById(latestUpdateId))
     },[])
 

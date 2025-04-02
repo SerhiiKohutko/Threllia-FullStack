@@ -284,6 +284,7 @@ export const AuthPage = () => {
 
     const navigate = useNavigate();
     useEffect(() => {
+        console.log("LOGIN PAGE");
         if (auth.user && localStorage.getItem('token')) {
             navigate("/account");
         }

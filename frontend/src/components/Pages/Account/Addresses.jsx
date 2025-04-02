@@ -16,10 +16,10 @@ export const Addresses = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!auth.loading && !auth.user) {
+        if (auth.userObtained  && !auth.user) {
             navigate("/login");
         }
-    }, [auth.loading, auth.user, navigate]);
+    }, [auth.userObtained , auth.user, navigate]);
 
     useEffect(() => {
         dispatch(getAllAddresses(localStorage.getItem("token")));

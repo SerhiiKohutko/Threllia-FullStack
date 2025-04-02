@@ -5,11 +5,23 @@ import 'react-quill-new/dist/quill.snow.css';
 import {NewsAdmin} from "@/components/Pages/AdminPanel/NewsAdmin.jsx";
 import {ToastContainer} from "react-toastify";
 import {ReleaseAdmin} from "@/components/Pages/AdminPanel/ReleaseAdmin.jsx";
-import {Songs} from "@/components/Pages/Music/Songs/Songs.jsx";
 import {SongsAdmin} from "@/components/Pages/AdminPanel/SongsAdmin.jsx";
 import {ShopAdmin} from "@/components/Pages/AdminPanel/ShopAdmin.jsx";
+import {useEffect} from "react";
+import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 export const AdminPanel = () => {
+
+    const auth = useSelector(state => state.auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth.userObtained && !auth.userAdmin) {
+            navigate("/");
+        }
+    }, [auth]);
+
     return (
       <div>
           <ToastContainer />

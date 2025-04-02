@@ -13,20 +13,20 @@ import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
 import {CartHeader} from "@/components/Pages/Shop/CartHeader.jsx";
 import {KeyIcon} from "lucide-react";
+import {useSelector} from "react-redux";
 
 export const Header = () => {
 
     const navigate = useNavigate();
 
     const [isAdmin, setIsAdmin] = React.useState(false);
+    const auth = useSelector(state => state.auth);
 
     useEffect(() => {
-        console.log(localStorage.getItem("role"));
-
-        if (localStorage.getItem("role") === "ROLE_ADMIN"){
+        if (auth.user?.role === "ROLE_ADMIN"){
             setIsAdmin(true);
         }
-    }, []);
+    }, [auth.user]);
 
     return (
         <div className="absolute top-0 z-30 flex flex-row justify-center w-full h-24">
