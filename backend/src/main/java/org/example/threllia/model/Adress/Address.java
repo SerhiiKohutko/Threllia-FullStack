@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.example.threllia.model.User.entities.User;
 
+import java.util.Stack;
+
 @Entity
 @Data
 public class Address {
@@ -26,4 +28,8 @@ public class Address {
     @JoinColumn(name = "user")
     @JsonIgnore
     private User user;
+
+    private void main(){
+        Stack<Integer> stack = new Stack<>();
+    }
 }

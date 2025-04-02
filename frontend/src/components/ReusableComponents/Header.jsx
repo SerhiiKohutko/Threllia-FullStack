@@ -25,6 +25,8 @@ export const Header = () => {
     useEffect(() => {
         if (auth.user?.role === "ROLE_ADMIN"){
             setIsAdmin(true);
+        }else{
+            setIsAdmin(false);
         }
     }, [auth.user]);
 

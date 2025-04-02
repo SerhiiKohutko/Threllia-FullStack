@@ -40,6 +40,7 @@ import {Addresses} from "@/components/Pages/Account/Addresses.jsx";
 import {PaymentMethods} from "@/components/Pages/Account/PaymentMethods.jsx";
 import {PaymentForm} from "@/components/Pages/Account/PaymentForm.jsx";
 import {AddressForm} from "@/components/Pages/Account/AddressesForm.jsx";
+import {CancelPaymentPage} from "@/components/Pages/Shop/CancelPaymentPage.jsx";
 
 
 //TODO - cancel payment page
@@ -97,6 +98,7 @@ function App() {
                         <Route path={"/account/payment-methods/edit/:id"} element={<PaymentForm/>}/>
                         <Route path={"/register"} element={<RegistrationPage/>}/>
                         <Route path={"/order/success"} element={<SuccessPayment/>}/>
+                        <Route path={"/order/cancel"} element={<CancelPaymentPage/>}/>
                     </Routes>
                 </div>
             <Footer/>

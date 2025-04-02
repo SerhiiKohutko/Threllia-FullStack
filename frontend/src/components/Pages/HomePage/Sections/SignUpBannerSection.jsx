@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button.jsx";
 import {BackgroundEffects} from "@/components/Pages/Auth/AuthPage.jsx";
+import {useSelector} from "react-redux";
 
 export const SignUpBannerSection = () => {
+    const auth = useSelector((state) => state.auth);
+
+    if (auth.userObtained){
+        return ;
+    }
     return (
 
         <div className="relative h-[30rem] overflow-hidden">

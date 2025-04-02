@@ -31,7 +31,7 @@ export const RegistrationPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (auth.userDetails && localStorage.getItem('token')) {
+        if (localStorage.getItem('token')) {
             navigate("/account");
         }
     }, []);

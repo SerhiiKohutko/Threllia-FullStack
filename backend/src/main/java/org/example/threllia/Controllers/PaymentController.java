@@ -57,7 +57,7 @@ public class PaymentController {
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .setSuccessUrl("http://localhost:5173/order/success?&payment_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl("http://localhost:5173/cancel")
+                    .setCancelUrl("http://localhost:5173/order/cancel?&payment_id={CHECKOUT_SESSION_ID}")
                     .addAllLineItem(lineItems)
                     .putMetadata("order_id", String.valueOf(order.getId()))
                     .build();

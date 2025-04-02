@@ -132,6 +132,7 @@ export const createPayment = (products, jwt) => async () => {
         })
 
         if (response.data.payment_link_url){
+            localStorage.setItem("fromStripe", "true");
             window.location.href = response.data.payment_link_url;
         }
     }catch(err){
@@ -142,7 +143,10 @@ export const createPayment = (products, jwt) => async () => {
 
 export const updateOrderStatus = (jwt, paymentId) => async () => {
     try {
-        const response = await axios.post(`http://localhost:8080/api/orders/update_order_status`, {
+        if (!paymentId){
+            return;
+        }
+        await axios.post(`http://localhost:8080/api/orders/update_order_status`, {
             paymentId : paymentId,
         }, {
             headers : {
