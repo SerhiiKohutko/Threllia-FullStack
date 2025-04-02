@@ -36,6 +36,10 @@ import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {checkAuthState} from "@/redux/auth/Action.js";
 import {ChangePassword} from "@/components/Pages/Account/ChangePassword.jsx";
+import {Addresses} from "@/components/Pages/Account/Addresses.jsx";
+import {PaymentMethods} from "@/components/Pages/Account/PaymentMethods.jsx";
+import {PaymentForm} from "@/components/Pages/Account/PaymentForm.jsx";
+import {AddressForm} from "@/components/Pages/Account/AddressesForm.jsx";
 
 
 //TODO - cancel payment page
@@ -85,6 +89,12 @@ function App() {
                         <Route path={"/account/orders"} element={<Orders/>}/>
                         <Route path={"/account/personal-information"} element={<PersonalInfo/>}/>
                         <Route path={"/account/personal-information/change_password"} element={<ChangePassword/>}/>
+                        <Route path={"account/addresses"} element={<Addresses/>}/>
+                        <Route path={"account/addresses/add"} element={<AddressForm/>}/>
+                        <Route path={"account/addresses/edit/:id"} element={<AddressForm/>}/>
+                        <Route path={"/account/payment-settings"} element={<PaymentMethods/>}/>
+                        <Route path={"/account/payment-methods/add"} element={<PaymentForm/>}/>
+                        <Route path={"/account/payment-methods/edit/:id"} element={<PaymentForm/>}/>
                         <Route path={"/register"} element={<RegistrationPage/>}/>
                         <Route path={"/order/success"} element={<SuccessPayment/>}/>
                     </Routes>

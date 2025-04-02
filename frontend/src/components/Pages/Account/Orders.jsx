@@ -19,7 +19,7 @@ export const Orders = () => {
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
-            navigate("/auth");
+            navigate("/login");
             return;
         }
 

@@ -28,6 +28,11 @@ public class PaymentDetailsController {
         return ResponseEntity.ok(paymentDetailsService.getPaymentDetailsByUser());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PaymentDetail> getPaymentDetailsById(@PathVariable long id){
+        return ResponseEntity.ok(paymentDetailsService.getPaymentDetailsById(id));
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<PaymentDetailsDTO> updatePaymentDetails(@PathVariable long id, @RequestBody PaymentDetailsDTO paymentDetailsDTO){
         return ResponseEntity.ok(paymentDetailsService.updatePaymentDetails(id, paymentDetailsDTO));

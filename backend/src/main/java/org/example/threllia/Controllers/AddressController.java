@@ -24,18 +24,23 @@ public class AddressController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Address>> getPaymentDetails(){
+    public ResponseEntity<List<Address>> getAddresses(){
         return ResponseEntity.ok(addressService.getAddressesByUser());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Address> getAddressDetails(@PathVariable long id){
+        return ResponseEntity.ok(addressService.getAddressById(id));
     }
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<AddressDTO> updatePaymentDetails(@PathVariable long id, @RequestBody AddressDTO addressDTO){
+    public ResponseEntity<AddressDTO> updateAddress(@PathVariable long id, @RequestBody AddressDTO addressDTO){
         return ResponseEntity.ok(addressService.updateAddress(id, addressDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DeletionResponse> deletePaymentDetails(@PathVariable long id){
+    public ResponseEntity<DeletionResponse> deleteAddress(@PathVariable long id){
         addressService.deleteAddress(id);
         return ResponseEntity.ok(new DeletionResponse("Deleted Successfully!"));
     }
