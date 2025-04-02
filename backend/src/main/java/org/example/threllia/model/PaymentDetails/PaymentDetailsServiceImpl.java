@@ -1,6 +1,5 @@
-package org.example.threllia.model.Adress;
+package org.example.threllia.model.PaymentDetails;
 
-import org.example.threllia.model.PaymentDetails.PaymentDetail;
 import org.example.threllia.model.User.UserService;
 import org.example.threllia.model.User.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;

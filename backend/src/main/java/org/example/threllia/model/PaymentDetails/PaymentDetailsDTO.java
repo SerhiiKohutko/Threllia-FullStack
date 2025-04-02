@@ -1,7 +1,6 @@
-package org.example.threllia.model.Adress;
+package org.example.threllia.model.PaymentDetails;
 
 import lombok.Data;
-import org.example.threllia.model.PaymentDetails.CardType;
 
 @Data
 public class PaymentDetailsDTO {

@@ -1,6 +1,5 @@
-package org.example.threllia.model.Adress;
+package org.example.threllia.model.PaymentDetails;
 
-import org.example.threllia.model.PaymentDetails.PaymentDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

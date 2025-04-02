@@ -1,7 +1,7 @@
 package org.example.threllia.controllers;
 
-import org.example.threllia.model.Adress.PaymentDetailsDTO;
-import org.example.threllia.model.Adress.PaymentDetailsService;
+import org.example.threllia.model.PaymentDetails.PaymentDetailsDTO;
+import org.example.threllia.model.PaymentDetails.PaymentDetailsService;
 import org.example.threllia.model.PaymentDetails.PaymentDetail;
 import org.example.threllia.responses.DeletionResponse;
 import org.springframework.beans.factory.annotation.Autowired;

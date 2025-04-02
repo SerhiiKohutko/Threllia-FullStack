@@ -1,6 +1,4 @@
-package org.example.threllia.model.Adress;
-
-import org.example.threllia.model.PaymentDetails.PaymentDetail;
+package org.example.threllia.model.PaymentDetails;
 
 import java.util.List;
 
