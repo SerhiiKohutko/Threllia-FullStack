@@ -3,27 +3,9 @@ import {
     GET_ALL_PRODUCTS_PAGINATED_FAILURE,
     GET_ALL_PRODUCTS_PAGINATED_REQUEST,
     GET_ALL_PRODUCTS_PAGINATED_SUCCESS, GET_PRODUCT_BY_ID_SUCCESS,
-    GET_SHOP_OVERVIEW_FAILURE,
-    GET_SHOP_OVERVIEW_REQUEST,
-    GET_SHOP_OVERVIEW_SUCCESS
 } from "@/redux/shop/ActionType.js";
 import {toast} from "react-toastify";
 
-export const getShopOverviewForMVP = ({page, size}) => async (dispatch) => {
-    dispatch({type: GET_SHOP_OVERVIEW_REQUEST});
-    try{
-        const response = await axios.get(`http://localhost:8080/api/products/?`, {
-            params: {
-                size : size,
-                page : page
-            }
-        });
-        dispatch({type: GET_SHOP_OVERVIEW_SUCCESS, payload: response.data});
-    }catch(err){
-        dispatch({type: GET_SHOP_OVERVIEW_FAILURE, payload: err});
-        console.error(err);
-    }
-}
 
 export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
     try {
@@ -81,7 +63,7 @@ export const getProductById = (id, productType) => async (dispatch) => {
     }
 }
 
-export const createProduct = (product) => async (dispatch) => {
+export const createProduct = (product) => async () => {
     try{
         await axios.post(`http://localhost:8080/api/products`, product, {
             headers : {
@@ -95,7 +77,7 @@ export const createProduct = (product) => async (dispatch) => {
     }
 }
 
-export const updateProductById = (id, product) => async (dispatch) => {
+export const updateProductById = (id, product) => async () => {
     try {
         await axios.patch(`http://localhost:8080/api/products/admin/${id}`,product, {
             headers : {

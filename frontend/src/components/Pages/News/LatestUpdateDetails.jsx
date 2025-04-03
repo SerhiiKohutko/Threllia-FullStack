@@ -44,15 +44,9 @@ export const LatestUpdateDetailsPage = () => {
                          dangerouslySetInnerHTML={{__html: news.latestUpdateDetails.content}}></div>
                 </div>
             </div>
-
             <StoreOverviewSection/>
-
-
-                <div
-                    className="absolute inset-0 bg-[url('/cracked-dark.png')] bg-cover opacity-10 pointer-events-none"></div>
-
-                <div
-                    className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-amber-700/40 to-transparent"></div>
+                <div className="absolute inset-0 bg-[url('/cracked-dark.png')] bg-cover opacity-10 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-amber-700/40 to-transparent"></div>
         </div>
     );
 }

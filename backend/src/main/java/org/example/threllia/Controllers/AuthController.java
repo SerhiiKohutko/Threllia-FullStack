@@ -25,7 +25,6 @@ public class AuthController {
 
     @PostMapping(path = "/register")
     public ResponseEntity<AuthResponse> register(@RequestBody UserCreationRequest request) throws Exception {
-        System.out.println(request);
         userService.registerUser(request);
         return ResponseEntity.ok(new AuthResponse("User successfully registered!"));
     }

@@ -31,11 +31,7 @@ import {decodeJWT} from "@/components/Utils/JwtDecoder.js";
 export const login = (data, navigate) => async(dispatch) => {
     dispatch({type: LOGIN_REQUEST});
     try {
-
-
         const response = await axios.post("http://localhost:8080/auth/login", data, {});
-
-        console.log(data);
 
         localStorage.setItem("token", response.data);
 
@@ -75,7 +71,6 @@ export const getUserDetails = (token) => async(dispatch) => {
                 Authorization: `Bearer ${authToken}`
             }
         })
-
         dispatch({type: GET_USER_DETAILS_SUCCESS, payload: response.data})
     } catch (error) {
         dispatch({type: GET_USER_DETAILS_FAILURE, payload: error})
@@ -112,10 +107,11 @@ export const updateUserPassword = (data, navigate) => async(dispatch) => {
         dispatch({type: CHANGE_PASSWORD_ERROR, error : error.response.data.message});
     }
 }
+
 export const getAllOrders = (token) => async(dispatch) => {
     dispatch({type : GET_ALL_ORDER_REQUEST});
     try {
-        const response = await axios.get("http://localhost:8080/api/orders", {
+        const response = await axios.get("http://localhost:8080/api/user/orders", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -131,7 +127,7 @@ export const getAllOrders = (token) => async(dispatch) => {
 export const getAllAddresses = (token) => async(dispatch) => {
     dispatch({type : GET_ALL_ADDRESSES_REQUEST});
     try {
-        const response = await axios.get("http://localhost:8080/api/addresses", {
+        const response = await axios.get("http://localhost:8080/api/user/addresses", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -144,7 +140,7 @@ export const getAllAddresses = (token) => async(dispatch) => {
 }
 
 export const deleteAddress = (id ,token) => async(dispatch) => {
-    await axios.delete(`http://localhost:8080/api/addresses/${id}`, {
+    await axios.delete(`http://localhost:8080/api/user/addresses/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -156,7 +152,7 @@ export const deleteAddress = (id ,token) => async(dispatch) => {
 export const getAddressDetails = (id, token) => async(dispatch) => {
     dispatch({type : GET_ADDRESS_DETAILS_REQUEST})
     try {
-        const response = await axios.get(`http://localhost:8080/api/addresses/${id}`, {
+        const response = await axios.get(`http://localhost:8080/api/user/addresses/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -171,7 +167,7 @@ export const getAddressDetails = (id, token) => async(dispatch) => {
 
 export const createAddress = (data, navigate) => async() => {
     try {
-        await axios.post("http://localhost:8080/api/addresses", data, {
+        await axios.post("http://localhost:8080/api/user/addresses", data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -185,7 +181,7 @@ export const createAddress = (data, navigate) => async() => {
 export const updateAddress = (id, data, setSuccess) => async(dispatch) => {
     dispatch({type : UPDATE_ADDRESS_REQUEST});
     try {
-        const response = await axios.patch(`http://localhost:8080/api/addresses/${id}`, data,{
+        const response = await axios.patch(`http://localhost:8080/api/user/addresses/${id}`, data,{
             headers : {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -199,7 +195,7 @@ export const updateAddress = (id, data, setSuccess) => async(dispatch) => {
 }
 export const createPaymentDetails = (data, navigate) => async() => {
     try {
-        await axios.post("http://localhost:8080/api/payment_details", data, {
+        await axios.post("http://localhost:8080/api/user/payment_details", data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -213,7 +209,7 @@ export const createPaymentDetails = (data, navigate) => async() => {
 export const getAllPaymentDetails = (token) => async(dispatch) => {
     dispatch({type : GET_ALL_PAYMENT_DETAILS_REQUEST});
     try {
-        const response = await axios.get("http://localhost:8080/api/payment_details", {
+        const response = await axios.get("http://localhost:8080/api/user/payment_details", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -229,7 +225,7 @@ export const getAllPaymentDetails = (token) => async(dispatch) => {
 export const getPaymentDetails = (id, token) => async(dispatch) => {
     dispatch({type : GET_PAYMENT_DETAILS_BY_ID_REQUEST})
     try {
-        const response = await axios.get(`http://localhost:8080/api/payment_details/${id}`, {
+        const response = await axios.get(`http://localhost:8080/api/user/payment_details/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -243,7 +239,7 @@ export const getPaymentDetails = (id, token) => async(dispatch) => {
 }
 
 export const deletePayment = (id, token) => async(dispatch) => {
-        await axios.delete(`http://localhost:8080/api/payment_details/${id}`, {
+        await axios.delete(`http://localhost:8080/api/user/payment_details/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -255,7 +251,7 @@ export const deletePayment = (id, token) => async(dispatch) => {
 export const updatePaymentDetails = (id, data, setSuccess) => async(dispatch) => {
     dispatch({type : UPDATE_PAYMENT_DETAILS_REQUEST});
     try {
-        const response = await axios.patch(`http://localhost:8080/api/payment_details/${id}`, data,{
+        const response = await axios.patch(`http://localhost:8080/api/user/payment_details/${id}`, data,{
             headers : {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -279,8 +275,6 @@ export const checkAuthState = () => async(dispatch) => {
 
     if (token) {
         try {
-            const {sub, role} = decodeJWT(token);
-
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: token
@@ -299,7 +293,6 @@ export const checkAuthState = () => async(dispatch) => {
 export const loginWhileCheckout = (userData) => async (dispatch) => {
     try {
         await dispatch(login(userData));
-
         const token = localStorage.getItem("token");
         return !!token;
     } catch (e) {

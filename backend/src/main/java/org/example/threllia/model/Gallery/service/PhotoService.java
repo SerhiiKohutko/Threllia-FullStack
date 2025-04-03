@@ -15,9 +15,6 @@ public interface PhotoService {
     PhotoCollection getById(long id) throws Exception;
 
     PhotoCollection createGalleryItem(PhotoCollectionCreationRequest request, List<String> fileNames);
-    PhotoCollection addPhotos(List<String> fileNames, String author, long id) throws Exception;
-
     PhotoCollection updatePhotoCollection(long id,PhotoCollectionCreationRequest request, List<String> fileNames) throws Exception;
-
     void deletePhotoCollectionById(long id);
 }

@@ -31,7 +31,7 @@ export const getReleaseById = (id) => async (dispatch) => {
 
 export const addRelease = (release) => async () => {
     try{
-        await axios.post("http://localhost:8080/api/releases", release , {
+        await axios.post("http://localhost:8080/api/releases/admin", release , {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
@@ -50,7 +50,6 @@ export const updateRelease = (id, release) => async () => {
                 "Content-Type": "multipart/form-data"
             }
         })
-
         toast.success("Release successfully updated");
     }catch(err) {
         toast.error("Error");

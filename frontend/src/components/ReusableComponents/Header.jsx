@@ -99,7 +99,7 @@ export const Header = () => {
                         isAdmin &&
                         <KeyIcon className={"cursor-pointer hover:text-red-600"} onClick={() => navigate("/admin_panel")} />
                     }
-                    <PersonIcon onClick={() => navigate("/login")} className={"cursor-pointer h-8 w-8"}/>
+                    <PersonIcon onClick={() => navigate("/login")} className={"cursor-pointer h-8 w-8 hover:text-orange-500 transition-colors"}/>
                     <CartHeader/>
                 </div>
             </div>

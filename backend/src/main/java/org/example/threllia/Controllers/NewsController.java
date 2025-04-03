@@ -41,7 +41,9 @@ public class NewsController {
         return new ResponseEntity<>(latestUpdateService.getLatestUpdateById(id), HttpStatus.OK);
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    //ADMIN FUNCTIONALITY
+
+    @PostMapping(path = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<LatestUpdate> createLatestUpdate(@RequestParam("content") String data, @RequestParam("image") MultipartFile image) throws Exception {
         String fileName = FileUploader.uploadLatestUpdateImage(image);
         LatestUpdateRequest request = objectMapper.readValue(data, LatestUpdateRequest.class);

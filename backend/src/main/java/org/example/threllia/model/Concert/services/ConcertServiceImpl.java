@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ConcertServiceImpl implements ConcertService{
@@ -64,13 +63,10 @@ public class ConcertServiceImpl implements ConcertService{
 
         // if current date is after the received concert date
         // > the concert is not active anymore
-        System.out.println(LocalDate.now().isAfter(concert.getDate()));
         if (LocalDate.now().isAfter(concert.getDate())) {
-            System.out.println("INACTIVE SHOW ADDED");
             newConcert.setStatus(ConcertStatus.INACTIVE);
             newConcert.setSongsList(getReadyToUpdateSongsSet(concert.getSongsList()));
         } else {
-            System.out.println("ACTIVE SHOW ADDED");
             newConcert.setStatus(ConcertStatus.ACTIVE);
         }
 
@@ -100,32 +96,6 @@ public class ConcertServiceImpl implements ConcertService{
     @Override
     public void deleteConcertById(long id) {
         concertRepository.deleteById(id);
-    }
-
-    @Deprecated
-    @Override
-    public List<Concert> addShows(List<Concert> concerts) throws Exception {
-        List<Concert> savedConcerts = new ArrayList<>();
-
-        for (Concert curr : concerts)
-            savedConcerts.add(addShow(null));
-
-        return savedConcerts;
-    }
-
-    @Deprecated
-    @Override
-    public Concert updateSongsList(long id, Set<String> songsList) throws Exception {
-        Concert concert  = getConcertById(id);
-
-        if (concert.getStatus().equals(ConcertStatus.ACTIVE)){
-            throw new Exception("Concert has ACTIVE status, songs cannot be added");
-        }
-
-        List<Song> readyToUpdateList = getReadyToUpdateSongsSet(null);
-        concert.getSongsList().addAll(readyToUpdateList);
-
-        return concertRepository.save(concert);
     }
 
     private List<Song> getReadyToUpdateSongsSet(List<String> songsList) throws Exception {

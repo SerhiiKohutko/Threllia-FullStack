@@ -4,9 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.threllia.exceptions.ProductNotFoundException;
 import org.example.threllia.model.Shop.dto.ProductDTO;
-import org.example.threllia.model.Shop.entities.AccessoryProduct;
-import org.example.threllia.model.Shop.entities.ApparelProduct;
-import org.example.threllia.model.Shop.entities.MediaProduct;
 import org.example.threllia.model.Shop.entities.Product;
 import org.example.threllia.model.Shop.service.ProductService;
 import org.example.threllia.model.Shop.shop_enum.ProductType;
@@ -17,7 +14,6 @@ import org.example.threllia.utils.FileUploader;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,34 +29,6 @@ public class ShopController {
     @Autowired
     private ObjectMapper objectMapper;
 
-
-    @Deprecated
-    @GetMapping
-    public ResponseEntity<List<Product>> getShopOverviewForMVP(@RequestParam int size, @RequestParam int page){
-        return new ResponseEntity<>(productService.getProducts(page, size), HttpStatus.OK);
-    }
-
-
-    @Deprecated
-    @GetMapping("/accessories")
-    public ResponseEntity<List<AccessoryProduct>> getAllAccessories(){
-        List<AccessoryProduct> accessoryProducts = productService.getAllAccessories();
-        return ResponseEntity.ok(accessoryProducts);
-    }
-
-    @Deprecated
-    @GetMapping("/apparel")
-    public ResponseEntity<List<ApparelProduct>> getAllApparel(){
-        List<ApparelProduct> apparelProducts = productService.getAllApparel();
-        return ResponseEntity.ok(apparelProducts);
-    }
-
-    @Deprecated
-    @GetMapping("/mediaProducts")
-    public ResponseEntity<List<MediaProduct>> getAllMediaProducts(){
-        List<MediaProduct> mediaProducts = productService.getAllMediaProducts();
-        return ResponseEntity.ok(mediaProducts);
-    }
 
     @GetMapping("/all_paginated")
     public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestParam(defaultValue = "0") int page,

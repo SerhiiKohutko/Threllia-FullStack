@@ -16,13 +16,15 @@ import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -102,8 +104,6 @@ public class ProductServiceImpl implements ProductService{
     }
 
     private ProductDTO convertToProductDTO(Object[] row){
-        System.out.println(Arrays.toString(row));
-
         return ProductDTO.builder()
                 .id(((Number) row[0]).longValue())
                 .name((String) row[1])
@@ -147,43 +147,6 @@ public class ProductServiceImpl implements ProductService{
         return mediaProductRepository.getMediaProductById(id);
     }
 
-
-    @Deprecated
-    @Override
-    public List<Product> getProducts(int page, int size) {
-        List<Product> mixedProducts = new ArrayList<>();
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<MediaProduct> mediaProducts = mediaProductRepository.findAll(pageable);
-        Page<AccessoryProduct> accessories = accessoriesProductRepository.findAll(pageable);
-        Page<ApparelProduct> apparel = apparelProductRepository.findAll(pageable);
-
-        mediaProducts.forEach(mixedProducts::add);
-        accessories.forEach(mixedProducts::add);
-        apparel.forEach(mixedProducts::add);
-
-        Collections.shuffle(mixedProducts);
-
-        return mixedProducts;
-    }
-
-    @Deprecated
-    @Override
-    public List<AccessoryProduct> getAllAccessories() {
-        return accessoriesProductRepository.getAll();
-    }
-
-    @Deprecated
-    @Override
-    public List<MediaProduct> getAllMediaProducts() {
-        return mediaProductRepository.getAll();
-    }
-
-    @Deprecated
-    @Override
-    public List<ApparelProduct> getAllApparel() {
-        return apparelProductRepository.getAll();
-    }
 
     //ADMIN FUNCTIONALITY
     @Override
@@ -289,7 +252,6 @@ public class ProductServiceImpl implements ProductService{
             FileUploader.removeProductImage(apparelProduct.getImageUrl());
             apparelProduct.setImageUrl(imageName);
         }
-        System.out.println(apparelProduct.getSizeToQuantityMap());
 
         return apparelProductRepository.save(apparelProduct);
 

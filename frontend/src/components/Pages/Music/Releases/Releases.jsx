@@ -69,7 +69,9 @@ export const ReleasesSection = () => {
                 </div>
 
                 <div className={"min-h-full pb-5 pt-5"}>
-                    <MyPagination plural={releases} currPage={currPage} setCurrPage={setCurrPage} />
+                    { releases.releasesList?.length > 0 &&
+                        <MyPagination plural={releases} currPage={currPage} setCurrPage={setCurrPage} />
+                    }
                 </div>
             </div>
         </div>

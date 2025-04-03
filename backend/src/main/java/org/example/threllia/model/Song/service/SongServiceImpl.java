@@ -140,23 +140,4 @@ public class SongServiceImpl implements SongService{
         return builder.toString();
     }
 
-
-    //ADMIN FUNCTIONALITY
-    @Override
-    public void deleteAllSongs() {
-        List<Song> songList = songRepository.findAll();
-        List<Concert> concertToUpdate = new ArrayList<>();
-
-        for (Song song : songList) {
-            song.getConcertPlayed().forEach(e -> {
-                e.getSongsList().remove(song);
-                concertToUpdate.add(e);
-            });
-        }
-
-        concertRepository.saveAll(concertToUpdate);
-
-        songRepository.deleteAll(songList);
-    }
-
 }

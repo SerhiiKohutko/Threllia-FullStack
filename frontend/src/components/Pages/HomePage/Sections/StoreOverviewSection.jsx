@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button.jsx";
 import {BoxesIcon} from "lucide-react";
 import {useEffect} from "react";
-import {getAllProductsPaginated, getShopOverviewForMVP} from "@/redux/shop/Action.js";
+import {getAllProductsPaginated} from "@/redux/shop/Action.js";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useCart} from "@/components/Utils/CartProvider.jsx";
@@ -10,7 +10,7 @@ export const StoreOverviewSection = () => {
     const shop = useSelector(state => state.shop);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {cart, handleAddProductToCart, removeProductFromCart} = useCart();
+    const {cart, handleAddProductToCart} = useCart();
 
 
     useEffect(() => {

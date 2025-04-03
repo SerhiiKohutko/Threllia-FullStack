@@ -80,8 +80,6 @@ public class UserServiceImpl implements UserService {
         updatedUser.setDateOfBirth(user.getDateOfBirth());
         userRepository.save(updatedUser);
 
-        System.out.println(user.getDateOfBirth());
-
         return JwtProvider.generateToken(new CustomUserDetails(updatedUser.getEmail(), null, updatedUser.getRole()));
     }
 

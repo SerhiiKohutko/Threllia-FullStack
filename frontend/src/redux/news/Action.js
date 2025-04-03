@@ -1,19 +1,9 @@
 import axios from "axios";
 import {
     GET_ALL_NEWS_PAGINATED_SUCCESS,
-    GET_ALL_NEWS_SUCCESS,
     GET_LATEST_UPDATE_BY_ID_SUCCESS
 } from "@/redux/news/ActionType.js";
 import {toast} from "react-toastify";
-
-export const getAllLatestUpdates = () => async (dispatch) => {
-    try {
-        const response = await axios.get("http://localhost:8080/api/news");
-        dispatch({type : GET_ALL_NEWS_SUCCESS, payload : response.data});
-    } catch (err){
-        console.error(err)
-    }
-}
 
 export const getAllNewsPaginated = (page, isOverview) => async (dispatch) => {
     try{
@@ -41,7 +31,7 @@ export const getLatestUpdateById = (id) => async (dispatch) => {
 
 export const addLatestUpdate = (payload) => async () => {
     try {
-        await axios.post(`http://localhost:8080/api/news`, payload, {
+        await axios.post(`http://localhost:8080/api/news/admin`, payload, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
@@ -54,7 +44,7 @@ export const addLatestUpdate = (payload) => async () => {
     }
 }
 
-export const updateLatestUpdateById = (id, payload) => async (dispatch) => {
+export const updateLatestUpdateById = (id, payload) => async () => {
     try {
         await axios.patch(`http://localhost:8080/api/news/admin/${id}`,payload, {
             headers: {
@@ -69,7 +59,6 @@ export const updateLatestUpdateById = (id, payload) => async (dispatch) => {
 
 export const deleteLatestUpdateById = (id) => async () => {
     try{
-        console.log(id)
         await axios.delete(`http://localhost:8080/api/news/admin/${id}`)
         toast.success("Latest Update deleted successfully!");
     }catch (e) {

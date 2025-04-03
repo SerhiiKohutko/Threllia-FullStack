@@ -80,8 +80,6 @@ public class PhotoServiceImpl implements PhotoService {
 
         if (fileNames != null) addAllPhotosToGalleryItem(fileNames, author, updatedPhotoCollection);
 
-        updatedPhotoCollection.getPhotos().forEach(e -> System.out.println(e.getId()));
-
         updatedPhotoCollection.setTitle(request.getTitle());
         updatedPhotoCollection.setDate(request.getDate());
 
@@ -116,16 +114,5 @@ public class PhotoServiceImpl implements PhotoService {
     public void deletePhotoCollectionById(long id) {
         photoRepository.deleteById(id);
     }
-
-
-    @Deprecated
-    @Override
-    public PhotoCollection addPhotos(List<String> fileNames, String author, long id) throws Exception {
-        PhotoCollection item = getById(id);
-        Photographer photographer = photographerService.getPhotographer(author.trim());
-        addAllPhotosToGalleryItem(fileNames, photographer, item);
-        return photoRepository.save(item);
-    }
-
 
 }

@@ -1,22 +1,10 @@
 import axios from "axios";
 import {
     GET_ALL_PHOTOS_PAGINATED_SUCCESS,
-    GET_ALL_PHOTOS_REQUEST,
-    GET_ALL_PHOTOS_SUCCESS,
     GET_PHOTO_COLLECTION_BY_ID_SUCCESS
 } from "@/redux/gallery/ActionType.js";
-import {GET_ALL_NEWS_PAGINATED_SUCCESS} from "@/redux/news/ActionType.js";
 import {toast} from "react-toastify";
 
-export const getAllPhotos = () => async (dispatch) => {
-    dispatch({type: GET_ALL_PHOTOS_REQUEST});
-    try{
-        const response = await axios.get("http://localhost:8080/api/photos");
-        dispatch({type: GET_ALL_PHOTOS_SUCCESS, payload: response.data});
-    }catch(error){
-        console.log(error);
-    }
-}
 
 export const getAllPhotosPaginated  = (page, order) => async (dispatch) => {
     try{
@@ -44,9 +32,9 @@ export const getPhotoCollectionDetails = (id) => async (dispatch) => {
 export const addPhotoCollection = (data) => async () => {
     try {
 
-        const response = await axios.post(`http://localhost:8080/api/photos`, data, {
+        await axios.post(`http://localhost:8080/api/photos/admin`, data, {
             headers: {
-                'Content-Type': 'multipart/form-data', // Explicitly set content type
+                'Content-Type': 'multipart/form-data',
             }
         });
 

@@ -67,7 +67,7 @@ export const LatestUpdateOverviewSection = () => {
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-12">
                     <h2 className="text-5xl font-rubikPaint text-white mb-6 md:mb-0">LATEST UPDATES</h2>
-                    <Button variant="primary" className="font-tradeWinds border border-amber-600 text-white hover:text-amber-600">
+                    <Button onClick={() => navigate("/news")} variant="primary" className="font-tradeWinds border border-amber-600 text-white hover:text-amber-600">
                         ALL NEWS <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                 </div>

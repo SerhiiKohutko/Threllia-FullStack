@@ -48,8 +48,7 @@ public class GalleryController {
 
     //ADMIN FUNCTIONALITY
 
-    //change endpoint to admin
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PhotoCollection> createPhotoCollection(@RequestParam("data") String data, @RequestParam("photos") List<MultipartFile> photos) throws Exception {
 
         PhotoCollectionCreationRequest request = objectMapper.readValue(data, PhotoCollectionCreationRequest.class);
@@ -57,14 +56,6 @@ public class GalleryController {
         List<String> fileNames = FileUploader.saveAllPhotos(photos);
         PhotoCollection savedPhotoCollection = photoService.createGalleryItem(request, fileNames);
         return new ResponseEntity<>(savedPhotoCollection, HttpStatus.CREATED);
-    }
-
-    @Deprecated
-    @PatchMapping("/{id}")
-    public ResponseEntity<PhotoCollection> addPhotosToGalleryItem(@PathVariable long id, @RequestParam String authorName, @RequestPart("photos") List<MultipartFile> photos) throws Exception {
-        List<String> fileNames = FileUploader.saveAllPhotos(photos);
-        PhotoCollection updatedPhotoCollection = photoService.addPhotos(fileNames, authorName, id);
-        return new ResponseEntity<>(updatedPhotoCollection, HttpStatus.OK);
     }
 
     @PatchMapping(path = "/admin/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

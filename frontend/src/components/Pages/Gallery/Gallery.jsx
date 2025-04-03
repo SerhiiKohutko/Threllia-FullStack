@@ -66,7 +66,9 @@ export const Gallery = () => {
               </div>
 
               <div className={"min-h-full pb-5 pt-5"}>
-                  <MyPagination plural={photo} currPage={currPage} setCurrPage={setCurrPage} />
+                  { photo.photos.length > 0 &&
+                      <MyPagination plural={photo} currPage={currPage} setCurrPage={setCurrPage} />
+                  }
               </div>
           </div>
       </div>

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ReleaseServiceImpl implements ReleaseService{
@@ -63,14 +62,6 @@ public class ReleaseServiceImpl implements ReleaseService{
             trackList.add(songService.getSongByTitle(s));
         }
         return trackList;
-    }
-
-
-    //prod functionality
-    @Override
-    public MusicRelease updateReleaseTrackList(Set<Song> songs, long releaseId) {
-
-        return null;
     }
 
     @Override

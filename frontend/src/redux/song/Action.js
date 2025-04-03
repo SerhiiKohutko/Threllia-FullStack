@@ -22,7 +22,7 @@ export const getAllSongsOrdered = () => async (dispatch) => {
 
 export const addShow = (show) => async () => {
     try{
-        await axios.post(`http://localhost:8080/api/concerts`, show, {});
+        await axios.post(`http://localhost:8080/api/concerts/admin`, show, {});
         toast.success("Show add successfully.", {
             position: "top-right",
             autoClose: 2000,
@@ -47,7 +47,7 @@ export const addShow = (show) => async () => {
 
 export const addSong = (song) => async () => {
     try {
-        await axios.post(`http://localhost:8080/api/songs`, song);
+        await axios.post(`http://localhost:8080/api/songs/admin`, song);
 
         toast.success("Add song successfully.")
     } catch (err) {

@@ -15,10 +15,10 @@ export const Footer = () => {
                     <div>
                         <h4 className="text-lg font-tradeWinds mb-4">Quick Links</h4>
                         <ul className="space-y-2 text-gray-400">
-                            <li><a href="#tour" className="hover:text-amber-500 transition">Tour Dates</a></li>
-                            <li><a href="#music" className="hover:text-amber-500 transition">Music</a></li>
-                            <li><a href="#shop" className="hover:text-amber-500 transition">Merch</a></li>
-                            <li><a href="#media" className="hover:text-amber-500 transition">Media</a></li>
+                            <li><a href="/tour" className="hover:text-amber-500 transition">Tour Dates</a></li>
+                            <li><a href="/releases" className="hover:text-amber-500 transition">Music</a></li>
+                            <li><a href="/shop" className="hover:text-amber-500 transition">Merch</a></li>
+                            <li><a href="/gallery" className="hover:text-amber-500 transition">Media</a></li>
                         </ul>
                     </div>
 
@@ -69,8 +69,6 @@ export const Footer = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Add the CSS for ash particles */}
             <style jsx={"true"}>{`
                 @keyframes riseUp {
                     0% {

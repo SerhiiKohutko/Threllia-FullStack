@@ -45,7 +45,6 @@ public class FileUploader {
         Path deletionPath = Paths.get(UPLOAD_DIR_PHOTOS + "\\" + fileName);
         Files.delete(deletionPath);
 
-        System.out.println("FILE DELETED");
     }
 
     public static void removeLatestUpdateImage(String fileName) throws IOException {
@@ -56,7 +55,6 @@ public class FileUploader {
         Path deletionPath = Paths.get(UPLOAD_DIR_NEWS + "\\" + fileName);
         Files.delete(deletionPath);
 
-        System.out.println("FILE DELETED");
     }
 
     public static void removeProductImage(String fileName) throws IOException {
@@ -67,7 +65,6 @@ public class FileUploader {
         Path deletionPath = Paths.get(UPLOAD_DIR_PRODUCTS + "\\" + fileName);
         Files.delete(deletionPath);
 
-        System.out.println("FILE DELETED");
     }
 
 
@@ -79,7 +76,6 @@ public class FileUploader {
         Path deletionPath = Paths.get(UPLOAD_DIR_RELEASES + "\\" + fileName);
         Files.delete(deletionPath);
 
-        System.out.println("FILE DELETED");
     }
 
     private static String getString(MultipartFile image, String folder) throws Exception {

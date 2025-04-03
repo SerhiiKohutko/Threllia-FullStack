@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 //TODO - change concertDTO from set to list to keep the order
 
@@ -52,19 +51,9 @@ public class ConcertController {
         return new ResponseEntity<>(closestSix, HttpStatus.OK);
     }
 
-    @Deprecated
-    @PatchMapping("/{id}/updateSongsList")
-    public ResponseEntity<Concert> updateSongList(@PathVariable long id,
-                                                  @RequestBody Set<String> updatedSongsList) throws Exception {
-
-        Concert updatedConcert = concertService.updateSongsList(id, updatedSongsList);
-
-        return ResponseEntity.ok(updatedConcert);
-    }
-
     //ADMIN FUNCTIONALITY
 
-    @PostMapping
+    @PostMapping("/admin")
     public ResponseEntity<Concert> addShow(@RequestBody ConcertDTO concert) throws Exception {
         Concert savedConcert = concertService.addShow(concert);
         return new ResponseEntity<>(savedConcert, HttpStatus.CREATED);

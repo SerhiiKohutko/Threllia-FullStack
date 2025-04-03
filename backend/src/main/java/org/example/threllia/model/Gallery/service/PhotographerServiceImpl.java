@@ -26,12 +26,7 @@ public class PhotographerServiceImpl implements PhotographerService{
 
         return photographerOptional.get();
     }
-
-    @Override
-    public Photographer doesPhotographerExist(String name) {
-        return null;
-    }
-
+    
     @Override
     public Photographer savePhotographer(Photographer photographer) {
         return photographerRepository.save(photographer);

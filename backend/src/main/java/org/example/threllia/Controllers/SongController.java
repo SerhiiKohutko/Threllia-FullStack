@@ -48,16 +48,9 @@ public class SongController {
         return ResponseEntity.ok(songService.updateSong(id, request));
     }
 
-    @PostMapping
+    @PostMapping("/admin")
     public ResponseEntity<Song> addSong(@RequestBody SongCreationRequest request){
         Song savedSong = songService.addSong(request);
         return ResponseEntity.ok(savedSong);
     }
-
-    @DeleteMapping
-    public ResponseEntity<String> deleteAllSongs(){
-        songService.deleteAllSongs();
-        return ResponseEntity.ok("All Song Deleted");
-    }
-
 }

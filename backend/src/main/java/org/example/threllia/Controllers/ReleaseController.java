@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.threllia.model.Release.entities.MusicRelease;
 import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.model.Release.service.ReleaseService;
-import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.requests.ReleaseRequest;
 import org.example.threllia.responses.DeletionResponse;
 import org.example.threllia.utils.FileUploader;
@@ -15,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/releases")
@@ -38,15 +35,8 @@ public class ReleaseController {
         return ResponseEntity.ok(release);
     }
 
-    @Deprecated
-    @PatchMapping
-    public ResponseEntity<MusicRelease> updateTrackList(@RequestBody Set<Song> trackList, @RequestParam long releaseId){
-        MusicRelease updatedMusicRelease = releaseService.updateReleaseTrackList(trackList, releaseId);
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
     //ADMIN FUNCTIONALITY
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MusicRelease> addRelease(@RequestParam("data") String  data, @RequestParam("releaseCover") MultipartFile image) throws Exception {
         String imageName = FileUploader.uploadReleaseCover(image);
 
@@ -63,19 +53,13 @@ public class ReleaseController {
 
         ReleaseRequest release = objectMapper.readValue(data, ReleaseRequest.class);
 
-        System.out.println(release);
-
         MusicRelease savedMusicRelease = releaseService.updateMusicRelease(id, release, imageName);
         return new ResponseEntity<>(savedMusicRelease, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<DeletionResponse> deleteRelease(@PathVariable long id){
-
-        System.out.println("Deletion attempt");
-
         releaseService.deleteReleaseById(id);
-
         return ResponseEntity.ok(new DeletionResponse("Release deleted successfully!"));
     }
 

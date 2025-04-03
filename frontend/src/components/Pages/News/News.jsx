@@ -73,7 +73,9 @@ export const News = () => {
                                 </div>
                         ))
                     }
-                    <MyPagination plural={news} currPage={currPage} setCurrPage={setCurrPage} />
+                    {news.news.length > 0 &&
+                        <MyPagination plural={news} currPage={currPage} setCurrPage={setCurrPage} />
+                    }
                 </div>
             </div>
             <SignUpBannerSection/>
