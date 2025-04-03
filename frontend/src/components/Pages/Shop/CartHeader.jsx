@@ -38,7 +38,7 @@ export const CartHeader = () => {
                             key={index}
                             className={"flex flex-row items-center justify-between mb-4 p-4 bg-gray-800/70 rounded-lg border border-orange-500/30 hover:bg-gray-700/70 transition-all duration-300"}>
                             <img
-                                src={item.imageUrl}
+                                src={"http://localhost:8080/shop/" + item.imageUrl}
                                 alt={"product"}
                                 className={"h-20 w-20 object-cover rounded-md mr-4 shadow-md"}
                             />

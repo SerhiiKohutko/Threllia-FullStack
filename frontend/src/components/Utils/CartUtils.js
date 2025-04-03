@@ -1,4 +1,3 @@
-
 export function getCart(){
     return JSON.parse(localStorage.getItem("cart")) || [];
 }
@@ -7,7 +6,6 @@ export function addProduct(product){
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const exist = cart.findIndex((item) => product.id === item.id);
-
 
     if (exist > -1){
         cart[exist].quantity += product.quantity;

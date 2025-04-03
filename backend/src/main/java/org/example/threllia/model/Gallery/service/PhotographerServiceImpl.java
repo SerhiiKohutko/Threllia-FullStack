@@ -26,7 +26,7 @@ public class PhotographerServiceImpl implements PhotographerService{
 
         return photographerOptional.get();
     }
-    
+
     @Override
     public Photographer savePhotographer(Photographer photographer) {
         return photographerRepository.save(photographer);
