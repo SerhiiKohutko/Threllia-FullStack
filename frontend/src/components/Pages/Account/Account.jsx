@@ -39,7 +39,7 @@ export const Account = () => {
         <div className="min-h-screen bg-black">
             <BackgroundEffects/>
             <div className={"h-[6rem]"}></div>
-            <div className="max-w-7xl mx-auto px-4 py-12">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
 
                 <div className="relative z-10 mb-12 text-left">
                     <h1 className="text-4xl font-bold tracking-wider text-white">{userName}</h1>

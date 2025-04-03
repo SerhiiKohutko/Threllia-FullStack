@@ -1,26 +1,15 @@
 import bgImage from "@/resources/ajfajm_big_burning_cross_7f4e8d49-44f0-4d57-b94d-9c20f7893d64.png";
 import React, {useEffect, useState} from "react";
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
-
-import {
-    Pagination,
-    PaginationContent, PaginationEllipsis,
-    PaginationItem,
-    PaginationLink, PaginationNext,
-    PaginationPrevious
-} from "@/components/ui/pagination.jsx";
-import {PastShow} from "@/components/Pages/Tour/PastTourDates/PastShow.jsx";
 import {SignUpBannerSection} from "@/components/Pages/HomePage/Sections/SignUpBannerSection.jsx";
 import SongDetailsInfo from "@/components/Pages/Music/Songs/SongDetailsInfo.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {getSongDetails} from "@/redux/song/Action.js";
 import {useParams} from "react-router-dom";
 import {getShowsContainSongByTitle} from "@/redux/tour/Action.js";
-import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {
     PastTourDatesSection
 } from "@/components/Pages/Tour/PastTourDates/PastTourDatesSection.jsx";
-import {Button} from "@/components/ui/button.jsx";
 
 
 export const SongDetails = () => {

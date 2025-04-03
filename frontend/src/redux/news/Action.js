@@ -69,6 +69,7 @@ export const updateLatestUpdateById = (id, payload) => async (dispatch) => {
 
 export const deleteLatestUpdateById = (id) => async () => {
     try{
+        console.log(id)
         await axios.delete(`http://localhost:8080/api/news/admin/${id}`)
         toast.success("Latest Update deleted successfully!");
     }catch (e) {

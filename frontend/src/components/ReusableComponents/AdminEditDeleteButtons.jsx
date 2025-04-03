@@ -21,7 +21,7 @@ export const AdminEditDeleteButtons = ({navigationLink, state, handleDelete}) =>
                 isAdmin && <>
                     <Button onClick={() => navigate(navigationLink, {state: state})}
                             variant={"ghost"} className={"border rounded-none border-orange-500 mt-5 mr-4 text-white"}>Edit</Button>
-                    <Button onClick={() => handleDelete} variant={"ghost"} className={"border bg-red-700 text-white rounded-none border-orange-500 mt-5 mb-5"}>Delete</Button>
+                    <Button onClick={handleDelete} variant={"ghost"} className={"border bg-red-700 text-white rounded-none border-orange-500 mt-5 mb-5"}>Delete</Button>
                 </>
             }
         </>
