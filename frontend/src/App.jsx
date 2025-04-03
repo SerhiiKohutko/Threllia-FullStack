@@ -43,6 +43,10 @@ import {AddressForm} from "@/components/Pages/Account/AddressesForm.jsx";
 import {CancelPaymentPage} from "@/components/Pages/Shop/CancelPaymentPage.jsx";
 import {TicketPurchasePage} from "@/components/Pages/Tour/TicketPurchasePage.jsx";
 import {TicketFailurePage, TicketSuccessPage} from "@/components/Pages/Tour/TicketPurchaseResult.jsx";
+import {PrivacyPolicy} from "@/components/Pages/PolicyPages/PrivacyPolicy.jsx";
+import {TermsOfUse} from "@/components/Pages/PolicyPages/TermsOfUse.jsx";
+import {RefundPolicy} from "@/components/Pages/PolicyPages/RefundPolicy.jsx";
+import {CookiePolicy} from "@/components/Pages/PolicyPages/CookiePolicy.jsx";
 
 
 //TODO - cancel payment page
@@ -105,6 +109,10 @@ function App() {
                         <Route path={"/ticket/purchase/:id"} element={<TicketPurchasePage/>}/>
                         <Route path={"/ticket/success"} element={<TicketSuccessPage/>}/>
                         <Route path={"/ticket/cancel"} element={<TicketFailurePage/>}/>
+                        <Route path={"/privacy_policy"} element={<PrivacyPolicy/>}/>
+                        <Route path={"/terms_of_use"} element={<TermsOfUse/>}/>
+                        <Route path={"/refund_policy"} element={<RefundPolicy/>}/>
+                        <Route path={"/cookie_policy"} element={<CookiePolicy/>}/>
                     </Routes>
                 </div>
             <Footer/>
