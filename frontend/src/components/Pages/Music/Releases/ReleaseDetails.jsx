@@ -10,13 +10,9 @@ import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
 
 
-export const ReleaseDetails = () => {
-    const { releaseId } = useParams();
-    const release = useSelector(state => state.releases);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
 
+export const BackgroundEffectsAlt = ({ className = "" }) => {
     const [lightningActive, setLightningActive] = useState(false);
     const [lightningPosition, setLightningPosition] = useState({ x: 50, y: 30 });
 
@@ -48,8 +44,6 @@ export const ReleaseDetails = () => {
     };
 
     useEffect(() => {
-        dispatch(getReleaseById(releaseId));
-
         // Lightning effect interval
         const lightningInterval = setInterval(() => {
             if (Math.random() < 0.15) {
@@ -58,6 +52,91 @@ export const ReleaseDetails = () => {
         }, 2000);
 
         return () => clearInterval(lightningInterval);
+    }, []);
+
+    return (
+        <div className={`absolute inset-0 w-full h-full ${className}`}>
+            <div className="absolute inset-0 bg-black"></div>
+
+            <div className="absolute inset-0 opacity-20"
+                 style={{
+                     backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%23333333\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
+                     backgroundSize: '100px 100px'
+                 }}>
+            </div>
+
+            {/* Lightning effects */}
+            <div className="absolute inset-0 pointer-events-none">
+                <svg className="absolute w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path
+                        className={`transition-opacity duration-75 ${lightningActive ? 'opacity-100' : 'opacity-0'}`}
+                        d={`M${lightningPosition.x},-10 
+                           L${lightningPosition.x + 3},${lightningPosition.y} 
+                           L${lightningPosition.x - 2},${lightningPosition.y + 10} 
+                           L${lightningPosition.x + 5},${lightningPosition.y + 30}
+                           L${lightningPosition.x - 3},${lightningPosition.y + 50}
+                           L${lightningPosition.x + 7},${lightningPosition.y + 70}
+                           L${lightningPosition.x},100`}
+                        stroke="#FF6B00"
+                        strokeWidth="1"
+                        fill="none"
+                        filter="drop-shadow(0 0 15px #FF6B00)"
+                    />
+                </svg>
+                <div
+                    className={`absolute w-full h-full bg-orange-500 mix-blend-overlay transition-opacity duration-100 ${lightningActive ? 'opacity-10' : 'opacity-0'}`}
+                ></div>
+            </div>
+
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {sparklePositions.map((spark, i) => (
+                    <div
+                        key={`sparkle-${i}`}
+                        className="absolute rounded-full"
+                        style={{
+                            left: `${spark.left}%`,
+                            top: `${spark.top}%`,
+                            width: `${spark.size}px`,
+                            height: `${spark.size}px`,
+                            backgroundColor: `rgba(${spark.color.r}, ${spark.color.g}, ${spark.color.b}, ${spark.color.a})`,
+                            filter: lightningActive ? 'blur(1.5px) brightness(1.5)' : 'blur(1px)',
+                            boxShadow: lightningActive
+                                ? '0 0 5px 2px rgba(255,146,10,0.5)'
+                                : '0 0 3px 1px rgba(255,146,10,0.3)',
+                            animation: `float ${spark.duration}s ease-in-out ${spark.delay}s infinite`,
+                            transition: 'all 0.15s ease-out',
+                        }}
+                    ></div>
+                ))}
+            </div>
+
+            <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-amber-700/40 to-transparent"></div>
+
+            <style jsx>{`
+                @keyframes float {
+                    0%, 100% {
+                        transform: translateY(0) rotate(0deg);
+                    }
+                    50% {
+                        transform: translateY(-20px) rotate(5deg);
+                    }
+                }
+            `}</style>
+        </div>
+    );
+};
+
+
+
+
+export const ReleaseDetails = () => {
+    const { releaseId } = useParams();
+    const release = useSelector(state => state.releases);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(getReleaseById(releaseId));
     }, [dispatch, releaseId]);
 
     function handleDeleteRelease() {
@@ -69,76 +148,20 @@ export const ReleaseDetails = () => {
         <div className="relative">
             <Hero background={bgImage} pageTitle={release.releaseDetails?.title} />
 
-
             <div className="relative min-h-[30rem] bg-gray-900 flex flex-col items-center overflow-hidden">
-                <div className="absolute inset-0 bg-black bg-opacity-70"></div>
-
-                <div className="absolute inset-0 opacity-20"
-                     style={{
-                         backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%23333333\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
-                         backgroundSize: '100px 100px'
-                     }}>
-                </div>
-
-                {/* Lightning effects */}
-                <div className="absolute inset-0 pointer-events-none">
-                    <svg className="absolute w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <path
-                            className={`transition-opacity duration-75 ${lightningActive ? 'opacity-100' : 'opacity-0'}`}
-                            d={`M${lightningPosition.x},-10 
-                               L${lightningPosition.x + 3},${lightningPosition.y} 
-                               L${lightningPosition.x - 2},${lightningPosition.y + 10} 
-                               L${lightningPosition.x + 5},${lightningPosition.y + 30}
-                               L${lightningPosition.x - 3},${lightningPosition.y + 50}
-                               L${lightningPosition.x + 7},${lightningPosition.y + 70}
-                               L${lightningPosition.x},100`}
-                            stroke="#FF6B00"
-                            strokeWidth="1"
-                            fill="none"
-                            filter="drop-shadow(0 0 15px #FF6B00)"
-                        />
-                    </svg>
-                    <div
-                        className={`absolute w-full h-full bg-orange-500 mix-blend-overlay transition-opacity duration-100 ${lightningActive ? 'opacity-10' : 'opacity-0'}`}
-                    ></div>
-                </div>
-
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    {sparklePositions.map((spark, i) => (
-                        <div
-                            key={`sparkle-${i}`}
-                            className="absolute rounded-full"
-                            style={{
-                                left: `${spark.left}%`,
-                                top: `${spark.top}%`,
-                                width: `${spark.size}px`,
-                                height: `${spark.size}px`,
-                                backgroundColor: `rgba(${spark.color.r}, ${spark.color.g}, ${spark.color.b}, ${spark.color.a})`,
-                                filter: lightningActive ? 'blur(1.5px) brightness(1.5)' : 'blur(1px)',
-                                boxShadow: lightningActive
-                                    ? '0 0 5px 2px rgba(255,146,10,0.5)'
-                                    : '0 0 3px 1px rgba(255,146,10,0.3)',
-                                animation: `float ${spark.duration}s ease-in-out ${spark.delay}s infinite`,
-                                transition: 'all 0.15s ease-out',
-                            }}
-                        ></div>
-                    ))}
-                </div>
-
+                <BackgroundEffectsAlt className={"bg-opacity-70"}/>
 
                 <div className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-12 pb-24">
-
                     <AdminEditDeleteButtons state={{
-                        title : release.releaseDetails?.title,
-                        coverName : release.releaseDetails?.coverName,
-                        description : release.releaseDetails?.description,
-                        trackList : release.releaseDetails?.trackList?.map((track) => track.title),
-                        dateReleased : release.releaseDetails?.dateReleased,
-                        nameToInstrumentsPlayed : release.releaseDetails?.nameToInstrumentsPlayed
+                        title: release.releaseDetails?.title,
+                        coverName: release.releaseDetails?.coverName,
+                        description: release.releaseDetails?.description,
+                        trackList: release.releaseDetails?.trackList?.map((track) => track.title),
+                        dateReleased: release.releaseDetails?.dateReleased,
+                        nameToInstrumentsPlayed: release.releaseDetails?.nameToInstrumentsPlayed
                     }} navigationLink={`/admin/releases/${releaseId}`} handleDelete={handleDeleteRelease}/>
 
                     <div className="flex flex-col md:flex-row justify-between items-center w-full border-b border-orange-500 pb-8 mb-8">
-
                         <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                             <h3 className="text-orange-500 font-tradeWinds text-2xl mb-4">BAND MEMBERS</h3>
                             <div className="grid md:grid-cols-2 gap-4 text-white">
@@ -165,19 +188,14 @@ export const ReleaseDetails = () => {
                                     className="relative w-64 h-64 object-cover border-2 border-orange-500 shadow-lg shadow-orange-500/50 cursor-pointer transform transition-all duration-300 hover:scale-105"
                                 />
 
-
                                 <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
                                     <span className="text-white font-tradeWinds text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                         {getFormattedDate(release.releaseDetails?.dateReleased) || ""}
                                     </span>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
 
                     {/* Tracklist and Description */}
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
@@ -210,8 +228,8 @@ export const ReleaseDetails = () => {
                                     <p className="text-orange-300 leading-relaxed">
                                         {
                                             release.releaseDetails?.description ?
-                                            <div dangerouslySetInnerHTML={{__html : release.releaseDetails?.description }}></div> :
-                                            "No description available for this release."
+                                                <div dangerouslySetInnerHTML={{__html : release.releaseDetails?.description }}></div> :
+                                                "No description available for this release."
                                         }
                                     </p>
                                 </div>
@@ -231,20 +249,7 @@ export const ReleaseDetails = () => {
                         </div>
                     </div>
                 </div>
-
-                <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-amber-700/40 to-transparent"></div>
             </div>
-
-            <style jsx>{`
-                @keyframes float {
-                    0%, 100% {
-                        transform: translateY(0) rotate(0deg);
-                    }
-                    50% {
-                        transform: translateY(-20px) rotate(5deg);
-                    }
-                }
-            `}</style>
         </div>
     );
 };

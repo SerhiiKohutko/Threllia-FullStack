@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserDetails, logout} from "@/redux/auth/Action.js";
 import {Button} from "@/components/ui/button.jsx";
+import {BackgroundEffects} from "@/components/Pages/Auth/AuthPage.jsx";
 
 export const Account = () => {
     const dispatch = useDispatch();
@@ -11,8 +12,8 @@ export const Account = () => {
     const userName = auth?.userDetails?.firstName && auth?.userDetails?.lastName ?
         `${auth.userDetails.firstName} ${auth.userDetails.lastName}` :
         "MEMBER";
-    const joinDate = auth?.userDetails?.joinDate ?
-        new Date(auth.userDetails.joinDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) :
+    const joinDate = auth?.userDetails?.dateJoined ?
+        new Date(auth.userDetails.dateJoined).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) :
         "2023";
 
     useEffect(() => {
@@ -36,10 +37,11 @@ export const Account = () => {
 
     return (
         <div className="min-h-screen bg-black">
+            <BackgroundEffects/>
             <div className={"h-[6rem]"}></div>
             <div className="max-w-7xl mx-auto px-4 py-12">
 
-                <div className="mb-12 text-left">
+                <div className="relative z-10 mb-12 text-left">
                     <h1 className="text-4xl font-bold tracking-wider text-white">{userName}</h1>
                     <p className="text-white mt-2">FIFTH MEMBER SINCE {joinDate}</p>
                 </div>
@@ -50,7 +52,7 @@ export const Account = () => {
                         className="relative overflow-hidden border border-gray-300 rounded group cursor-pointer"
                         onClick={() => navigate("/account/personal-information")}>
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40 z-10"></div>
-                        <img  alt="Personal Information" className="w-full h-48 object-cover bg-white" />
+                        <img className="w-full h-48 object-cover bg-white" />
                         <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
                             <h2 className="text-xl font-bold text-white">PERSONAL INFORMATION</h2>
                             <p className="text-gray-300 mt-1">Show or update your personal information.</p>
@@ -67,7 +69,7 @@ export const Account = () => {
                         className="relative overflow-hidden border border-gray-300 rounded group cursor-pointer"
                         onClick={() => navigate("/account/orders")}>
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40 z-10"></div>
-                        <img  alt="Orders" className="w-full h-48 object-cover bg-orange-600" />
+                        <div  className="w-full h-48 object-cover bg-orange-600" />
                         <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
                             <h2 className="text-xl font-bold text-white">ORDERS</h2>
                             <p className="text-gray-300 mt-1">Check the status of your orders or see past orders.</p>
@@ -84,7 +86,7 @@ export const Account = () => {
                         className="relative overflow-hidden border border-gray-300 rounded group cursor-pointer"
                         onClick={() => navigate("/account/addresses")}>
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40 z-10"></div>
-                        <img alt="Addresses" className="w-full h-48 object-cover bg-red-500" />
+                        <img  className="w-full h-48 object-cover bg-red-500" />
                         <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
                             <h2 className="text-xl font-bold text-white">ADDRESSES</h2>
                             <p className="text-gray-300 mt-1">Manage your billing and shipping addresses.</p>
@@ -101,7 +103,7 @@ export const Account = () => {
                         className="relative overflow-hidden border border-gray-300 rounded group cursor-pointer"
                         onClick={() => navigate("/account/payment-settings")}>
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40 z-10"></div>
-                        <img src="/api/placeholder/600/300" alt="Payment Settings" className="w-full h-48 object-cover bg-green-700" />
+                        <img  className="w-full h-48 object-cover bg-green-700" />
                         <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
                             <h2 className="text-xl font-bold text-white">PAYMENT SETTINGS</h2>
                             <p className="text-gray-300 mt-1">Manage credit cards.</p>

@@ -76,3 +76,38 @@ export const deleteShowById = (id) => async (dispatch) => {
         toast.error(err.message);
     }
 }
+
+export const ticketPurchase = (ticketData) => async () => {
+    try {
+        const response = await axios.post(`http://localhost:8080/api/payment/buy_ticket`, ticketData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (response.data.payment_link_url){
+            localStorage.setItem("fromStripe", "true");
+            window.location.href = response.data.payment_link_url;
+        }
+
+    }catch (err){
+        console.log(err);
+    }
+}
+
+export const updateTicketStatus = (jwt, paymentId) => async () => {
+    try {
+        if (!paymentId){
+            return;
+        }
+        await axios.post(`http://localhost:8080/api/tickets/update`, {
+            paymentId : paymentId,
+        }, {
+            headers : {
+                Authorization : `Bearer ${jwt}`
+            }
+        })
+    }catch (e) {
+        console.log(e);
+    }
+}

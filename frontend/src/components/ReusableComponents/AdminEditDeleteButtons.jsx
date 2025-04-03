@@ -1,16 +1,18 @@
 import {Button} from "@/components/ui/button.jsx";
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 export const AdminEditDeleteButtons = ({navigationLink, state, handleDelete}) => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
+    const auth = useSelector(state => state.auth);
 
     useEffect(() => {
-        if (localStorage.getItem("role")=== "ROLE_ADMIN") {
+        if (auth.userAdmin) {
             setIsAdmin(true);
         }
-    },[])
+    },[auth.userAdmin]);
 
     return (
         <>

@@ -2,10 +2,15 @@ package org.example.threllia.controllers;
 
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-import org.example.threllia.model.Order.*;
+import org.example.threllia.model.Order.Order;
+import org.example.threllia.model.Order.OrderCreationRequest;
+import org.example.threllia.model.Order.OrderItem;
+import org.example.threllia.model.Order.OrderService;
 import org.example.threllia.model.Payment.Payment;
 import org.example.threllia.model.Payment.PaymentService;
 import org.example.threllia.model.Payment.PaymentStatus;
+import org.example.threllia.model.Ticket.Ticket;
+import org.example.threllia.model.Ticket.TicketService;
 import org.example.threllia.responses.PaymentLinkResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +26,53 @@ public class PaymentController {
     private PaymentService paymentService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private TicketService ticketService;
+
+    @PostMapping("/buy_ticket")
+    public ResponseEntity<PaymentLinkResponse> createPaymentForTicket(@RequestBody Ticket ticket) {
+        ticket = ticketService.createTicket(ticket);
+        try {
+            SessionCreateParams params = SessionCreateParams.builder()
+                    .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
+                    .setMode(SessionCreateParams.Mode.PAYMENT)
+                    .setSuccessUrl("http://localhost:5173/ticket/success?payment_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl("http://localhost:5173/ticket/cancel?&payment_id={CHECKOUT_SESSION_ID}")
+                    .putMetadata("ticket_id", String.valueOf(ticket.getId()))
+                    .addLineItem(
+                            SessionCreateParams.LineItem.builder()
+                                    .setQuantity((long) (ticket.getQuantity()))
+                                    .setPriceData(
+                                            SessionCreateParams.LineItem.PriceData.builder()
+                                                    .setCurrency("usd")
+                                                    .setUnitAmount((long) ((ticket.getAmount() * 100) / ticket.getQuantity()))
+                                                    .setProductData(
+                                                            SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                                    .setName(ticket.getCity() + ", " + ticket.getPlace() + " ticket")
+                                                                    .build()
+                                                    )
+                                                    .build()
+                                    )
+                                    .build()
+                    )
+                    .build();
+
+            Session session = Session.create(params);
+
+            PaymentLinkResponse response = new PaymentLinkResponse();
+            response.setPayment_link_url(session.getUrl());
+            response.setPayment_link_id(session.getId());
+
+            Payment createdPayment = paymentService.createPayment(session.getId(), PaymentStatus.PENDING);
+
+            ticketService.savePaymentToTicket(createdPayment, ticket);
+
+            return ResponseEntity.ok(response);
+
+         } catch (Exception e) {
+            throw new RuntimeException("Ошибка при создании сессии оплаты", e);
+        }
+    }
 
     @PostMapping
     public ResponseEntity<PaymentLinkResponse> createPaymentLink(

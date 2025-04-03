@@ -27,6 +27,8 @@ public class User {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
     private String country;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dateJoined;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> ordersList;

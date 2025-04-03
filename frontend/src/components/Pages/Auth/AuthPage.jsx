@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {Input} from "@/components/ui/input.jsx";
-import {getUserDetails, login} from "@/redux/auth/Action.js";
+import {login} from "@/redux/auth/Action.js";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 

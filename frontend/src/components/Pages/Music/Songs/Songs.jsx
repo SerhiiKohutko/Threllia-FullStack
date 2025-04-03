@@ -17,7 +17,7 @@ export const Songs = () => {
 
     return (
         <div>
-            <Hero background={bgImage} pageTitle={"Songs"} buttonContent={"Listen To Threllia"} navigateTo={"#"} />
+            <Hero background={bgImage} pageTitle={"Songs"} buttonContent={"Listen To Threllia"} navigateTo={"https://open.spotify.com/artist/5R6TtzzCoaQAwyVjsAjyuz?si=vAYIxm9GQbGWFJ_M1vfm-A"} />
 
             <div className={"h-full bg-black flex flex-col justify-center items-center w-full"}>
                 <div className={"w-[60%] mt-5 mb-8"}>

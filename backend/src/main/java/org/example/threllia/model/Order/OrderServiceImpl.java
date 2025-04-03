@@ -6,7 +6,7 @@ import org.example.threllia.model.Payment.Payment;
 import org.example.threllia.model.Payment.PaymentService;
 import org.example.threllia.model.User.UserService;
 import org.example.threllia.model.User.entities.User;
-import org.example.threllia.requests.UpgradeOrderStatusRequest;
+import org.example.threllia.requests.UpgradePaymentStatusRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +71,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order updateOrderStatus(String jwt, UpgradeOrderStatusRequest request) throws Exception {
+    public Order updateOrderStatus(String jwt, UpgradePaymentStatusRequest request) throws Exception {
         Session session = Session.retrieve(request.getPaymentId());
         long orderId = Long.parseLong(session.getMetadata().get("order_id"));
 

@@ -10,6 +10,7 @@ import {ShopAdmin} from "@/components/Pages/AdminPanel/ShopAdmin.jsx";
 import {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import {BackgroundEffectsAlt} from "@/components/Pages/Music/Releases/ReleaseDetails.jsx";
 
 export const AdminPanel = () => {
 
@@ -23,41 +24,42 @@ export const AdminPanel = () => {
     }, [auth]);
 
     return (
-      <div>
-          <ToastContainer />
-          <div className={"h-[6rem] bg-black border-b border-white "}></div>
+        <div>
+            <ToastContainer/>
+            <BackgroundEffectsAlt/>
+            <div className={"relative z-20 pt-36 flex flex-row justify-center min-h-screen"}>
 
-          <div className={"flex bg-gray-400 flex-row justify-center min-h-screen"}>
-              <Tabs defaultValue="account" className="w-[400px] mt-4">
-                  <TabsList>
-                      <TabsTrigger value="tour">Tour</TabsTrigger>
-                      <TabsTrigger value="media">Media</TabsTrigger>
-                      <TabsTrigger value="news">News</TabsTrigger>
-                      <TabsTrigger value="music">Music</TabsTrigger>
-                      <TabsTrigger value="songs">Songs</TabsTrigger>
-                      <TabsTrigger value="shop">Shop</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="tour">
-                              <TourAdmin/>
-                  </TabsContent>
-                  <TabsContent value="media">
-                              <MediaAdmin/>
-                  </TabsContent>
-                  <TabsContent value="news">
-                              <NewsAdmin/>
-                  </TabsContent>
-                  <TabsContent value="music">
-                      <ReleaseAdmin/>
-                  </TabsContent>
-                  <TabsContent value="songs">
-                              <SongsAdmin/>
-                  </TabsContent>
-                  <TabsContent value="shop">
-                              <ShopAdmin/>
-                  </TabsContent>
-              </Tabs>
 
-          </div>
-      </div>
+                <Tabs defaultValue="account" className="w-[400px] mt-4">
+                    <TabsList>
+                        <TabsTrigger value="tour">Tour</TabsTrigger>
+                        <TabsTrigger value="media">Media</TabsTrigger>
+                        <TabsTrigger value="news">News</TabsTrigger>
+                        <TabsTrigger value="music">Music</TabsTrigger>
+                        <TabsTrigger value="songs">Songs</TabsTrigger>
+                        <TabsTrigger value="shop">Shop</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="tour">
+                        <TourAdmin/>
+                    </TabsContent>
+                    <TabsContent value="media">
+                        <MediaAdmin/>
+                    </TabsContent>
+                    <TabsContent value="news">
+                        <NewsAdmin/>
+                    </TabsContent>
+                    <TabsContent value="music">
+                        <ReleaseAdmin/>
+                    </TabsContent>
+                    <TabsContent value="songs">
+                        <SongsAdmin/>
+                    </TabsContent>
+                    <TabsContent value="shop">
+                        <ShopAdmin/>
+                    </TabsContent>
+                </Tabs>
+
+            </div>
+        </div>
     );
 }

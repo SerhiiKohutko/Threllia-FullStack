@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {ToastContainer} from "react-toastify";
 import {Button} from "@/components/ui/button.jsx";
-import {deleteAddress, deletePayment, getAllAddresses} from "@/redux/auth/Action.js";
+import {deleteAddress, getAllAddresses} from "@/redux/auth/Action.js";
+import {BackgroundEffectsAlt} from "@/components/Pages/Music/Releases/ReleaseDetails.jsx";
 
 export const Addresses = () => {
     const [addresses, setAddresses] = useState([]);
@@ -49,8 +50,10 @@ export const Addresses = () => {
     return (
         <div className="min-h-screen bg-black">
             <ToastContainer />
+            <BackgroundEffectsAlt/>
             <div className={"h-[6rem] bg-black"}></div>
-            <div className="max-w-7xl mx-auto px-4 py-12">
+
+            <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
                 <div className="mb-6">
                     <Button
                         className="bg-transparent hover:bg-gray-800 text-white border border-white font-medium py-2 px-4 flex items-center transition-colors duration-200"

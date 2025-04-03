@@ -28,7 +28,7 @@ export const Hero = ({pageTitle, background, buttonContent, navigateTo, addition
                     {
                         buttonContent &&
                         <div >
-                            <Button onClick={() => navigate(navigateTo)} variant={"ghost"} className={"text-3xl p-5 pt-6 border-2 rounded-none border-white mt-3 w-full transition-[200ms]"}>{buttonContent}</Button>
+                            <Button onClick={() =>  window.location.href=navigateTo} variant={"ghost"} className={"text-3xl p-5 pt-6 border-2 rounded-none border-white mt-3 w-full transition-[200ms]"}>{buttonContent}</Button>
                         </div>
                     }
                     {

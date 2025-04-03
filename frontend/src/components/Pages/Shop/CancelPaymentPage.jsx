@@ -14,7 +14,7 @@ export const CancelPaymentPage = () => {
 
     useEffect(() => {
         const stripeUrl = "https://checkout.stripe.com/";
-        console.log(document.referrer);
+        console.log(!window.frames.top.document.referrer.startsWith(stripeUrl));
         if (!document.referrer.startsWith(stripeUrl)) {
             console.log(!document.referrer.startsWith(stripeUrl));
             // navigate("/");

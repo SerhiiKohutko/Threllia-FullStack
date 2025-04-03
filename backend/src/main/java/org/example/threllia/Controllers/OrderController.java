@@ -6,7 +6,7 @@ import org.example.threllia.model.Order.OrderDTO;
 import org.example.threllia.model.Order.OrderService;
 import org.example.threllia.model.User.UserService;
 import org.example.threllia.model.User.entities.User;
-import org.example.threllia.requests.UpgradeOrderStatusRequest;
+import org.example.threllia.requests.UpgradePaymentStatusRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class OrderController {
 
 
     @PostMapping("/update_order_status")
-    public ResponseEntity<Order> updateOrder(@RequestHeader("Authorization") String jwt, @RequestBody UpgradeOrderStatusRequest request) throws Exception {
+    public ResponseEntity<Order> updateOrder(@RequestHeader("Authorization") String jwt, @RequestBody UpgradePaymentStatusRequest request) throws Exception {
         return ResponseEntity.ok(orderService.updateOrderStatus(jwt, request));
     }
 

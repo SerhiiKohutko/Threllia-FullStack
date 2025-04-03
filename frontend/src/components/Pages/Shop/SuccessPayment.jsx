@@ -13,7 +13,7 @@ export const SuccessPayment = () => {
 
     useEffect(() => {
         const stripeUrl = "https://checkout.stripe.com/";
-        console.log(!document.referrer.startsWith(stripeUrl));
+        console.log(!window.frames.top.document.referrer.startsWith(stripeUrl));
         if (!document.referrer.startsWith(stripeUrl)) {
             // navigate("/");
         }

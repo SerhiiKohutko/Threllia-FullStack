@@ -41,6 +41,8 @@ import {PaymentMethods} from "@/components/Pages/Account/PaymentMethods.jsx";
 import {PaymentForm} from "@/components/Pages/Account/PaymentForm.jsx";
 import {AddressForm} from "@/components/Pages/Account/AddressesForm.jsx";
 import {CancelPaymentPage} from "@/components/Pages/Shop/CancelPaymentPage.jsx";
+import {TicketPurchasePage} from "@/components/Pages/Tour/TicketPurchasePage.jsx";
+import {TicketFailurePage, TicketSuccessPage} from "@/components/Pages/Tour/TicketPurchaseResult.jsx";
 
 
 //TODO - cancel payment page
@@ -99,6 +101,10 @@ function App() {
                         <Route path={"/register"} element={<RegistrationPage/>}/>
                         <Route path={"/order/success"} element={<SuccessPayment/>}/>
                         <Route path={"/order/cancel"} element={<CancelPaymentPage/>}/>
+
+                        <Route path={"/ticket/purchase/:id"} element={<TicketPurchasePage/>}/>
+                        <Route path={"/ticket/success"} element={<TicketSuccessPage/>}/>
+                        <Route path={"/ticket/cancel"} element={<TicketFailurePage/>}/>
                     </Routes>
                 </div>
             <Footer/>
