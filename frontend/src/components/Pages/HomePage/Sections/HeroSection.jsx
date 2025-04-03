@@ -1,9 +1,11 @@
 import bgImage from '../../../../resources/ajfajm_bigger_writing_5fdc790a-ffc5-4a57-a6eb-fe80032c0eb7-min.png';
 import { Button } from "@/components/ui/button.jsx";
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 
 
 export const HeroSection = () => {
+    const navigate = useNavigate();
     return (
         <section className="relative h-full">
             <div
@@ -33,13 +35,10 @@ export const HeroSection = () => {
                     </span>
                 </div>
 
-                <Button variant="ghost" className="font-tradeWinds text-2xl mt-16 px-8 py-6">
-                    TICKET INFO
-                </Button>
                 <Button variant="ghost" className="font-tradeWinds text-2xl mt-8 px-8 py-6">
                     New Album Song List
                 </Button>
-                <Button variant="ghost" className="font-tradeWinds text-2xl mt-8 px-8">
+                <Button onClick={() => navigate("/tour")} variant="ghost" className="font-tradeWinds text-2xl mt-8 px-8">
                     Tour Dates
                 </Button>
             </div>

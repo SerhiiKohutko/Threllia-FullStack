@@ -2,9 +2,55 @@ import {ArrowRight} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
-import {getAllLatestUpdates, getAllNewsPaginated} from "@/redux/news/Action.js";
+import {getAllNewsPaginated} from "@/redux/news/Action.js";
 import {useNavigate} from "react-router-dom";
 
+export const truncateHtml = (html, maxLength) => {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = html;
+                const textContent = tempDiv.textContent || tempDiv.innerText;
+
+                if (textContent.length <= maxLength) return html;
+
+                let result = '';
+                let currentLength = 0;
+                let nodes = tempDiv.childNodes;
+
+                const processNodes = (nodeList) => {
+                    for (let i = 0; i < nodeList.length && currentLength < maxLength; i++) {
+                        const node = nodeList[i];
+
+                        if (node.nodeType === 3) { // Text node
+                            const text = node.textContent;
+                            const remainingLength = maxLength - currentLength;
+
+                            if (currentLength + text.length <= maxLength) {
+                                result += text;
+                                currentLength += text.length;
+                            } else {
+                                result += text.slice(0, remainingLength) + '...';
+                                currentLength = maxLength;
+                                break;
+                            }
+                        }
+                        else if (node.nodeType === 1) {
+                            const tagName = node.tagName.toLowerCase();
+                            result += `<${tagName}>`;
+
+                            if (node.childNodes.length > 0) {
+                                processNodes(node.childNodes);
+                            }
+
+                            if (currentLength < maxLength) {
+                                result += `</${tagName}>`;
+                            }
+                        }
+                    }
+                };
+
+                processNodes(nodes);
+                return result;
+            };
 export const LatestUpdateOverviewSection = () => {
 
     const dispatch = useDispatch();
@@ -38,7 +84,7 @@ export const LatestUpdateOverviewSection = () => {
                             </div>
                             <div className="text-amber-500 text-sm mb-2">{update.dateCreated}</div>
                             <h3 className="text-white font-tradeWinds text-2xl mb-1">{update.title}</h3>
-                            <div className={"text-gray-400 mb-4 "}
+                            <div className={"text-gray-400 mb-4 line-clamp-3 "}
                                  dangerouslySetInnerHTML={{__html: update.content}}></div>
                             <Button onClick={() => navigate(`/news/${update.id}`)} variant="primary"
                                     className="font-tradeWinds text-white hover:text-amber-500 p-0 flex items-center ">

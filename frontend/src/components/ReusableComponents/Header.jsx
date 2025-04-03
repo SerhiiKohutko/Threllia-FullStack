@@ -49,11 +49,17 @@ export const Header = () => {
                                 <Button type="button" onClick={() => {
                                     navigate("/tour");
                                 }} variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">TOUR</Button>
-                                <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">NEWS</Button>
-                                <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">MUSIC</Button>
-                                <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">MEDIA</Button>
-                                <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">SHOP</Button>
-                                <Button variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">ACCOUNT</Button>
+                                <Button onClick={() => navigate("/news")}
+                                    variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">NEWS</Button>
+                                <Button onClick={() => navigate("/releases")}
+                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">MUSIC</Button>
+                                <Button onClick={() => navigate("/gallery")}
+                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">MEDIA</Button>
+                                <Button onClick={() => navigate("/shop")}
+                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">SHOP</Button>
+                                {auth.userObtained && <Button onClick={() => navigate("/account")}
+                                         variant="ghost"
+                                         className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">ACCOUNT</Button>}
                             </div>
 
                             <div className="mt-auto pt-8 border-t border-orange-500/30 w-full">

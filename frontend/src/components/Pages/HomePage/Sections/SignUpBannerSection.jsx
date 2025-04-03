@@ -2,9 +2,11 @@ import React from "react";
 import { Button } from "@/components/ui/button.jsx";
 import {BackgroundEffects} from "@/components/Pages/Auth/AuthPage.jsx";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 export const SignUpBannerSection = () => {
     const auth = useSelector((state) => state.auth);
+    const navigate = useNavigate();
 
     if (auth.userObtained){
         return ;
@@ -30,20 +32,7 @@ export const SignUpBannerSection = () => {
                     <div
                         className="h-px w-full bg-gradient-to-r from-transparent via-orange-600 to-transparent mb-8"></div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                        <input
-                            type="text"
-                            placeholder="YOUR NAME"
-                            className="flex-1 bg-gray-900 bg-opacity-70 border border-gray-800 text-white px-4 py-3 focus:border-orange-500 focus:outline-none uppercase"
-                        />
-                        <input
-                            type="email"
-                            placeholder="YOUR EMAIL"
-                            className="flex-1 bg-gray-900 bg-opacity-70 border border-gray-800 text-white px-4 py-3 focus:border-orange-500 focus:outline-none uppercase"
-                        />
-                    </div>
-
-                    <Button
+                    <Button onClick={() => navigate("/register")}
                         className="w-full bg-orange-600 hover:bg-orange-700 text-white py-6 font-tradeWinds text-xl relative overflow-hidden group">
                         <span className="relative z-10">JOIN THE LEGION</span>
                         <span

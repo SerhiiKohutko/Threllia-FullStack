@@ -23,6 +23,7 @@ export const Gallery = () => {
 
 
     function handleSelectChange(value){
+        console.log(currPage, selectValue);
         if (value !== selectValue) {
             setSelectValue(value);
         }
@@ -35,8 +36,8 @@ export const Gallery = () => {
               <div
                   className={"text-white w-[50%] h-full border-b-2 border-orange-300 flex flex-row justify-between mt-8 pb-5"}>
                   <p className={"text-3xl font-rubikPaint"}>Explore Photos</p>
-                  <Select>
-                      <SelectTrigger onValueChange={handleSelectChange} className={"w-[180px] text-white"}>
+                  <Select onValueChange={handleSelectChange}>
+                      <SelectTrigger className={"w-[180px] text-white"}>
                           <SelectValue placeholder={<span className="text-gray-400">Sort By</span>}/>
                       </SelectTrigger>
                       <SelectContent className={"text-white bg-slate-700 "}>

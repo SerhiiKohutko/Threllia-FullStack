@@ -27,19 +27,22 @@ import {
 } from "@/redux/auth/ActionType.js";
 import {toast} from "react-toastify";
 import {decodeJWT} from "@/components/Utils/JwtDecoder.js";
-import * as response from "autoprefixer";
-
 
 export const login = (data, navigate) => async(dispatch) => {
     dispatch({type: LOGIN_REQUEST});
     try {
 
+
         const response = await axios.post("http://localhost:8080/auth/login", data, {});
+
+        console.log(data);
 
         localStorage.setItem("token", response.data);
 
         dispatch({type : LOGIN_SUCCESS,  payload : response.data})
-        navigate("/account");
+        if (navigate) {
+            navigate("/account");
+        }
 
     }catch (error) {
         dispatch({type : LOGIN_FAILURE, error: error.response.data.message === "Invalid credentials" ? error.response.data.message : "Error while authentication"});
@@ -292,3 +295,15 @@ export const checkAuthState = () => async(dispatch) => {
         }
     }
 }
+
+export const loginWhileCheckout = (userData) => async (dispatch) => {
+    try {
+        await dispatch(login(userData));
+
+        const token = localStorage.getItem("token");
+        return !!token;
+    } catch (e) {
+        console.error("Login error:", e);
+        return false;
+    }
+};

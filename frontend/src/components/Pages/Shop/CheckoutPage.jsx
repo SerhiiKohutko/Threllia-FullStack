@@ -1,32 +1,52 @@
 import {useCart} from "@/components/Utils/CartProvider.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {createPayment} from "@/redux/shop/Action.js";
 import {toast, ToastContainer} from "react-toastify";
+import {loginWhileCheckout} from "@/redux/auth/Action.js";
+import {Input} from "@/components/ui/input.jsx";
 
 export const CheckoutPage = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [error, setError] = useState(null);
+
     const navigate = useNavigate();
     const { cart, removeAllItemsFromCart, removeProductFromCart, getAllItems, cleanTheCart } = useCart();
+    const auth = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (auth.isAuthenticated) {
+            setIsLoggedIn(true);
+        }
+    }, [auth.isAuthenticated]);
 
     const calculateSubtotal = () => {
         return cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
     };
 
-    function handleCheckout() {
-        const products = getAllItems();
-        if (products.products.length === 0) {
-            toast.error("Your cart is empty!");
-            return;
+    async function handleCheckout() {
+        if (!isLoggedIn) {
+            console.log("login");
+                const loginResult = await dispatch(loginWhileCheckout({ email, password }));
+                if (!loginResult) {
+                    setError("Wrong email or password");
+                    return;
+                }
         }
-        dispatch(createPayment(products, localStorage.getItem("token")));
+
+        setError(null);
+        const products = getAllItems();
+
+        await dispatch(createPayment(products, localStorage.getItem("token")));
         cleanTheCart();
     }
 
     const isCartEmpty = cart.length === 0;
-    const isLoggedIn = localStorage.getItem("token");
 
     return (
         <div className="min-h-screen bg-[#121212] text-white">
@@ -50,8 +70,7 @@ export const CheckoutPage = () => {
                                 {cart.map((item, index) => (
                                     <div
                                         key={index}
-                                        className="flex items-center bg-black/50 border border-red-900/30 rounded-lg p-4 hover:bg-black/70 transition-all duration-300"
-                                    >
+                                        className="flex items-center bg-black/50 border border-red-900/30 rounded-lg p-4 hover:bg-black/70 transition-all duration-300">
                                         <img
                                             src={item.imageUrl}
                                             alt={item.productName}
@@ -60,8 +79,7 @@ export const CheckoutPage = () => {
                                         <div className="flex-grow">
                                             <h3
                                                 className="font-bold text-lg text-white cursor-pointer"
-                                                onClick={() => navigate(`/shop/${item.productType}/${item.id}`)}
-                                            >
+                                                onClick={() => navigate(`/shop/${item.productType}/${item.id}`)}>
                                                 {item.productName}
                                             </h3>
                                             <p className="text-gray-400">Quantity: {item.quantity}</p>
@@ -74,8 +92,7 @@ export const CheckoutPage = () => {
                                                         onClick={() => removeAllItemsFromCart(item.id)}
                                                         variant="destructive"
                                                         size="sm"
-                                                        className="bg-red-900/30 text-white hover:bg-red-900/50 rounded-none"
-                                                    >
+                                                        className="bg-red-900/30 text-white hover:bg-red-900/50 rounded-none">
                                                         Remove All
                                                     </Button>
                                                 )}
@@ -83,8 +100,7 @@ export const CheckoutPage = () => {
                                                     onClick={() => removeProductFromCart(item.id)}
                                                     variant="destructive"
                                                     size="sm"
-                                                    className="bg-red-900/30 text-white hover:bg-red-900/50 rounded-none"
-                                                >
+                                                    className="bg-red-900/30 text-white hover:bg-red-900/50 rounded-none">
                                                     Remove
                                                 </Button>
                                             </div>
@@ -106,32 +122,41 @@ export const CheckoutPage = () => {
                             </div>
 
                             <div className="space-y-4">
+
                                 {!isLoggedIn && (
                                     <>
-                                        <input
+                                        {
+                                            error &&
+                                            <div className="flex text-center text-red-600 mb-4 border-red-500 border-b ">
+                                                <p>{error}</p>
+                                            </div>
+                                        }
+                                        <Input
                                             type="email"
+                                            onChange={(e) => setEmail(e.target.value)}
                                             placeholder="Email Address"
                                             className="w-full bg-black/50 border border-red-900/30 p-3 rounded-lg text-white placeholder-gray-500 focus:border-red-600 focus:ring-2 focus:ring-red-900/30"
                                         />
-                                        <input
+
+                                        <Input
                                             type="password"
                                             placeholder="Password"
+                                            onChange={(e) => setPassword(e.target.value)}
                                             className="w-full bg-black/50 border border-red-900/30 p-3 rounded-lg text-white placeholder-gray-500 focus:border-red-600 focus:ring-2 focus:ring-red-900/30"
                                         />
                                     </>
                                 )}
 
+
                                 <Button
                                     onClick={() => handleCheckout()}
-                                    className="w-full bg-orange-700 text-white hover:bg-orange-600 transition-colors duration-300 rounded-none py-3"
-                                >
+                                    className="w-full bg-orange-700 text-white hover:bg-orange-600 transition-colors duration-300 rounded-none py-3">
                                     Complete Purchase
                                 </Button>
 
                                 <Button
                                     onClick={() => navigate("/shop")}
-                                    className="w-full bg-white text-black hover:bg-black border border-white hover:text-white hover:border-orange-500 transition-colors duration-300 rounded-none py-3"
-                                >
+                                    className="w-full bg-white text-black hover:bg-black border border-white hover:text-white hover:border-orange-500 transition-colors duration-300 rounded-none py-3">
                                     Keep shopping
                                 </Button>
                             </div>
@@ -154,8 +179,7 @@ export const CheckoutPage = () => {
 
                         <Button
                             onClick={() => navigate("/shop")}
-                            className="px-8 py-4 bg-orange-700 text-white hover:bg-orange-600 transition-colors duration-300 rounded-md text-lg font-semibold"
-                        >
+                            className="px-8 py-4 bg-orange-700 text-white hover:bg-orange-600 transition-colors duration-300 rounded-md text-lg font-semibold">
                             Browse Shop
                         </Button>
 
