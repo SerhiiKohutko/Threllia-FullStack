@@ -6,7 +6,7 @@ import org.example.threllia.model.Release.repository.ReleaseRepository;
 import org.example.threllia.model.Song.entities.Song;
 import org.example.threllia.model.Song.service.SongService;
 import org.example.threllia.requests.ReleaseRequest;
-import org.example.threllia.utils.FileUploader;
+import org.example.threllia.utils.FileUploaderCloud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +25,9 @@ public class ReleaseServiceImpl implements ReleaseService{
 
     @Autowired
     private SongService songService;
+
+    @Autowired
+    private FileUploaderCloud fileUploaderCloud;
 
     @Override
     public Page<MusicRelease> getAllReleases(int page, SortingType type){
@@ -78,7 +81,7 @@ public class ReleaseServiceImpl implements ReleaseService{
         //Deleting previous image
         if (fileName != null){
             try {
-                FileUploader.deleteReplacedCover(musicRelease.getCoverName());
+                fileUploaderCloud.deleteFile(musicRelease.getCoverName());
             } catch (NoSuchFileException ignored){}
             musicRelease.setCoverName(fileName);
         }

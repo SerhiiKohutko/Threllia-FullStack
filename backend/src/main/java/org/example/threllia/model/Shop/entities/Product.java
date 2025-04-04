@@ -1,13 +1,14 @@
 package org.example.threllia.model.Shop.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.example.threllia.utils.FileUploader;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
 @MappedSuperclass
@@ -28,8 +29,4 @@ public class Product {
     private String description;
     private int totalQuantity;
 
-    @PreRemove
-    public void removeProductImage() throws IOException {
-        FileUploader.removeProductImage(imageUrl);
-    }
 }
