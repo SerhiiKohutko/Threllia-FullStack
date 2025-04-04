@@ -21,7 +21,7 @@ target/
 *.png
 *.jpg
 *.env
-backend/.env
+.env
 Dockerfile
 
 ### NetBeans ###
