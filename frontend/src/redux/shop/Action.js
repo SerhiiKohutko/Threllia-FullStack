@@ -6,11 +6,9 @@ import {
 } from "@/redux/shop/ActionType.js";
 import {toast} from "react-toastify";
 
-
 export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
     try {
-        console.log(Date.now() + " Action called all");
-      const response = await axios.get(`http://localhost:8080/api/products/all_paginated`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/all_paginated`, {
           params: {
               page : page,
               size : filters.size,
@@ -31,7 +29,7 @@ export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
 export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
     dispatch({type : GET_ALL_PRODUCTS_PAGINATED_REQUEST});
     try {
-        const response = await axios.get(`http://localhost:8080/api/products/${filters.categoryName.toUpperCase()}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${filters.categoryName.toUpperCase()}`, {
             params: {
                 page : page,
                 subType: filters.subCategory ? filters.subCategory.toUpperCase() : null,
@@ -55,7 +53,7 @@ export const getProductById = (id, productType) => async (dispatch) => {
             return;
         }
 
-        const response = await axios.get(`http://localhost:8080/api/products/${productType.toUpperCase()}/${id}`)
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${productType.toUpperCase()}/${id}`)
 
         dispatch({type: GET_PRODUCT_BY_ID_SUCCESS, payload: response.data});
     }catch (err){
@@ -65,9 +63,10 @@ export const getProductById = (id, productType) => async (dispatch) => {
 
 export const createProduct = (product) => async () => {
     try{
-        await axios.post(`http://localhost:8080/api/products`, product, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/products`, product, {
             headers : {
-                'Content-Type' : 'multipart/form-data'
+                'Content-Type' : 'multipart/form-data',
+                Authorization : `Bearer ${localStorage.getItem('token')}`
             }
         });
 
@@ -79,9 +78,10 @@ export const createProduct = (product) => async () => {
 
 export const updateProductById = (id, product) => async () => {
     try {
-        await axios.patch(`http://localhost:8080/api/products/admin/${id}`,product, {
+        await axios.patch(`${import.meta.env.VITE_API_URL}/api/products/admin/${id}`,product, {
             headers : {
-                'Content-Type' : 'multipart/form-data'
+                'Content-Type' : 'multipart/form-data',
+                Authorization : `Bearer ${localStorage.getItem('token')}`
             }
         })
         toast.success("Product updated!");
@@ -93,7 +93,10 @@ export const updateProductById = (id, product) => async () => {
 export const deleteProductById = (id, categoryName) => async () => {
     try {
 
-        await axios.delete(`http://localhost:8080/api/products/admin/${id}`, {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/products/admin/${id}`, {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem('token')}`
+            },
             params: {
                 type : categoryName.toUpperCase()
             }
@@ -107,7 +110,7 @@ export const deleteProductById = (id, categoryName) => async () => {
 
 export const createPayment = (products, jwt) => async () => {
     try{
-        const response = await axios.post(`http://localhost:8080/api/payment`, products, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/payment`, products, {
             headers : {
                 Authorization : `Bearer ${jwt}`
             }
@@ -128,7 +131,7 @@ export const updateOrderStatus = (jwt, paymentId) => async () => {
         if (!paymentId){
             return;
         }
-        await axios.post(`http://localhost:8080/api/orders/update_order_status`, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/user/orders/update_order_status`, {
             paymentId : paymentId,
         }, {
             headers : {

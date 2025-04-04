@@ -54,7 +54,7 @@ export const Gallery = () => {
                               return (
                                   <div onClick={() => navigate("/gallery/" + elem.id)}>
                                       <img
-                                          src={"http://localhost:8080/photos/" + (elem?.firstElementPhotoName === null ? "" : elem?.firstElementPhotoName) }
+                                          src={(elem?.firstElementPhotoName === null ? "" : elem?.firstElementPhotoName) }
                                            className={"cursor-pointer"}/>
                                       <p className={"text-2xl text-white"}>{elem.date}</p>
                                       <p className={"text-2xl text-gray-200"}>{elem.title}</p>

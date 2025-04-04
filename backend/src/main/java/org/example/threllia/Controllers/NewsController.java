@@ -5,7 +5,7 @@ import org.example.threllia.model.News.entities.LatestUpdate;
 import org.example.threllia.model.News.service.LatestUpdateService;
 import org.example.threllia.requests.LatestUpdateRequest;
 import org.example.threllia.responses.DeletionResponse;
-import org.example.threllia.utils.FileUploader;
+import org.example.threllia.utils.FileUploaderCloud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,6 +24,8 @@ public class NewsController {
     private LatestUpdateService latestUpdateService;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private FileUploaderCloud fileUploaderCloud;
 
     @GetMapping
     public ResponseEntity<List<LatestUpdate>> getAllNews(){
@@ -45,7 +47,7 @@ public class NewsController {
 
     @PostMapping(path = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<LatestUpdate> createLatestUpdate(@RequestParam("content") String data, @RequestParam("image") MultipartFile image) throws Exception {
-        String fileName = FileUploader.uploadLatestUpdateImage(image);
+        String fileName = fileUploaderCloud.uploadImage(image);
         LatestUpdateRequest request = objectMapper.readValue(data, LatestUpdateRequest.class);
 
         LatestUpdate newLatestUpdate = latestUpdateService.createLatestUpdate(request, fileName);
@@ -54,7 +56,7 @@ public class NewsController {
 
     @PatchMapping(path = "/admin/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<LatestUpdate> updateLatestUpdate(@RequestParam("content") String data, @RequestParam(value = "image", required = false) MultipartFile image, @PathVariable long id) throws Exception {
-        String fileName = FileUploader.uploadLatestUpdateImage(image);
+        String fileName = fileUploaderCloud.uploadImage(image);
         LatestUpdateRequest request = objectMapper.readValue(data, LatestUpdateRequest.class);
 
         LatestUpdate newLatestUpdate = latestUpdateService.updateLatestUpdateById(id, request, fileName);
@@ -62,7 +64,7 @@ public class NewsController {
     }
 
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<DeletionResponse> deleteLatestUpdate(@PathVariable long id){
+    public ResponseEntity<DeletionResponse> deleteLatestUpdate(@PathVariable long id) throws Exception {
         latestUpdateService.deleteLatestUpdateById(id);
         return ResponseEntity.ok(new DeletionResponse("Deleted successfully!"));
     }

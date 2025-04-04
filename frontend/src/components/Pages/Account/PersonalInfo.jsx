@@ -6,6 +6,7 @@ import {Input} from "@/components/ui/input.jsx";
 import {updateUserDetails} from "@/redux/auth/Action.js";
 import {ToastContainer} from "react-toastify";
 import {BackgroundEffectsAlt} from "@/components/Pages/Music/Releases/ReleaseDetails.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const PersonalInfo = () => {
         const [firstName, setFirstName] = useState('');
@@ -54,7 +55,12 @@ export const PersonalInfo = () => {
 
         };
 
-        return (
+    if (auth.loading) {
+        return <LoadingPage/>;
+    }
+
+
+    return (
             <div className="min-h-screen bg-black">
                 <ToastContainer />
                 <BackgroundEffectsAlt/>

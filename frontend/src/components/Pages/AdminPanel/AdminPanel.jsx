@@ -26,11 +26,10 @@ export const AdminPanel = () => {
     return (
         <div>
             <ToastContainer/>
-            <BackgroundEffectsAlt/>
-            <div className={"relative z-20 pt-36 flex flex-row justify-center min-h-screen"}>
+            <div className={"relative z-20 pt-36 flex flex-row justify-center min-h-screen max-h-fit"}>
+                <BackgroundEffectsAlt />
 
-
-                <Tabs defaultValue="account" className="w-[400px] mt-4">
+                <Tabs defaultValue="account" className="relative z-10 w-[400px] mt-4">
                     <TabsList>
                         <TabsTrigger value="tour">Tour</TabsTrigger>
                         <TabsTrigger value="media">Media</TabsTrigger>

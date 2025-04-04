@@ -10,7 +10,7 @@ import org.example.threllia.model.Shop.shop_enum.ProductType;
 import org.example.threllia.model.Shop.shop_enum.ShopSortingType;
 import org.example.threllia.requests.ProductRequest;
 import org.example.threllia.responses.DeletionResponse;
-import org.example.threllia.utils.FileUploader;
+import org.example.threllia.utils.FileUploaderCloud;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -28,7 +29,8 @@ public class ShopController {
     private ProductService productService;
     @Autowired
     private ObjectMapper objectMapper;
-
+    @Autowired
+    private FileUploaderCloud fileUploaderCloud;
 
     @GetMapping("/all_paginated")
     public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestParam(defaultValue = "0") int page,
@@ -84,7 +86,7 @@ public class ShopController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Product createProduct(@RequestParam("data") String  data, @RequestParam("coverImage") MultipartFile image) throws Exception {
 
-        String imageName = FileUploader.uploadProductImage(image);
+        String imageName = fileUploaderCloud.uploadImage(image);
 
         ProductRequest request = objectMapper.readValue(data, ProductRequest.class);
 
@@ -94,7 +96,7 @@ public class ShopController {
     @PatchMapping(path = "/admin/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Product> updateProduct(@RequestParam("data") String  data, @RequestParam(value = "coverImage", required = false) MultipartFile image, @PathVariable long id) throws Exception {
 
-        String imageName = FileUploader.uploadProductImage(image);
+        String imageName = fileUploaderCloud.uploadImage(image);
 
         ProductRequest request = objectMapper.readValue(data, ProductRequest.class);
 
@@ -102,7 +104,7 @@ public class ShopController {
     }
 
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<DeletionResponse> deleteProduct(@PathVariable long id, @RequestParam ProductType type) {
+    public ResponseEntity<DeletionResponse> deleteProduct(@PathVariable long id, @RequestParam ProductType type) throws IOException {
         productService.deleteProductById(id, type);
         return ResponseEntity.ok(new DeletionResponse("Deleted successfully!"));
     }

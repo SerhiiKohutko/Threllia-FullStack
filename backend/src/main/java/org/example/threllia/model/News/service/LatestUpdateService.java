@@ -14,5 +14,5 @@ public interface LatestUpdateService {
 
     LatestUpdate updateLatestUpdateById(long id, LatestUpdateRequest request, String fileName) throws Exception;
 
-    void deleteLatestUpdateById(long id);
+    void deleteLatestUpdateById(long id) throws Exception;
 }

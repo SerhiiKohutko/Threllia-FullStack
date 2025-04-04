@@ -55,7 +55,6 @@ export const LatestUpdateOverviewSection = () => {
 
     const dispatch = useDispatch();
     const news = useSelector(state => state.news)
-    const imagesUrl = "http://localhost:8080/news/";
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -77,7 +76,7 @@ export const LatestUpdateOverviewSection = () => {
                         <div key={index} className="group bg-gradient-to-br from-black to-gray-900 border border-amber-700/20 p-6 hover:border-amber-500 transition">
                             <div className="mb-6 overflow-hidden">
                                 <img
-                                    src={imagesUrl + update.imageName}
+                                    src={update.imageName}
                                     alt={update.title}
                                     className="w-full h-48 object-cover transition duration-500 group-hover:scale-105"
                                 />

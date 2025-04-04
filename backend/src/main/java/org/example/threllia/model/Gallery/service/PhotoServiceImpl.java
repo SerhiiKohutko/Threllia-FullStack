@@ -7,6 +7,7 @@ import org.example.threllia.model.Gallery.entities.Photographer;
 import org.example.threllia.model.Gallery.repository.PhotoRepository;
 import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.requests.PhotoCollectionCreationRequest;
+import org.example.threllia.utils.FileUploaderCloud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,8 @@ public class PhotoServiceImpl implements PhotoService {
     private PhotoRepository photoRepository;
     @Autowired
     private PhotographerService photographerService;
+    @Autowired
+    private FileUploaderCloud fileUploaderCloud;
 
     @Override
     public Page<PhotoCollectionDTO> getAllPhotosPaginated(int page, SortingType order) {
@@ -111,7 +114,8 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public void deletePhotoCollectionById(long id) {
+    public void deletePhotoCollectionById(long id) throws Exception {
+        fileUploaderCloud.deleteFiles(getById(id).getPhotos());
         photoRepository.deleteById(id);
     }
 

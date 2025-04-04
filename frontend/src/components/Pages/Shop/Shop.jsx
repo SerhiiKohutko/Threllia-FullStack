@@ -131,7 +131,7 @@ export const Shop = () => {
                                     <div key={index} className={"flex flex-col relative group "}>
                                         <div className={"relative flex flex-row justify-center"}>
                                             <img
-                                                src={"http://localhost:8080/shop/" + item.imageUrl}
+                                                src={item.imageUrl}
                                                 className={"px-0 border border-black w-full cursor-pointer"}
                                                 onClick={() => navigateToProductDetails(item.productType, item.id)}
                                                 onMouseEnter={() => setHoveredProduct(item.id)}

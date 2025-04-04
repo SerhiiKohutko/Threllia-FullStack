@@ -26,7 +26,7 @@ export const QuickViewProductDetails = ({productId, category}) => {
                 <div className="w-full md:w-1/2 mb-8 md:mb-0 md:mr-12">
                     <div className="border border-gray-800">
                         <img
-                            src={"http://localhost:8080/shop/" + product.imageUrl}
+                            src={product.imageUrl}
                             className="w-full object-cover"
                             alt="Product"
                         />

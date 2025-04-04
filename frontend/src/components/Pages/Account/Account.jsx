@@ -4,6 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {getUserDetails, logout} from "@/redux/auth/Action.js";
 import {Button} from "@/components/ui/button.jsx";
 import {BackgroundEffects} from "@/components/Pages/Auth/AuthPage.jsx";
+import {BackgroundEffectsAlt} from "@/components/Pages/Music/Releases/ReleaseDetails.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const Account = () => {
     const dispatch = useDispatch();
@@ -27,8 +29,9 @@ export const Account = () => {
         }
     }, [auth.userObtained , auth.user, navigate]);
 
-    if (auth.loading) return <h1>Loading...</h1>;
-
+    if (auth.loading) {
+        return <LoadingPage/>;
+    }
 
     function handleLogout() {
         dispatch(logout());

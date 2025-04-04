@@ -5,6 +5,7 @@ import {ToastContainer} from "react-toastify";
 import {Button} from "@/components/ui/button.jsx";
 import {deleteAddress, getAllAddresses} from "@/redux/auth/Action.js";
 import {BackgroundEffectsAlt} from "@/components/Pages/Music/Releases/ReleaseDetails.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const Addresses = () => {
     const [addresses, setAddresses] = useState([]);
@@ -46,6 +47,10 @@ export const Addresses = () => {
             setTimeout(() => setError(''), 3000);
         }
     };
+
+    if (auth.loading) {
+        return <LoadingPage/>;
+    }
 
     return (
         <div className="min-h-screen bg-black">

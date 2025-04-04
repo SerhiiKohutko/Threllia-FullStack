@@ -1,6 +1,7 @@
 package org.example.threllia.configuration;
 
 import org.example.threllia.configuration.JWT.JwtTokenValidator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -12,13 +13,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
 @org.springframework.context.annotation.Configuration
 public class Configuration  {
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,9 +44,8 @@ public class Configuration  {
     private CorsConfigurationSource corsConfigurationSource() {
         return request -> {
             CorsConfiguration config = new CorsConfiguration();
-            config.setAllowedOrigins(Arrays.asList(
-                    "http://localhost:5173",
-                    "http://localhost:3000"
+            config.setAllowedOrigins(Collections.singletonList(
+                    "http://localhost:5173"
             ));
 
             config.setAllowedMethods(List.of("*"));

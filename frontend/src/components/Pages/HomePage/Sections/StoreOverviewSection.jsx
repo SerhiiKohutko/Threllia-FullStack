@@ -32,7 +32,7 @@ export const StoreOverviewSection = () => {
                         <div key={index} className="group">
                             <div className="bg-gray-800 border border-amber-700/20 overflow-hidden mb-4 aspect-square relative group-hover:border-amber-500 transition">
                                 <img
-                                    src={"http://localhost:8080/products/vinyl.jpg"}
+                                    src={product.imageUrl}
                                     alt={product.name}
                                     className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                                 />

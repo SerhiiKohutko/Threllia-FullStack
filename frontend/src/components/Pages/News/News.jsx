@@ -14,7 +14,6 @@ import {getFormattedDate} from "@/components/Utils/DateParser.js";
 export const News = () => {
     const dispatch = useDispatch();
     const news = useSelector((state) => state.news);
-    const imagesUrl = "http://localhost:8080/news/";
     const navigate = useNavigate();
 
     const [currPage, setCurrPage] = useState(1);
@@ -47,14 +46,14 @@ export const News = () => {
                                         </Button>
                                     </div>
                                     <img
-                                        src={imagesUrl + latestUpdate.imageName}
+                                        src={latestUpdate.imageName}
                                         alt={latestUpdate.title}
                                         className="object-cover w-[50%] max-h-96"
                                     />
                                 </div> :
                                 <div className={"w-full flex flex-row"}>
                                     <img
-                                        src={imagesUrl + latestUpdate.imageName}
+                                        src={latestUpdate.imageName}
                                         alt={latestUpdate.title}
                                         className="object-cover w-[50%] max-h-96"
                                     />

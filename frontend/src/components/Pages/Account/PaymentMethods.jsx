@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button.jsx";
 import {ToastContainer} from "react-toastify";
 import {deletePayment, getAllPaymentDetails} from "@/redux/auth/Action.js";
 import {BackgroundEffectsAlt} from "@/components/Pages/Music/Releases/ReleaseDetails.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const PaymentMethods = () => {
     const [paymentDetails, setPaymentDetails] = useState([]);
@@ -29,13 +30,18 @@ export const PaymentMethods = () => {
     useEffect(() => {
         if (!auth.loading){
             setLoading(false);
-            setPaymentDetails(auth.payments)
+            console.log(auth.payments)
+            setPaymentDetails(auth.payments);
         }
     },[auth.loading]);
 
     useEffect(() => {
         setPaymentDetails(auth.payments);
     }, [auth.payments]);
+
+    if (auth.loading) {
+        return <LoadingPage/>;
+    }
 
     const handleDeletePaymentDetail = async (paymentId) => {
         try {
@@ -98,13 +104,13 @@ export const PaymentMethods = () => {
 
                     {loading ? (
                         <div className="text-white text-center py-8">Loading payment methods...</div>
-                    ) : paymentDetails.length === 0 ? (
+                    ) : paymentDetails?.length === 0 ? (
                         <div className="text-gray-400 text-center py-8 border border-gray-700 rounded">
                             <p>You haven't added any payment methods yet.</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {paymentDetails.map((payment) => (
+                            {paymentDetails?.map((payment) => (
                                 <div key={payment.id} className="border border-gray-300 rounded p-6 bg-black/70">
                                     <div className="flex justify-between items-start">
                                         <h3 className="text-xl font-bold text-white mb-2">{payment.type}</h3>

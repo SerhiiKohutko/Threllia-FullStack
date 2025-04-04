@@ -1,5 +1,5 @@
 import {
-    GET_CLOSEST_SHOWS_SUCCESS,
+    GET_CLOSEST_SHOWS_SUCCESS, GET_PAST_SHOWS_FAILURE, GET_PAST_SHOWS_REQUEST,
     GET_PAST_SHOWS_SUCCESS,
     GET_SHOW_DETAILS_REQUEST,
     GET_SHOW_DETAILS_SUCCESS
@@ -19,9 +19,15 @@ export const tourReducer = (state = initialState, action) => {
         case GET_CLOSEST_SHOWS_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                loading: true,
                 tourList: action.payload
             }
+
+            case GET_PAST_SHOWS_REQUEST:
+                return {
+                    ...state,
+                    loading: true
+                }
 
             case GET_PAST_SHOWS_SUCCESS:
                 return {
@@ -30,6 +36,12 @@ export const tourReducer = (state = initialState, action) => {
                     tourList: action.payload.content,
                     pageablePart: action.payload
                 }
+        case GET_PAST_SHOWS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
 
         case GET_SHOW_DETAILS_SUCCESS:
             return {

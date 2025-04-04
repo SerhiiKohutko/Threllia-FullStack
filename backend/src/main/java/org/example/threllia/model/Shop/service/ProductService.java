@@ -23,7 +23,7 @@ public interface ProductService {
 
     Product updateProductById(long id, ProductRequest request, String imageName) throws IOException;
 
-    void deleteProductById(long id, ProductType type);
+    void deleteProductById(long id, ProductType type) throws IOException;
 }
 
 

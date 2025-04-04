@@ -205,7 +205,7 @@ export const ProductDetailsEditAdmin = () => {
                                     onClick={handleImageClick}
                                 >
                                     <img
-                                        src={"http://localhost:8080/shop/" + imagePreview}
+                                        src={imagePreview}
                                         alt={updatedName || "Product image"}
                                         className="w-full h-full object-cover border-2 border-red-600 shadow-lg transition-all duration-300 group-hover:opacity-70"
                                     />

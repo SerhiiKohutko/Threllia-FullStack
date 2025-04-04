@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StripeConfig {
-    @Value("sk_test_51QdASjDjB1NHUeBfJwHzy0i7SjUoLIdWkqL6Rs4KCHj5mmii7EuetiwXLS6kPvy46JgCxE9MKjebHxqihrJrLkbV00CoFQNBp6")
+    @Value("${stripe.key}")
     private String stripeApiKey;
 
     @PostConstruct

@@ -4,11 +4,12 @@ import {useNavigate} from "react-router-dom";
 import {Button} from "@/components/ui/button.jsx";
 import {getAllOrders} from "@/redux/auth/Action.js";
 import {BackgroundEffectsAlt} from "@/components/Pages/Music/Releases/ReleaseDetails.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+    const [error] = useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -30,6 +31,10 @@ export const Orders = () => {
             setLoading(false);
         }, 1000);
     }, [navigate]);
+
+    if (auth.loading) {
+        return <LoadingPage/>;
+    }
 
     return (
         <div className="min-h-screen bg-black">

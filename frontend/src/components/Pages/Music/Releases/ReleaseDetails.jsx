@@ -183,7 +183,7 @@ export const ReleaseDetails = () => {
                                 <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 rounded-lg blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
 
                                 <img
-                                    src={release.releaseDetails?.coverName ? `http://localhost:8080/releases/${release.releaseDetails.coverName}` : '/placeholder.jpg'}
+                                    src={release.releaseDetails?.coverName ? release.releaseDetails.coverName : '/placeholder.jpg'}
                                     alt={release.releaseDetails?.title || "Album cover"}
                                     className="relative w-64 h-64 object-cover border-2 border-orange-500 shadow-lg shadow-orange-500/50 cursor-pointer transform transition-all duration-300 hover:scale-105"
                                 />

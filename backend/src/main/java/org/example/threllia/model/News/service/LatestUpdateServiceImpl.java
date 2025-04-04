@@ -3,7 +3,7 @@ package org.example.threllia.model.News.service;
 import org.example.threllia.model.News.entities.LatestUpdate;
 import org.example.threllia.model.News.repository.LatestUpdateRepository;
 import org.example.threllia.requests.LatestUpdateRequest;
-import org.example.threllia.utils.FileUploader;
+import org.example.threllia.utils.FileUploaderCloud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +16,8 @@ import java.util.List;
 public class LatestUpdateServiceImpl implements LatestUpdateService {
     @Autowired
     private LatestUpdateRepository latestUpdateRepository;
+    @Autowired
+    private FileUploaderCloud fileUploaderCloud;
 
     @Override
     public LatestUpdate getLatestUpdateById(Long id) throws Exception {
@@ -51,7 +53,7 @@ public class LatestUpdateServiceImpl implements LatestUpdateService {
         latestUpdate.setTitle(request.getTitle());
 
         if (fileName != null){
-            FileUploader.removeLatestUpdateImage(latestUpdate.getImageName());
+            fileUploaderCloud.deleteFile(latestUpdate.getImageName());
             latestUpdate.setImageName(fileName);
         }
 
@@ -59,7 +61,8 @@ public class LatestUpdateServiceImpl implements LatestUpdateService {
     }
 
     @Override
-    public void deleteLatestUpdateById(long id) {
+    public void deleteLatestUpdateById(long id) throws Exception {
+        fileUploaderCloud.deleteFile(getLatestUpdateById(id).getImageName());
         latestUpdateRepository.deleteById(id);
     }
 }

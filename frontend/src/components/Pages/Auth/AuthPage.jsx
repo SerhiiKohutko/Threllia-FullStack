@@ -19,17 +19,20 @@ export const BackgroundEffects = () => {
         delay: Math.random() * 5
     })));
 
-    // Create cross positions for the graveyard effect
+
     const [crossPositions] = useState(
-        [...Array(8)].map((_, i) => ({
-            left: i * 14 + Math.random() * 5,
-            width: 10 + Math.random() * 6,
-            height: 100 + Math.random() * 100,
-            rotate: -5 + Math.random() * 10,
-            crossbarTop: 15 + Math.random() * 20,
-            crossbarHeight: 10 + Math.random() * 6,
-            crossbarWidth: 30 + Math.random() * 15,
-        }))
+        [...Array(8)].map((_, i) => {
+            const left = Math.min(85, Math.max(5, i * 12 + Math.random() * 5)); // Гарантируем попадание в область 5-85%
+            return {
+                left,
+                width: 10 + Math.random() * 6,
+                height: 100 + Math.random() * 100,
+                rotate: -5 + Math.random() * 10,
+                crossbarTop: 15 + Math.random() * 20,
+                crossbarHeight: 10 + Math.random() * 6,
+                crossbarWidth: 30 + Math.random() * 15,
+            };
+        })
     );
 
     function generateSparklePositions() {
@@ -277,6 +280,7 @@ export const AuthPage = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [authError, setAuthError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const auth = useSelector((state) => state.auth);
 
@@ -284,7 +288,6 @@ export const AuthPage = () => {
 
     const navigate = useNavigate();
     useEffect(() => {
-        console.log("LOGIN PAGE");
         if (auth.user && localStorage.getItem('token')) {
             navigate("/account");
         }
@@ -295,6 +298,10 @@ export const AuthPage = () => {
             setAuthError(auth.error);
         }
     }, [auth]);
+
+    useEffect(() => {
+        setLoading(auth.loading);
+    },[auth.loading, dispatch])
 
     const validateForm = () => {
         let isValid = true;
@@ -320,10 +327,12 @@ export const AuthPage = () => {
     };
 
     const handleSignIn = (e) => {
+        setAuthError("")
         e.preventDefault();
 
         if (!validateForm()) {
             setAuthError('Invalid email or password. Please try again.');
+            return;
         }
 
         dispatch(login({email: email, password: password}, navigate));
@@ -378,6 +387,7 @@ export const AuthPage = () => {
 
                                 <Button
                                     type="submit"
+                                    disabled={loading}
                                     className="w-full bg-white hover:bg-gray-200 text-black font-medium py-3 rounded-sm transition-all duration-200 mt-4"
                                 >
                                     Sign In

@@ -74,7 +74,7 @@ const SongDetailsInfo = ({title, lyrics, totalShows, firstTimePlayed, lastTimePl
                                     appearedOn?.map(release => {
                                         return <div onClick={() => navigate("/releases/" + release.id)}>
                                             <img
-                                                src={"http://localhost:8080/releases/" + release?.coverName}
+                                                src={release?.coverName}
                                                 alt="Live Album"
                                                 className="w-full h-[10rem] border border-gray-800 cursor-pointer"
                                             />

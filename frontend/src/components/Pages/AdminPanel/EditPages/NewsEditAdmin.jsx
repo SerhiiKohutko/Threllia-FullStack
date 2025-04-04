@@ -27,7 +27,7 @@ export const NewsEditAdmin = () => {
 
     const [coverImage, setCoverImage] = useState(null);
     const [coverPreview, setCoverPreview] = useState(
-        imageName ? `http://localhost:8080/news/${imageName}` : '/placeholder.jpg'
+        imageName ? imageName : '/placeholder.jpg'
     );
 
 

@@ -41,7 +41,7 @@ const ReleaseDetailsEditAdmin = () => {
     // Image upload state
     const [coverImage, setCoverImage] = useState(null);
     const [coverPreview, setCoverPreview] = useState(
-        coverName ? `http://localhost:8080/releases/${coverName}` : '/placeholder.jpg'
+        coverName ? coverName : '/placeholder.jpg'
     );
 
 

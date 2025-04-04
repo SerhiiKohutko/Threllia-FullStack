@@ -7,7 +7,7 @@ import org.example.threllia.model.Gallery.service.PhotoService;
 import org.example.threllia.model.Release.enums.SortingType;
 import org.example.threllia.requests.PhotoCollectionCreationRequest;
 import org.example.threllia.responses.DeletionResponse;
-import org.example.threllia.utils.FileUploader;
+import org.example.threllia.utils.FileUploaderCloud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,6 +27,8 @@ public class GalleryController {
     private PhotoService photoService;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private FileUploaderCloud fileUploaderCloud;
 
     @GetMapping
     public ResponseEntity<List<PhotoCollection>> getAllPhotos(){
@@ -53,7 +55,7 @@ public class GalleryController {
 
         PhotoCollectionCreationRequest request = objectMapper.readValue(data, PhotoCollectionCreationRequest.class);
 
-        List<String> fileNames = FileUploader.saveAllPhotos(photos);
+        List<String> fileNames = fileUploaderCloud.uploadFiles(photos);
         PhotoCollection savedPhotoCollection = photoService.createGalleryItem(request, fileNames);
         return new ResponseEntity<>(savedPhotoCollection, HttpStatus.CREATED);
     }
@@ -63,15 +65,14 @@ public class GalleryController {
 
         PhotoCollectionCreationRequest request = objectMapper.readValue(data, PhotoCollectionCreationRequest.class);
 
-        List<String> fileNames = FileUploader.saveAllPhotos(photos);
+        List<String> fileNames = fileUploaderCloud.uploadFiles(photos);
 
         PhotoCollection savedPhotoCollection = photoService.updatePhotoCollection(id, request, fileNames);
         return new ResponseEntity<>(savedPhotoCollection, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<DeletionResponse> deletePhotoCollectionById(@PathVariable long id){
-
+    public ResponseEntity<DeletionResponse> deletePhotoCollectionById(@PathVariable long id) throws Exception {
         photoService.deletePhotoCollectionById(id);
         return ResponseEntity.ok(new DeletionResponse("Deleted successfully!"));
     }

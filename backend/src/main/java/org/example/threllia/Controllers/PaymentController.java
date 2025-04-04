@@ -13,6 +13,7 @@ import org.example.threllia.model.Ticket.Ticket;
 import org.example.threllia.model.Ticket.TicketService;
 import org.example.threllia.responses.PaymentLinkResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,9 @@ public class PaymentController {
     @Autowired
     private TicketService ticketService;
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
+
     @PostMapping("/buy_ticket")
     public ResponseEntity<PaymentLinkResponse> createPaymentForTicket(@RequestBody Ticket ticket) {
         ticket = ticketService.createTicket(ticket);
@@ -36,8 +40,8 @@ public class PaymentController {
             SessionCreateParams params = SessionCreateParams.builder()
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl("http://localhost:5173/ticket/success?payment_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl("http://localhost:5173/ticket/cancel?&payment_id={CHECKOUT_SESSION_ID}")
+                    .setSuccessUrl(frontendUrl + "/ticket/success?payment_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl(frontendUrl + "/ticket/cancel?&payment_id={CHECKOUT_SESSION_ID}")
                     .putMetadata("ticket_id", String.valueOf(ticket.getId()))
                     .addLineItem(
                             SessionCreateParams.LineItem.builder()
@@ -108,8 +112,8 @@ public class PaymentController {
             SessionCreateParams params = SessionCreateParams.builder()
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl("http://localhost:5173/order/success?&payment_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl("http://localhost:5173/order/cancel?&payment_id={CHECKOUT_SESSION_ID}")
+                    .setSuccessUrl(frontendUrl + "/order/success?&payment_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl(frontendUrl + "/order/cancel?&payment_id={CHECKOUT_SESSION_ID}")
                     .addAllLineItem(lineItems)
                     .putMetadata("order_id", String.valueOf(order.getId()))
                     .build();

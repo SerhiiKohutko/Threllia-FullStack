@@ -25,6 +25,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 
         if (jwt != null) {
@@ -40,6 +41,8 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
                 String email = String.valueOf(claims.getSubject());
                 String role = String.valueOf(claims.get("role"));
+
+                System.out.println(role);
 
                 List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(role));
 

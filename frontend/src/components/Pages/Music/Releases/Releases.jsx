@@ -56,7 +56,7 @@ export const ReleasesSection = () => {
                             releases.releasesList?.map(elem => {
                                 return (
                                     <div onClick={() => navigate(`/releases/${elem.id}`)}>
-                                        <img src={"http://localhost:8080/releases/" + elem.coverName}
+                                        <img src={elem.coverName}
                                              className={"cursor-pointer"}/>
                                         <p className={"text-2xl text-white"}>{elem.title}</p>
                                         <p className={"text-2xl text-gray-200"}>{elem.dateReleased}</p>

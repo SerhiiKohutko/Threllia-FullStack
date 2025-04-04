@@ -39,7 +39,7 @@ export const ProductDetails = () => {
                 <div className="w-full md:w-1/2 mb-8 md:mb-0 md:mr-12">
                     <div className="border border-gray-800">
                         <img
-                            src={"http://localhost:8080/shop/" + product.imageUrl}
+                            src={product.imageUrl}
                             className="w-full object-cover"
                             alt="Product"
                         />
@@ -111,7 +111,7 @@ export const ProductDetails = () => {
                                 productType: position[0],
                                 price: product?.price,
                                 quantity: quantity,
-                                imageUrl: "http://localhost:8080/shop/" + product.imageUrl
+                                imageUrl: product.imageUrl
                             })
                         }
                         disabled={product.totalQuantity === 0}

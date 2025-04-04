@@ -31,7 +31,7 @@ export const PhotoCollectionDetails = () => {
                         index === 0 ? 'md:col-span-2 md:row-span-2' : ''
                     }`}>
                         <img
-                            src={"http://localhost:8080/photos/" + image.imageName}
+                            src={image.imageName}
                             alt={`Image ${index + 1}`}
                             className="w-full h-full object-cover"
                         />

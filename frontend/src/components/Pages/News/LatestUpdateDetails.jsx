@@ -38,7 +38,7 @@ export const LatestUpdateDetailsPage = () => {
                     <p className={"text-xl text-gray-400"}>{getFormattedDate(news.latestUpdateDetails?.dateCreated)}</p>
                     <h1 className={"text-5xl font-tradeWinds"}>{news.latestUpdateDetails?.title}</h1>
                     <img className={"border border-orange-300 h-50"}
-                         src={"http://localhost:8080/news/" + news.latestUpdateDetails?.imageName}/>
+                         src={news.latestUpdateDetails?.imageName}/>
                     <div className={"h-px w-full border-b border-orange-500 flex-grow"}></div>
                     <div className={"text-4xl font-rubikPaint"}
                          dangerouslySetInnerHTML={{__html: news.latestUpdateDetails.content}}></div>

@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 
 export const getAllPhotosPaginated  = (page, order) => async (dispatch) => {
     try{
-        const response = await axios.get("http://localhost:8080/api/photos/paginated", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/photos/paginated`, {
             params: {
                 page : page - 1,
                 order : order
@@ -22,7 +22,7 @@ export const getAllPhotosPaginated  = (page, order) => async (dispatch) => {
 
 export const getPhotoCollectionDetails = (id) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/photos/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/photos/${id}`);
         dispatch({type: GET_PHOTO_COLLECTION_BY_ID_SUCCESS, payload: response.data});
     }catch(error){
         console.log(error);
@@ -32,9 +32,10 @@ export const getPhotoCollectionDetails = (id) => async (dispatch) => {
 export const addPhotoCollection = (data) => async () => {
     try {
 
-        await axios.post(`http://localhost:8080/api/photos/admin`, data, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/photos/admin`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                Authorization : `Bearer ${localStorage.getItem('token')}`
             }
         });
 
@@ -62,9 +63,10 @@ export const addPhotoCollection = (data) => async () => {
 
 export  const updatePhotoCollection = (id, data) => async () => {
     try {
-        await axios.patch(`http://localhost:8080/api/photos/admin/${id}`, data, {
+        await axios.patch(`${import.meta.env.VITE_API_URL}/api/photos/admin/${id}`, data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                Authorization : `Bearer ${localStorage.getItem('token')}`
             }
         })
         toast.success("Collection updated successfully.")
@@ -75,7 +77,11 @@ export  const updatePhotoCollection = (id, data) => async () => {
 
 export const deletePhotoCollection = (id) => async (dispatch) => {
     try {
-        await axios.delete(`http://localhost:8080/api/photos/admin/${id}`)
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/photos/admin/${id}`,{
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem('token')}`
+            }
+        })
         toast.success("Successfully deleted photoCollection");
     }catch(error){
         toast.error(error.message)

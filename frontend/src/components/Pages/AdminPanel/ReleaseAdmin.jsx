@@ -137,7 +137,7 @@ export const ReleaseAdmin = () => {
         members.length > 0;
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <div className="max-w-md mx-auto h-fit p-6 bg-white shadow-lg rounded-lg">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <FormField

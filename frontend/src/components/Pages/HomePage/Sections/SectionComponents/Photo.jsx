@@ -7,13 +7,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog.jsx"
-import {useEffect} from "react";
 
 export const Photo = ({index, imageName}) => {
     return (
         <li className="aspect-square overflow-hidden group relative">
             <img
-                src={`http://localhost:8080/photos/${imageName}`}
+                src={imageName}
                 alt={`Gallery image ${index + 1}`}
                 className="w-full h-full object-cover transition duration-500 group-hover:scale-110"
             />
@@ -34,7 +33,7 @@ export const Photo = ({index, imageName}) => {
                     </DialogTrigger>
                     <DialogContent className="py-0 px-0 border-0 text-white max-w-3xl max-h-[80vh] data-[state=open]:!animate-none data-[state=closed]:!animate-none">
                         <img
-                            src={`http://localhost:8080/photos/${imageName}`}
+                            src={imageName}
                             alt={`Gallery image ${index + 1}`}
                             className="w-full h-full object-cover transition duration-500 group-hover:scale-110"
                         />

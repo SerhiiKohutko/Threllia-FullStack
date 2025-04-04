@@ -10,7 +10,7 @@ import {toast} from "react-toastify";
 export const getClosestShows = () => async (dispatch) => {
     dispatch({type: "GET_CLOSEST_SHOWS_REQUEST"});
     try{
-        const response = await axios.get("http://localhost:8080/api/concerts/closest",);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/concerts/closest`,);
         dispatch({type: "GET_CLOSEST_SHOWS_SUCCESS", payload: response.data});
     }catch(err){
         dispatch({type: "GET_CLOSEST_SHOWS_ERROR", error : err});
@@ -20,7 +20,7 @@ export const getClosestShows = () => async (dispatch) => {
 export const getPastDateShows = (page) => async (dispatch) => {
     dispatch({type: "GET_PAST_SHOWS_REQUEST"});
     try{
-        const response = await axios.get("http://localhost:8080/api/concerts/inactive", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/concerts/inactive`, {
             params: {
                 page
             }
@@ -35,7 +35,7 @@ export const getPastDateShows = (page) => async (dispatch) => {
 export const getShowDetails = (id) => async (dispatch) => {
     dispatch({type : GET_SHOW_DETAILS_REQUEST});
     try{
-        const response = await axios.get(`http://localhost:8080/api/concerts/${id}`,);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/concerts/${id}`,);
         dispatch({type: GET_SHOW_DETAILS_SUCCESS, payload: response.data});
     }catch (err) {
         dispatch({type : GET_SHOW_DETAILS_FAILURE, err : err});
@@ -46,7 +46,7 @@ export const getShowsContainSongByTitle = (songTitle, page) => async (dispatch) 
     try {
         if (!songTitle) return;
 
-        const response = await axios.get(`http://localhost:8080/api/concerts`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/concerts`, {
             params: {
                 songTitle: songTitle,
                 page : page - 1
@@ -61,7 +61,7 @@ export const getShowsContainSongByTitle = (songTitle, page) => async (dispatch) 
 
 export const updateShowDetail = (id, concert) => async (dispatch) => {
     try {
-        await axios.patch(`http://localhost:8080/api/concerts/admin/${id}`, concert);
+        await axios.patch(`${import.meta.env.VITE_API_URL}/api/concerts/admin/${id}`, concert);
         toast.success("Successfully updated show details.");
     }catch (err){
         toast.error(err.message);
@@ -70,7 +70,7 @@ export const updateShowDetail = (id, concert) => async (dispatch) => {
 
 export const deleteShowById = (id) => async (dispatch) => {
     try {
-        await axios.delete(`http://localhost:8080/api/concerts/admin/${id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/concerts/admin/${id}`);
         toast.success("Successfully deleted show details.");
     }catch (err) {
         toast.error(err.message);
@@ -79,7 +79,7 @@ export const deleteShowById = (id) => async (dispatch) => {
 
 export const ticketPurchase = (ticketData) => async () => {
     try {
-        const response = await axios.post(`http://localhost:8080/api/payment/buy_ticket`, ticketData, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/payment/buy_ticket`, ticketData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -100,7 +100,7 @@ export const updateTicketStatus = (jwt, paymentId) => async () => {
         if (!paymentId){
             return;
         }
-        await axios.post(`http://localhost:8080/api/tickets/update`, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/tickets/update`, {
             paymentId : paymentId,
         }, {
             headers : {

@@ -16,7 +16,7 @@ import {
     GET_USER_DETAILS_FAILURE,
     GET_USER_DETAILS_REQUEST,
     GET_USER_DETAILS_SUCCESS,
-    LOGIN_FAILURE,
+    LOGIN_FAILURE, LOGIN_REQUEST,
     LOGIN_SUCCESS, UPDATE_ADDRESS_FAILURE, UPDATE_ADDRESS_REQUEST, UPDATE_ADDRESS_SUCCESS,
     UPDATE_PAYMENT_DETAILS_FAILURE,
     UPDATE_PAYMENT_DETAILS_REQUEST,
@@ -45,6 +45,11 @@ const initialState = {
 
 export const authReducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOGIN_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
         case LOGIN_SUCCESS:
             {
                 const {sub, role} = decodeJWT(action.payload);
@@ -56,6 +61,7 @@ export const authReducer = (state = initialState, action) => {
                     role: role
                 },
                 isAuthenticated: true,
+                loading: false,
                 userAdmin: role === "ROLE_ADMIN",
             }
 
@@ -63,7 +69,8 @@ export const authReducer = (state = initialState, action) => {
             case LOGIN_FAILURE:
                 return {
                     ...state,
-                    error: action.error
+                    loading: false,
+                    error: action.error,
                 }
 
         case GET_USER_DETAILS_REQUEST:

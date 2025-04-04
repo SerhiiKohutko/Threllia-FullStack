@@ -11,7 +11,7 @@ import org.example.threllia.model.Shop.repositories.ApparelProductRepository;
 import org.example.threllia.model.Shop.repositories.MediaProductRepository;
 import org.example.threllia.model.Shop.shop_enum.*;
 import org.example.threllia.requests.ProductRequest;
-import org.example.threllia.utils.FileUploader;
+import org.example.threllia.utils.FileUploaderCloud;
 import org.example.threllia.utils.ShopParametersTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +35,8 @@ public class ProductServiceImpl implements ProductService{
     private MediaProductRepository mediaProductRepository;
     @Autowired
     private AccessoriesProductRepository accessoriesProductRepository;
+    @Autowired
+    private FileUploaderCloud fileUploaderCloud;
 
     @Override
     public Page<? extends Product> getProductsByType(ProductType type, ShopParametersTransfer shopParametersTransfer, String subType) {
@@ -231,7 +233,7 @@ public class ProductServiceImpl implements ProductService{
         mediaProduct.setTotalQuantity(request.getTotalQuantity());
 
         if (imageName != null) {
-            FileUploader.removeProductImage(mediaProduct.getImageUrl());
+            fileUploaderCloud.deleteFile(mediaProduct.getImageUrl());
             mediaProduct.setImageUrl(imageName);
         }
 
@@ -249,7 +251,7 @@ public class ProductServiceImpl implements ProductService{
         apparelProduct.setSizeToQuantityMap(request.getMap());
 
         if (imageName != null) {
-            FileUploader.removeProductImage(apparelProduct.getImageUrl());
+            fileUploaderCloud.deleteFile(apparelProduct.getImageUrl());
             apparelProduct.setImageUrl(imageName);
         }
 
@@ -267,7 +269,7 @@ public class ProductServiceImpl implements ProductService{
         accessoryProduct.setTotalQuantity(request.getTotalQuantity());
 
         if (imageName != null) {
-            FileUploader.removeProductImage(accessoryProduct.getImageUrl());
+            fileUploaderCloud.deleteFile(accessoryProduct.getImageUrl());
             accessoryProduct.setImageUrl(imageName);
         }
 
@@ -276,11 +278,20 @@ public class ProductServiceImpl implements ProductService{
 
 
     @Override
-    public void deleteProductById(long id, ProductType type){
+    public void deleteProductById(long id, ProductType type) throws IOException {
         switch (type){
-            case MEDIA -> mediaProductRepository.deleteById(id);
-            case ACCESSORIES -> accessoriesProductRepository.deleteById(id);
-            case APPAREL -> apparelProductRepository.deleteById(id);
+            case MEDIA -> {
+                fileUploaderCloud.deleteFile(mediaProductRepository.getMediaProductById(id).get().getImageUrl());
+                mediaProductRepository.deleteById(id);
+            }
+            case ACCESSORIES -> {
+                fileUploaderCloud.deleteFile(accessoriesProductRepository.getAccessoryProductById(id).get().getImageUrl());
+                accessoriesProductRepository.deleteById(id);
+            }
+            case APPAREL -> {
+                fileUploaderCloud.deleteFile(apparelProductRepository.getApparelProductById(id).get().getImageUrl());
+                apparelProductRepository.deleteById(id);
+            }
         }
     }
 

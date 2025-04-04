@@ -7,7 +7,7 @@ import {toast} from "react-toastify";
 
 export const getAllNewsPaginated = (page, isOverview) => async (dispatch) => {
     try{
-        const response = await axios.get("http://localhost:8080/api/news/paginated", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/news/paginated`, {
             params : {page : page - 1, isOverview : isOverview}
 
         });
@@ -21,7 +21,7 @@ export const getAllNewsPaginated = (page, isOverview) => async (dispatch) => {
 export const getLatestUpdateById = (id) => async (dispatch) => {
     try {
 
-        const response = await axios.get(`http://localhost:8080/api/news/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/news/${id}`);
 
         dispatch({type : GET_LATEST_UPDATE_BY_ID_SUCCESS, payload : response.data});
     }catch (e) {
@@ -31,9 +31,10 @@ export const getLatestUpdateById = (id) => async (dispatch) => {
 
 export const addLatestUpdate = (payload) => async () => {
     try {
-        await axios.post(`http://localhost:8080/api/news/admin`, payload, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/news/admin`, payload, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         });
 
@@ -46,9 +47,10 @@ export const addLatestUpdate = (payload) => async () => {
 
 export const updateLatestUpdateById = (id, payload) => async () => {
     try {
-        await axios.patch(`http://localhost:8080/api/news/admin/${id}`,payload, {
+        await axios.patch(`${import.meta.env.VITE_API_URL}/api/news/admin/${id}`,payload, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         })
         toast.success("Content updated successfully!");
@@ -59,7 +61,11 @@ export const updateLatestUpdateById = (id, payload) => async () => {
 
 export const deleteLatestUpdateById = (id) => async () => {
     try{
-        await axios.delete(`http://localhost:8080/api/news/admin/${id}`)
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/news/admin/${id}`, {
+            headers: {
+            Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
         toast.success("Latest Update deleted successfully!");
     }catch (e) {
         toast.error(e.message);

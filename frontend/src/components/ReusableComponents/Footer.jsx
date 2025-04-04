@@ -1,7 +1,9 @@
 import {Github, Youtube} from "lucide-react";
 import {FaSpotify} from "react-icons/fa6";
+import {useNavigate} from "react-router-dom";
 
 export const Footer = () => {
+    const navigate = useNavigate();
     return (
         <footer className="bg-black text-white border-t border-amber-700/20">
             <div className="container mx-auto px-4 py-12">
@@ -15,20 +17,20 @@ export const Footer = () => {
                     <div>
                         <h4 className="text-lg font-tradeWinds mb-4">Quick Links</h4>
                         <ul className="space-y-2 text-gray-400">
-                            <li><a href="/tour" className="hover:text-amber-500 transition">Tour Dates</a></li>
-                            <li><a href="/releases" className="hover:text-amber-500 transition">Music</a></li>
-                            <li><a href="/shop" className="hover:text-amber-500 transition">Merch</a></li>
-                            <li><a href="/gallery" className="hover:text-amber-500 transition">Media</a></li>
+                            <li><a onClick={() => navigate("/tour")} className="hover:text-amber-500 transition cursor-pointer">Tour Dates</a></li>
+                            <li><a onClick={() => navigate("/releases")} className="hover:text-amber-500 transition cursor-pointer">Music</a></li>
+                            <li><a onClick={() => navigate("/shop")} className="hover:text-amber-500 transition cursor-pointer">Merch</a></li>
+                            <li><a onClick={() => navigate("/galley")} className="hover:text-amber-500 transition cursor-pointer">Media</a></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 className="text-lg font-tradeWinds mb-4">Legal</h4>
                         <ul className="space-y-2 text-gray-400">
-                            <li><a href="/privacy_policy" className="hover:text-amber-500 transition">Privacy Policy</a></li>
-                            <li><a href="/terms_of_use" className="hover:text-amber-500 transition">Terms of Service</a></li>
-                            <li><a href="/cookie_policy" className="hover:text-amber-500 transition">Cookie Policy</a></li>
-                            <li><a href="/refund_policy" className="hover:text-amber-500 transition">Refund Policy</a></li>
+                            <li><a onClick={() => navigate("/privacy_policy")} className="hover:text-amber-500 transition cursor-pointer">Privacy Policy</a></li>
+                            <li><a  onClick={() => navigate("/terms_of_use" )} className="hover:text-amber-500 transition cursor-pointer">Terms of Service</a></li>
+                            <li><a onClick={() => navigate("/cookie_policy")} className="hover:text-amber-500 transition cursor-pointer">Cookie Policy</a></li>
+                            <li><a onClick={() => navigate("/refund_policy")} className="hover:text-amber-500 transition cursor-pointer">Refund Policy</a></li>
                         </ul>
                     </div>
 

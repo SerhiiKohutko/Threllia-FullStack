@@ -150,7 +150,7 @@ const PhotoCollectionEditAdmin = () => {
                                 photoList.map((photo, index) => (
                                     <div key={index} className="relative border border-gray-700 p-2 rounded-lg">
                                         <img
-                                            src={`http://localhost:8080/photos/${photo.imageName}`}
+                                            src={photo.imageName}
                                             alt={`Photo ${index + 1}`}
                                             className="w-full h-48 object-cover mb-2 rounded"
                                         />
