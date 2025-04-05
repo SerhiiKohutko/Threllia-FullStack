@@ -41,7 +41,7 @@ public class FileUploaderCloud {
     }
 
     public String uploadImage(MultipartFile image) throws Exception {
-        if (image.isEmpty()) {
+        if (image == null || image.isEmpty()) {
             return null;
         }
         Map uploadResult = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap());

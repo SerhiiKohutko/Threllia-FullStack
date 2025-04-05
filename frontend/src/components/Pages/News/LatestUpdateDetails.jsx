@@ -2,27 +2,39 @@ import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import bgImage from "@/resources/bg_2.png";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {deleteLatestUpdateById, getLatestUpdateById} from "@/redux/news/Action.js";
 import {StoreOverviewSection} from "@/components/Pages/HomePage/Sections/StoreOverviewSection.jsx";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {Button} from "@/components/ui/button.jsx";
 import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const LatestUpdateDetailsPage = () => {
     const dispatch = useDispatch();
     const {latestUpdateId} = useParams();
     const news = useSelector(state => state.news);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         dispatch(getLatestUpdateById(latestUpdateId))
     },[])
 
+    useEffect(() => {
+        setLoading(news.loading)
+    },[news.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
+
     function handleDelete() {
         dispatch(deleteLatestUpdateById(latestUpdateId))
         navigate("/news");
     }
+
+
     return (
         <div className={"relative"}>
             <Hero background={bgImage} pageTitle={"Latest Update Details"}/>

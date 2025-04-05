@@ -1,6 +1,6 @@
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {toast} from "react-toastify";
 import {Input} from "@/components/ui/input.jsx";
 import ReactQuill from "react-quill-new";
@@ -14,6 +14,12 @@ export const NewsEditAdmin = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const fileInputRef = useRef(null);
+
+    const news = useSelector(state => state.news);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setLoading(news.loading)
+    },[news.loading])
 
     const {
         title,
@@ -62,8 +68,7 @@ export const NewsEditAdmin = () => {
             formData.append('image', coverImage);
         }
 
-        dispatch(updateLatestUpdateById(latestUpdateId, formData));
-        navigate(`/news/${latestUpdateId}`);
+        dispatch(updateLatestUpdateById(latestUpdateId, formData, navigate));
     };
 
     return (
@@ -156,6 +161,7 @@ export const NewsEditAdmin = () => {
 
                 <div className="flex justify-center mt-8 mb-16">
                     <Button
+                        disabled={loading}
                         onClick={onSaveChanges}
                         className="w-full py-3 border border-orange-500 hover:bg-orange-900 hover:border-orange-400 text-lg">
                         Save Changes

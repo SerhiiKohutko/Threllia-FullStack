@@ -53,7 +53,6 @@ export const getProductById = (id, productType) => async (dispatch) => {
             return;
         }
 
-        console.log(productType);
 
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${productType.toUpperCase()}/${id}`)
 

@@ -10,17 +10,27 @@ import {SignUpBannerSection} from "@/components/Pages/HomePage/Sections/SignUpBa
 import {useNavigate} from "react-router-dom";
 import {format} from "date-fns/format";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const News = () => {
     const dispatch = useDispatch();
     const news = useSelector((state) => state.news);
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(true);
     const [currPage, setCurrPage] = useState(1);
 
     useEffect(() => {
         dispatch(getAllNewsPaginated(currPage));
     },[currPage])
+
+    useEffect(() => {
+        setLoading(news.loading)
+    },[news.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
     return (
         <div>
             <Hero background={bgImage} pageTitle={"News"} />
