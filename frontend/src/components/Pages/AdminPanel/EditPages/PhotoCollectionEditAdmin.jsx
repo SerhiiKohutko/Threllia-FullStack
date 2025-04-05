@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -27,6 +27,12 @@ const PhotoCollectionEditAdmin = () => {
 
     const [newPhotos, setNewPhotos] = useState([]);
     const [uploadedImages, setUploadedImages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const photo = useSelector(state => state.photo);
+
+    useEffect(() => {
+        setLoading(photo.loading)
+    },[photo.loading])
 
     const handleImageUpload = (e) => {
         const files = Array.from(e.target.files);
@@ -87,10 +93,7 @@ const PhotoCollectionEditAdmin = () => {
             formData.append('photos', file);
         });
 
-
-
-        dispatch(updatePhotoCollection(photoCollectionId, formData));
-        navigate(`/gallery/${photoCollectionId}`);
+        dispatch(updatePhotoCollection(photoCollectionId, formData, navigate));
     };
 
     return (
@@ -224,6 +227,7 @@ const PhotoCollectionEditAdmin = () => {
                     <Button
                         onClick={onSaveChanges}
                         className="w-full md:w-1/2 lg:w-1/3 py-3 border border-orange-500 hover:bg-orange-900 hover:border-orange-400 text-lg"
+                        disabled={loading}
                     >
                         Save Changes
                     </Button>

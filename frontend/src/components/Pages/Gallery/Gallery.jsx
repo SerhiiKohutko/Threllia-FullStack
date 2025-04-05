@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {getAllPhotosPaginated} from "@/redux/gallery/Action.js";
 import {useNavigate} from "react-router-dom";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 
 
@@ -15,18 +16,24 @@ export const Gallery = () => {
     const [currPage, setCurrPage] = useState(1);
     const [selectValue, setSelectValue] = useState("DSC");
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         dispatch(getAllPhotosPaginated(currPage, selectValue));
     }, [currPage, selectValue]);
 
+    useEffect(() => {
+            setLoading(photo.loading);
+    }, [photo.loading]);
 
     function handleSelectChange(value){
-        console.log(currPage, selectValue);
         if (value !== selectValue) {
             setSelectValue(value);
         }
+    }
+
+    if (loading){
+        return <LoadingPage/>
     }
 
     return (

@@ -40,7 +40,7 @@ public class ApparelProduct extends Product{
         if (sizeToQuantityMap == null){
             sizeToQuantityMap = new HashMap<>();
         }
-        
+
         for (Map.Entry<ApparelSizeType, Integer> el : request.getSizes().entrySet()){
             this.getSizeToQuantityMap().put(el.getKey(), el.getValue());
             totalQuantity += el.getValue();

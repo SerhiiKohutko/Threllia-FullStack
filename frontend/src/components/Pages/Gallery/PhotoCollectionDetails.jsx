@@ -1,11 +1,12 @@
 import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {deletePhotoCollection, getPhotoCollectionDetails} from "@/redux/gallery/Action.js";
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import bgImage from  "@/resources/bg_2.png"
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 
 export const PhotoCollectionDetails = () => {
@@ -13,16 +14,22 @@ export const PhotoCollectionDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const photoCollection = useSelector(state => state.photo.galleryItemDetails);
-
+    const photo = useSelector(state => state.photo);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         dispatch(getPhotoCollectionDetails(photoCollectionId));
     }, [dispatch, photoCollectionId]);
 
+    useEffect(() => {
+        setLoading(photo.loading);
+    }, [photo.loading]);
+
     const renderImageGrid = () => {
         if (!photoCollection?.photos || photoCollection?.photos.length === 0) {
             return <p className="text-white font-rubikPaint text-5xl pb-5">No images found in this collection.</p>;
         }
+
 
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -47,8 +54,11 @@ export const PhotoCollectionDetails = () => {
     };
 
     function handleDelete() {
-        dispatch(deletePhotoCollection(photoCollectionId));
-        navigate("/gallery")
+        dispatch(deletePhotoCollection(photoCollectionId,navigate));
+    }
+
+    if (loading){
+        return <LoadingPage/>
     }
 
     return (
@@ -62,7 +72,7 @@ export const PhotoCollectionDetails = () => {
                         title : photoCollection?.title,
                         date : photoCollection?.date,
                         photos : photoCollection?.photos
-                    }} navigationLink={`/admin/releases/${photoCollectionId}`} handleDelete={handleDelete} />
+                    }} navigationLink={`/admin/gallery/${photoCollectionId}`} handleDelete={handleDelete} />
 
                 </div>
 

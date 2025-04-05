@@ -42,7 +42,7 @@ public class FileUploaderCloud {
 
     public String uploadImage(MultipartFile image) throws Exception {
         if (image.isEmpty()) {
-            throw new IOException("File is empty");
+            return null;
         }
         Map uploadResult = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap());
         return uploadResult.get("url").toString();
@@ -50,14 +50,14 @@ public class FileUploaderCloud {
 
     public void deleteFile(String fileUrl) throws IOException {
         if (fileUrl == null || fileUrl.isEmpty()) {
-            throw new IOException("Invalid file URL");
+            return;
         }
         Map result = cloudinary.uploader().destroy(fileUrl, ObjectUtils.emptyMap());
     }
 
     public List<String> uploadFiles(List<MultipartFile> files) throws Exception {
         if (files == null || files.isEmpty()) {
-            throw new IOException("No files provided");
+            return null;
         }
 
         List<String> urls = new ArrayList<>();
@@ -69,7 +69,7 @@ public class FileUploaderCloud {
 
     public List<Photo> deleteFiles(List<Photo> photos) throws IOException {
         if (photos == null) {
-            throw new IOException("No file URLs provided");
+            return null;
         }
 
         return photos.stream()

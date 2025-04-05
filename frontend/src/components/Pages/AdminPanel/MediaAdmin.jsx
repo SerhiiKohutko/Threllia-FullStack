@@ -3,11 +3,8 @@ import {useEffect, useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
 import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
-import {Cross1Icon} from "@radix-ui/react-icons";
 import {Button} from "@/components/ui/button.jsx";
-import {useDispatch} from "react-redux";
-import {addShow, getAllSongsOrdered} from "@/redux/song/Action.js";
+import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 import {addPhotoCollection} from "@/redux/gallery/Action.js";
 
@@ -16,7 +13,12 @@ export const MediaAdmin = () => {
     const [files, setFiles] = useState([]);
     const [previews, setPreviews] = useState([]);
     const dispatch = useDispatch();
+    const photo = useSelector(state => state.photo);
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        setLoading(photo.loading);
+    }, [photo.loading]);
 
     const form = useForm({
         defaultValues: {
@@ -75,7 +77,8 @@ export const MediaAdmin = () => {
             formData.append('photos', file);
         });
 
-        dispatch(addPhotoCollection(formData))
+        dispatch(addPhotoCollection(formData, form, setPreviews))
+
     };
 
     const isFormValid = form.watch('title') && form.watch('author') && form.watch('date') && files.length > 0;
@@ -188,6 +191,7 @@ export const MediaAdmin = () => {
                     <Button
                         type="submit"
                         disabled={!isFormValid}
+                        disabled={loading}
                         className="w-full "
                     >
                         Add Collection
