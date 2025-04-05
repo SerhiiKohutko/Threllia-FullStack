@@ -47,6 +47,8 @@ export const ShopAdmin = () => {
     const [files, setFiles] = useState([]);
     const [previews, setPreviews] = useState([]);
     const [apparelSizes, setApparelSizes] = useState({});
+    const [sizeInput, setSizeInput] = useState('');
+    const [quantityInput, setQuantityInput] = useState('');
     const dispatch = useDispatch();
 
     const form = useForm({
@@ -76,32 +78,41 @@ export const ShopAdmin = () => {
     };
 
     const handleAddApparelSize = () => {
-        const sizeInput = document.getElementById('apparelSizeSelect');
-        const quantityInput = document.getElementById('apparelSizeQuantity');
-        const size = sizeInput.value;
-        const quantity = quantityInput.value;
+        if (sizeInput && quantityInput) {
+            setApparelSizes(prev => {
+                const newSizes = {
+                    ...prev,
+                    [sizeInput]: parseInt(quantityInput)
+                };
+                return newSizes;
+            });
 
-        if (size && quantity) {
-            setApparelSizes(prev => ({
-                ...prev,
-                [size]: parseInt(quantity)
-            }));
-
-            sizeInput.value = '';
-            quantityInput.value = '';
+            setSizeInput('');
+            setQuantityInput('');
         }
     };
 
     const removeApparelSize = (size) => {
-        const newSizes = { ...apparelSizes };
-        delete newSizes[size];
-        setApparelSizes(newSizes);
+        setApparelSizes(prev => {
+            const newSizes = { ...prev };
+            delete newSizes[size];
+            return newSizes;
+        });
     };
 
     const onSubmit = (data) => {
         // Validate required fields
         if (!data.name || !data.price || !data.type || !data.subType) {
             toast.error("Please fill in all required fields", {
+                position: "top-right",
+                autoClose: 2000,
+            });
+            return;
+        }
+
+        // Validate apparel sizes if product type is APPAREL
+        if (data.type === ProductType.APPAREL && Object.keys(apparelSizes).length === 0) {
+            toast.error("Please add at least one size for apparel product", {
                 position: "top-right",
                 autoClose: 2000,
             });
@@ -117,13 +128,13 @@ export const ShopAdmin = () => {
             type: data.type,
             totalQuantity: data.type === ProductType.APPAREL
                 ? Object.values(apparelSizes).reduce((a, b) => a + b, 0)
-                : parseInt(data.totalQuantity),
+                : parseInt(data.totalQuantity || 0),
         };
 
         switch(data.type) {
             case ProductType.APPAREL:
                 productData.apparelProductType = data.subType;
-                productData.map = apparelSizes;
+                productData.sizes = apparelSizes; // Изменено с map на sizes
                 break;
             case ProductType.MEDIA:
                 productData.mediaProductType = data.subType;
@@ -141,17 +152,20 @@ export const ShopAdmin = () => {
 
         dispatch(createProduct(formData));
 
+        // Сбросить состояние формы
         form.reset();
         setPreviews([]);
         setFiles([]);
+        setApparelSizes({});
     };
 
-    const isFormValid =
-        form.watch('name') &&
+    // Валидация формы включает проверку на наличие размеров для одежды
+    const isFormValid = form.watch('name') &&
         form.watch('price') &&
         form.watch('type') &&
         form.watch('subType') &&
-        (form.watch('type') !== ProductType.APPAREL || Object.keys(apparelSizes).length > 0);
+        ((form.watch('type') === ProductType.APPAREL && Object.keys(apparelSizes).length > 0) ||
+            (form.watch('type') !== ProductType.APPAREL && form.watch('totalQuantity')));
 
     return (
         <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
@@ -220,7 +234,13 @@ export const ShopAdmin = () => {
                         render={({ field }) => (
                             <FormItem>
                                 <Select
-                                    onValueChange={field.onChange}
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        // Сбросить apparelSizes при изменении типа продукта
+                                        if (value !== ProductType.APPAREL) {
+                                            setApparelSizes({});
+                                        }
+                                    }}
                                     defaultValue={field.value}
                                 >
                                     <FormControl>
@@ -291,7 +311,10 @@ export const ShopAdmin = () => {
                     {form.watch('type') === ProductType.APPAREL && (
                         <div>
                             <div className="flex space-x-2 mb-2">
-                                <Select id="apparelSizeSelect">
+                                <Select
+                                    onValueChange={setSizeInput}
+                                    value={sizeInput}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select Size" />
                                     </SelectTrigger>
@@ -306,8 +329,9 @@ export const ShopAdmin = () => {
                                     </SelectContent>
                                 </Select>
                                 <Input
-                                    id="apparelSizeQuantity"
                                     type="number"
+                                    value={quantityInput}
+                                    onChange={(e) => setQuantityInput(e.target.value)}
                                     placeholder="Quantity"
                                     className="w-24"
                                 />
@@ -337,7 +361,7 @@ export const ShopAdmin = () => {
                     )}
 
                     {/* Total Quantity for Non-Apparel Products */}
-                    {form.watch('type') !== ProductType.APPAREL && (
+                    {form.watch('type') && form.watch('type') !== ProductType.APPAREL && (
                         <FormField
                             control={form.control}
                             name="totalQuantity"

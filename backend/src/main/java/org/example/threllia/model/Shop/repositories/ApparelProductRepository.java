@@ -32,7 +32,7 @@ public interface ApparelProductRepository extends JpaRepository<ApparelProduct, 
             "UNION ALL " +
             "SELECT id, name, image_url, date_added, price, 'APPAREL', total_quantity FROM apparel_product " +
             "UNION ALL " +
-            "SELECT id, name, image_url, date_added, price, 'ACCESSORY', total_quantity FROM accessory_product" +
+            "SELECT id, name, image_url, date_added, price, 'ACCESSORIES', total_quantity FROM accessory_product" +
             ") AS combined " +
             "WHERE price >= COALESCE(:minPrice, price) " +
             "AND price <= COALESCE(:maxPrice, price)",
@@ -41,7 +41,7 @@ public interface ApparelProductRepository extends JpaRepository<ApparelProduct, 
                     "UNION ALL " +
                     "SELECT id, name, image_url, date_added, price, 'APPAREL', total_quantity FROM apparel_product " +
                     "UNION ALL " +
-                    "SELECT id, name, image_url, date_added, price, 'ACCESSORY', total_quantity FROM accessory_product" +
+                    "SELECT id, name, image_url, date_added, price, 'ACCESSORIES', total_quantity FROM accessory_product" +
                     ") AS combined " +
                     "WHERE price >= COALESCE(:minPrice, price) " +
                     "AND price <= COALESCE(:maxPrice, price)", nativeQuery = true)

@@ -19,5 +19,5 @@ public class ProductRequest extends Product {
     private MediaProductType mediaProductType;
     private AccessoriesProductType accessoriesProductType;
     private ApparelProductType apparelProductType;
-    private HashMap<ApparelSizeType, Integer> map = new HashMap<>();
+    private HashMap<ApparelSizeType, Integer> sizes = new HashMap<>();
 }

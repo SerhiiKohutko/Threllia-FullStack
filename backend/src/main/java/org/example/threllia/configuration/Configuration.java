@@ -45,7 +45,7 @@ public class Configuration  {
         return request -> {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowedOrigins(Collections.singletonList(
-                    "http://localhost:5173"
+                    frontendUrl
             ));
 
             config.setAllowedMethods(List.of("*"));

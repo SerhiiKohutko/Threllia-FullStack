@@ -73,6 +73,7 @@ public class ShopController {
 
     @GetMapping("/{productType}/{id}")
     public ResponseEntity<? extends Product> getProductById(@PathVariable int id, @PathVariable ProductType productType){
+        System.out.println(productType);
         return ResponseEntity.ok(productService.getProductById(id, productType)
                 .orElseThrow(() ->  new ProductNotFoundException("No product with such id")));
     }
@@ -85,6 +86,8 @@ public class ShopController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Product createProduct(@RequestParam("data") String  data, @RequestParam("coverImage") MultipartFile image) throws Exception {
+
+        System.out.println(data);
 
         String imageName = fileUploaderCloud.uploadImage(image);
 

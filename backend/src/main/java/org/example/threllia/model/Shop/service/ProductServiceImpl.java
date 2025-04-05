@@ -248,7 +248,7 @@ public class ProductServiceImpl implements ProductService{
         apparelProduct.setDescription(request.getDescription());
 
         apparelProduct.setTotalQuantity(apparelProduct.calculateTotalQuantity(request));
-        apparelProduct.setSizeToQuantityMap(request.getMap());
+        apparelProduct.setSizeToQuantityMap(request.getSizes());
 
         if (imageName != null) {
             fileUploaderCloud.deleteFile(apparelProduct.getImageUrl());
