@@ -212,7 +212,6 @@ export const authReducer = (state = initialState, action) => {
                     error: action.error
                 }
             case USER_LOGOUT:
-                localStorage.removeItem('token');
                 return initialState;
 
             default:

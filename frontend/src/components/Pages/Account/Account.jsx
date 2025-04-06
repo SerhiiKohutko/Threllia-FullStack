@@ -24,7 +24,6 @@ export const Account = () => {
 
     useEffect(() => {
         if (auth.userObtained && !auth.user) {
-            console.log("NAVIGATING LOGIN");
             navigate("/login");
         }
     }, [auth.userObtained , auth.user, navigate]);

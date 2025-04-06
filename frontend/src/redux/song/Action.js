@@ -1,6 +1,7 @@
 import axios from "axios";
 import {GET_ALL_SONGS_ORDERED_SUCCESS, GET_SONG_DETAILS_SUCCESS} from "@/redux/song/ActionType.js";
 import {toast} from "react-toastify";
+import api from "@/components/Utils/axios.js";
 
 export const getSongDetails = (id) => async (dispatch) => {
     try {
@@ -22,7 +23,7 @@ export const getAllSongsOrdered = () => async (dispatch) => {
 
 export const addShow = (show) => async () => {
     try{
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/concerts/admin`, show, {
+        await api.post(`/api/concerts/admin`, show, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem('token')}`
             }
@@ -51,7 +52,7 @@ export const addShow = (show) => async () => {
 
 export const addSong = (song) => async () => {
     try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/songs/admin`, song, {
+        await api.post(`/api/songs/admin`, song, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem('token')}`
             }
@@ -66,7 +67,7 @@ export const addSong = (song) => async () => {
 export const updateSong = (id, data) => async () => {
 
     try {
-        await axios.patch(`${import.meta.env.VITE_API_URL}/api/songs/admin/${id}`, data, {
+        await api.patch(`/api/songs/admin/${id}`, data, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem('token')}`
             }
@@ -81,7 +82,7 @@ export const updateSong = (id, data) => async () => {
 export const deleteSong = (id) => async () => {
     try {
         console.log(id)
-        await axios.delete(`${import.meta.env.VITE_API_URL}/api/songs/admin/${id}`, {
+        await api.delete(`/api/songs/admin/${id}`, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem('token')}`
             }

@@ -294,7 +294,7 @@ export const AuthPage = () => {
     }, [auth.user, dispatch, navigate]);
 
     useEffect(() => {
-        if (auth.error){
+        if (auth.error) {
             setAuthError(auth.error);
         }
     }, [auth]);

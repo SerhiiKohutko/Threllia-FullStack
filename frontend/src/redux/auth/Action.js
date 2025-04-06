@@ -26,12 +26,13 @@ import {
     USER_LOGOUT
 } from "@/redux/auth/ActionType.js";
 import {toast} from "react-toastify";
+import api from "@/components/Utils/axios.js";
 
 
 export const login = (data, navigate) => async(dispatch) => {
     dispatch({type: LOGIN_REQUEST});
     try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, data, {});
+        const response = await api.post(`/auth/login`, data, {});
 
         localStorage.setItem("token", response.data);
 
@@ -60,26 +61,27 @@ export const getUserDetails = (token) => async(dispatch) => {
     dispatch({type: GET_USER_DETAILS_REQUEST})
 
     const authToken = token || localStorage.getItem("token");
+    console.log(authToken);
 
     if (!authToken) {
         return dispatch({type: GET_USER_DETAILS_FAILURE, payload: "No auth token"});
     }
 
     try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user`, {
+        const response = await api.get(`/api/user`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
         })
         dispatch({type: GET_USER_DETAILS_SUCCESS, payload: response.data})
     } catch (error) {
-        dispatch({type: GET_USER_DETAILS_FAILURE, payload: error})
+        dispatch({type: GET_USER_DETAILS_FAILURE, payload: error.response.data.message})
     }
 }
 
 export const updateUserDetails = (data, navigate) => async(dispatch) => {
     try {
-        const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/user`, data, {
+        const response = await api.patch(`/api/user`, data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -96,7 +98,7 @@ export const updateUserDetails = (data, navigate) => async(dispatch) => {
 
 export const updateUserPassword = (data, navigate) => async(dispatch) => {
     try {
-        await axios.patch(`${import.meta.env.VITE_API_URL}/api/user/change_password`, data, {
+        await api.patch(`/api/user/change_password`, data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -111,7 +113,7 @@ export const updateUserPassword = (data, navigate) => async(dispatch) => {
 export const getAllOrders = (token) => async(dispatch) => {
     dispatch({type : GET_ALL_ORDER_REQUEST});
     try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/orders`, {
+        const response = await api.get(`/api/user/orders`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -127,7 +129,7 @@ export const getAllOrders = (token) => async(dispatch) => {
 export const getAllAddresses = (token) => async(dispatch) => {
     dispatch({type : GET_ALL_ADDRESSES_REQUEST});
     try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/addresses`, {
+        const response = await api.get(`/api/user/addresses`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -140,7 +142,7 @@ export const getAllAddresses = (token) => async(dispatch) => {
 }
 
 export const deleteAddress = (id ,token) => async(dispatch) => {
-    await axios.delete(`${import.meta.env.VITE_API_URL}/api/user/addresses/${id}`, {
+    await api.delete(`/api/user/addresses/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -152,7 +154,7 @@ export const deleteAddress = (id ,token) => async(dispatch) => {
 export const getAddressDetails = (id, token) => async(dispatch) => {
     dispatch({type : GET_ADDRESS_DETAILS_REQUEST})
     try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/addresses/${id}`, {
+        const response = await api.get(`/api/user/addresses/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -167,7 +169,7 @@ export const getAddressDetails = (id, token) => async(dispatch) => {
 
 export const createAddress = (data, navigate) => async() => {
     try {
-        await axios.post("${import.meta.env.VITE_API_URL}/api/user/addresses", data, {
+        await api.post("/api/user/addresses", data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -181,7 +183,7 @@ export const createAddress = (data, navigate) => async() => {
 export const updateAddress = (id, data, setSuccess) => async(dispatch) => {
     dispatch({type : UPDATE_ADDRESS_REQUEST});
     try {
-        const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/user/addresses/${id}`, data,{
+        const response = await api.patch(`/api/user/addresses/${id}`, data,{
             headers : {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -195,7 +197,7 @@ export const updateAddress = (id, data, setSuccess) => async(dispatch) => {
 }
 export const createPaymentDetails = (data, navigate) => async() => {
     try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/user/payment_details`, data, {
+        await api.post(`/api/user/payment_details`, data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -209,7 +211,7 @@ export const createPaymentDetails = (data, navigate) => async() => {
 export const getAllPaymentDetails = (token) => async(dispatch) => {
     dispatch({type : GET_ALL_PAYMENT_DETAILS_REQUEST});
     try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/payment_details`, {
+        const response = await api.get(`/api/user/payment_details`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -225,7 +227,7 @@ export const getAllPaymentDetails = (token) => async(dispatch) => {
 export const getPaymentDetails = (id, token) => async(dispatch) => {
     dispatch({type : GET_PAYMENT_DETAILS_BY_ID_REQUEST})
     try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/payment_details/${id}`, {
+        const response = await api.get(`/api/user/payment_details/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -239,7 +241,7 @@ export const getPaymentDetails = (id, token) => async(dispatch) => {
 }
 
 export const deletePayment = (id, token) => async(dispatch) => {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/api/user/payment_details/${id}`, {
+        await api.delete(`/api/user/payment_details/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -251,7 +253,7 @@ export const deletePayment = (id, token) => async(dispatch) => {
 export const updatePaymentDetails = (id, data, setSuccess) => async(dispatch) => {
     dispatch({type : UPDATE_PAYMENT_DETAILS_REQUEST});
     try {
-        const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/user/payment_details/${id}`, data,{
+        const response = await api.patch(`/api/user/payment_details/${id}`, data,{
             headers : {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -265,6 +267,7 @@ export const updatePaymentDetails = (id, data, setSuccess) => async(dispatch) =>
 }
 
 export const logout = () => async(dispatch) => {
+
     localStorage.removeItem("token");
     dispatch({type : USER_LOGOUT});
 }

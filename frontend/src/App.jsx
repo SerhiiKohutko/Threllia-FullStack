@@ -48,9 +48,6 @@ import {TermsOfUse} from "@/components/Pages/PolicyPages/TermsOfUse.jsx";
 import {RefundPolicy} from "@/components/Pages/PolicyPages/RefundPolicy.jsx";
 import {CookiePolicy} from "@/components/Pages/PolicyPages/CookiePolicy.jsx";
 
-
-//TODO - cancel payment page
-//TODO - select galleryCollection
 function App() {
 
     const dispatch = useDispatch();

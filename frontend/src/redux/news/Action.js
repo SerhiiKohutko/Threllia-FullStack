@@ -17,6 +17,7 @@ import {
 } from "@/redux/news/ActionType.js";
 import axios from "axios";
 import {toast} from "react-toastify";
+import api from "@/components/Utils/axios.js";
 
 export const getAllNewsPaginated = (page, isOverview) => async (dispatch) => {
     dispatch({ type: GET_ALL_NEWS_PAGINATED_REQUEST });
@@ -46,7 +47,7 @@ export const getLatestUpdateById = (id) => async (dispatch) => {
 export const addLatestUpdate = (payload) => async (dispatch) => {
     dispatch({ type: ADD_LATEST_UPDATE_REQUEST });
     try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/news/admin`, payload, {
+        await api.post(`/api/news/admin`, payload, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -64,7 +65,7 @@ export const addLatestUpdate = (payload) => async (dispatch) => {
 export const updateLatestUpdateById = (id, payload, navigate) => async (dispatch) => {
     dispatch({ type: UPDATE_LATEST_UPDATE_REQUEST });
     try {
-        await axios.patch(`${import.meta.env.VITE_API_URL}/api/news/admin/${id}`, payload, {
+        await api.patch(`/api/news/admin/${id}`, payload, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -82,7 +83,7 @@ export const updateLatestUpdateById = (id, payload, navigate) => async (dispatch
 export const deleteLatestUpdateById = (id) => async (dispatch) => {
     dispatch({ type: DELETE_LATEST_UPDATE_REQUEST });
     try {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/api/news/admin/${id}`, {
+        await api.delete(`/api/news/admin/${id}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }

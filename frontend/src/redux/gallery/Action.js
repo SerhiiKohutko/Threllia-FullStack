@@ -17,6 +17,7 @@ import {
     UPDATE_PHOTO_COLLECTION_SUCCESS
 } from "@/redux/gallery/ActionType.js";
 import {toast} from "react-toastify";
+import api from "@/components/Utils/axios.js";
 
 
 export const getAllPhotosPaginated  = (page, order) => async (dispatch) => {
@@ -50,7 +51,7 @@ export const addPhotoCollection = (data, form, setPreviews) => async (dispatch) 
     dispatch({type : CREATE_PHOTO_COLLECTION_REQUEST})
     try {
 
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/photos/admin`, data, {
+        await api.post(`/api/photos/admin`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization : `Bearer ${localStorage.getItem('token')}`
@@ -86,7 +87,7 @@ export const addPhotoCollection = (data, form, setPreviews) => async (dispatch) 
 export  const updatePhotoCollection = (id, data, navigate) => async (dispatch) => {
     dispatch({type : UPDATE_PHOTO_COLLECTION_REQUEST})
     try {
-        await axios.patch(`${import.meta.env.VITE_API_URL}/api/photos/admin/${id}`, data, {
+        await api.patch(`/api/photos/admin/${id}`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization : `Bearer ${localStorage.getItem('token')}`
@@ -104,7 +105,7 @@ export  const updatePhotoCollection = (id, data, navigate) => async (dispatch) =
 export const deletePhotoCollection = (id, navigate) => async (dispatch) => {
     dispatch({type : DELETE_PHOTO_COLLECTION_REQUEST})
     try {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/api/photos/admin/${id}`,{
+        await api.delete(`/api/photos/admin/${id}`,{
             headers: {
                 Authorization : `Bearer ${localStorage.getItem('token')}`
             }

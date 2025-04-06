@@ -4,6 +4,7 @@ import {
     GET_RELEASE_BY_ID_SUCCESS
 } from "@/redux/releases/ActionType.js";
 import {toast} from "react-toastify";
+import api from "@/components/Utils/axios.js";
 
 export const getAllReleases = (page, selectValue) => async (dispatch) => {
     try {
@@ -31,7 +32,7 @@ export const getReleaseById = (id) => async (dispatch) => {
 
 export const addRelease = (release) => async () => {
     try{
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/releases/admin`, release , {
+        await api.post(`/api/releases/admin`, release , {
             headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization : `Bearer ${localStorage.getItem('token')}`
@@ -46,7 +47,7 @@ export const addRelease = (release) => async () => {
 
 export const updateRelease = (id, release) => async () => {
     try {
-        await axios.patch(`${import.meta.env.VITE_API_URL}/api/releases/admin/${id}`, release, {
+        await api.patch(`/api/releases/admin/${id}`, release, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization : `Bearer ${localStorage.getItem('token')}`
@@ -60,7 +61,7 @@ export const updateRelease = (id, release) => async () => {
 
 export const deleteRelease = (id) => async () => {
     try{
-        await axios.delete(`${import.meta.env.VITE_API_URL}/api/releases/admin/${id}`,{
+        await api.delete(`/api/releases/admin/${id}`,{
             headers: {
                 Authorization : `Bearer ${localStorage.getItem('token')}`
             }

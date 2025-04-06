@@ -1,4 +1,5 @@
 import axios from "axios";
+import api from "@/components/Utils/axios.js";
 import {
     GET_ALL_PRODUCTS_PAGINATED_FAILURE,
     GET_ALL_PRODUCTS_PAGINATED_REQUEST,
