@@ -9,10 +9,11 @@ import {
     SelectValue,
 } from "@/components/ui/select.jsx"
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getAllReleases} from "@/redux/releases/Action.js";
 import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {useNavigate} from "react-router-dom";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 
 
@@ -21,13 +22,21 @@ export const ReleasesSection = () => {
     const dispatch = useDispatch();
     const releases = useSelector(state => state.releases);
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState(true);
     const [currPage, setCurrPage] = useState(1);
     const [selectValue, setSelectValue] = useState("DSC");
+
     useEffect(() => {
         dispatch(getAllReleases(currPage, selectValue));
     }, [currPage, selectValue]);
 
+    useEffect(() => {
+        setLoading(releases.loading)
+    },[releases.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
     function handleSelectChange(value){
         if (value !== selectValue) {
             setSelectValue(value);

@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import {addRelease} from "@/redux/releases/Action.js";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
 import {getAllSongsOrdered} from "@/redux/song/Action.js";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const ReleaseAdmin = () => {
     const [files, setFiles] = useState([]);
@@ -17,6 +18,12 @@ export const ReleaseAdmin = () => {
     const [songList, setSongList] = useState([]);
     const [members, setMembers] = useState([]);
     const dispatch = useDispatch();
+    const releases = useSelector(state => state.releases);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(releases.loading)
+    },[releases.loading])
 
     useEffect(() => {
         dispatch(getAllSongsOrdered());
@@ -125,7 +132,7 @@ export const ReleaseAdmin = () => {
             formData.append('releaseCover', files[0]);
         }
 
-        dispatch(addRelease(formData));
+        dispatch(addRelease(formData, form));
     };
 
     const isFormValid =
@@ -370,6 +377,7 @@ export const ReleaseAdmin = () => {
                     <Button
                         type="submit"
                         disabled={!isFormValid}
+                        disabled={loading}
                         className="w-full"
                     >
                         Add Release

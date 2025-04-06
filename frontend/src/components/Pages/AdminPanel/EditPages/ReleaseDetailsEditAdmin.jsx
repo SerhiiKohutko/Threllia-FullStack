@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import ReactQuill from 'react-quill-new';
-import { toast } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import {updateRelease} from "@/redux/releases/Action.js";
 import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
@@ -112,6 +112,7 @@ const ReleaseDetailsEditAdmin = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-black text-white">
+            <ToastContainer/>
             <div className="bg-black h-24 border-b border-orange-500"></div>
 
             <div className="container mx-auto px-4 py-12">

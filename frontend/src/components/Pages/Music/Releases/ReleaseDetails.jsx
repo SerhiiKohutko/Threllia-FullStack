@@ -8,6 +8,7 @@ import {TrackList} from "@/components/ReusableComponents/TrackList.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 
 
@@ -134,11 +135,19 @@ export const ReleaseDetails = () => {
     const release = useSelector(state => state.releases);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         dispatch(getReleaseById(releaseId));
     }, [dispatch, releaseId]);
 
+    useEffect(() => {
+        setLoading(release.loading)
+    },[release.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
     function handleDeleteRelease() {
         dispatch(deleteRelease(releaseId));
         navigate("/releases")
