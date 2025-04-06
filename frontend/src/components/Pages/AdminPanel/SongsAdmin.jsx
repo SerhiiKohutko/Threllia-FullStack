@@ -1,14 +1,19 @@
-import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
-import {addLatestUpdate} from "@/redux/news/Action.js";
 import {Input} from "@/components/ui/input.jsx";
 import ReactQuill from "react-quill-new";
 import {Button} from "@/components/ui/button.jsx";
 import {addSong} from "@/redux/song/Action.js";
+import {useEffect, useState} from "react";
 
 export const SongsAdmin = () => {
     const dispatch = useDispatch();
+    const songs = useSelector(state => state.song)
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(songs.loading);
+    }, [songs.loading]);
 
     const { control, handleSubmit, setValue, watch, reset } = useForm({
         defaultValues: {
@@ -17,8 +22,6 @@ export const SongsAdmin = () => {
         },
         mode: "onChange",
     });
-
-
 
     const onSubmit = (data) => {
         dispatch(addSong(data))
@@ -42,7 +45,7 @@ export const SongsAdmin = () => {
                     onChange={(value) => setValue("lyrics", value)}
                 />
 
-                <Button type="submit" disabled={!isFormValid} className="w-full">
+                <Button type="submit" disabled={!isFormValid} disabled={loading} className="w-full">
                     Add Song
                 </Button>
             </form>

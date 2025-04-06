@@ -1,20 +1,29 @@
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {getAllSongsOrdered} from "@/redux/song/Action.js";
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import bgImage
     from "@/resources/bg_2.png";
 import {useNavigate} from "react-router-dom";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const Songs = () => {
     const dispatch = useDispatch();
     const songs = useSelector(state => state.song);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         dispatch(getAllSongsOrdered());
     },[])
 
+    useEffect(() => {
+        setLoading(songs.loading)
+    },[songs.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
     return (
         <div>
             <Hero background={bgImage} pageTitle={"Songs"} buttonContent={"Listen To Threllia"} navigateTo={"https://open.spotify.com/artist/5R6TtzzCoaQAwyVjsAjyuz?si=vAYIxm9GQbGWFJ_M1vfm-A"} />

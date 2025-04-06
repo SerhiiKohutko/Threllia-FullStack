@@ -10,6 +10,7 @@ import {getShowsContainSongByTitle} from "@/redux/tour/Action.js";
 import {
     PastTourDatesSection
 } from "@/components/Pages/Tour/PastTourDates/PastTourDatesSection.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 
 export const SongDetails = () => {
@@ -18,6 +19,7 @@ export const SongDetails = () => {
     const tour = useSelector(state => state.tours)
     const {songId} = useParams();
 
+    const [loading, setLoading] = useState(true);
     const [currPage, setCurrPage] = useState(1);
 
     useEffect(() => {
@@ -28,6 +30,14 @@ export const SongDetails = () => {
     useEffect(() => {
         dispatch(getShowsContainSongByTitle(song.songDetails.title, currPage));
     }, [song.songDetails?.title, currPage])
+
+    useEffect(() => {
+        setLoading(song.loading)
+    },[song.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
 
     return (
         <div>
