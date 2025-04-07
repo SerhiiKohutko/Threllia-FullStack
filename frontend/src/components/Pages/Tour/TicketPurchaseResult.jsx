@@ -53,7 +53,7 @@ export const TicketSuccessPage = () => {
                     Back to Main
                 </Button>
                 <Button
-                    onClick={() => navigate('/tours/upcoming')}
+                    onClick={() => navigate('/tour')}
                     variant="ghost"
                     className="px-6 py-2 border border-white/30 text-white font-bold hover:bg-white/10 transition-colors">
                     All Shows

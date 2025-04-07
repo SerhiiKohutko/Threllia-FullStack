@@ -10,22 +10,36 @@ export const QuickViewProductDetails = ({productId, category}) => {
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const [loading, setLoading] = useState(true);
     const {handleAddProductToCart} = useCart();
+    const shop = useSelector(state => state.shop);
 
     useEffect(() => {
-        if (!category){
-            return;
+        if (productId && category) {
+            console.log(`Fetching product with ID ${productId} and category ${category}`);
+            dispatch(getProductById(productId, category));
         }
-        dispatch(getProductById(productId, category));
-    }, [category]);
+    }, [productId, category, dispatch]);
+
+    useEffect(() => {
+        setLoading(shop.productDetailsLoading);
+    },[shop.productDetailsLoading])
+
+    if (loading) {
+        return <div className="min-h-fit bg-black text-white flex flex-col items-center justify-center p-8">
+            <div className="flex items-center justify-center mb-4">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white"></div>
+            </div>
+            <p className="text-lg">Loading product details...</p>
+        </div>;
+    }
 
     return (
         <div className="min-h-fit bg-black text-white flex flex-row justify-center">
             <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row">
                 <div className="w-full md:w-1/2 mb-8 md:mb-0 md:mr-12">
                     <div className="border border-gray-800">
-                        <img
+                    <img
                             src={product.imageUrl}
                             className="w-full object-cover"
                             alt="Product"

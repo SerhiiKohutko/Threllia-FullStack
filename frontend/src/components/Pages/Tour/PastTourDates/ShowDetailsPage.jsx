@@ -1,5 +1,5 @@
 import bgImage from "@/resources/ajfajm_big_burning_cross_7f4e8d49-44f0-4d57-b94d-9c20f7893d64.png";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
@@ -11,6 +11,7 @@ import {deleteShowById, getShowDetails} from "@/redux/tour/Action.js";
 
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {AdminEditDeleteButtons} from "@/components/ReusableComponents/AdminEditDeleteButtons.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const ShowDetailsPage = () => {
     const [indexHovered, setIndexHovered] = React.useState(null);
@@ -18,11 +19,20 @@ export const ShowDetailsPage = () => {
     const {showId} = useParams();
     const navigate = useNavigate();
     const tour = useSelector((state) => state.tours);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         dispatch(getShowDetails(showId));
     },[])
 
+
+    useEffect(() => {
+        setLoading(tour.loading)
+    },[tour.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
 
     function handleDelete() {
         dispatch(deleteShowById(showId));

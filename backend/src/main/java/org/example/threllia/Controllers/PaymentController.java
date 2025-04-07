@@ -40,8 +40,8 @@ public class PaymentController {
             SessionCreateParams params = SessionCreateParams.builder()
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl(frontendUrl + "ticket/success?payment_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl(frontendUrl + "ticket/cancel?&payment_id={CHECKOUT_SESSION_ID}")
+                    .setSuccessUrl(frontendUrl + "/ticket/success?payment_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl(frontendUrl + "/ticket/cancel?&payment_id={CHECKOUT_SESSION_ID}")
                     .putMetadata("ticket_id", String.valueOf(ticket.getId()))
                     .addLineItem(
                             SessionCreateParams.LineItem.builder()

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
@@ -50,7 +50,8 @@ export const ShopAdmin = () => {
     const [sizeInput, setSizeInput] = useState('');
     const [quantityInput, setQuantityInput] = useState('');
     const dispatch = useDispatch();
-
+    const shop = useSelector(state => state.shop);
+    const [loading, setLoading] = useState(false);
     const form = useForm({
         defaultValues: {
             name: "",
@@ -63,6 +64,10 @@ export const ShopAdmin = () => {
         },
         mode: 'onChange'
     });
+
+    useEffect(() => {
+        setLoading(shop.loading)
+    },[shop.loading])
 
     const handleFileChange = (event) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -134,7 +139,7 @@ export const ShopAdmin = () => {
         switch(data.type) {
             case ProductType.APPAREL:
                 productData.apparelProductType = data.subType;
-                productData.sizes = apparelSizes; // Изменено с map на sizes
+                productData.sizes = apparelSizes;
                 break;
             case ProductType.MEDIA:
                 productData.mediaProductType = data.subType;
@@ -150,16 +155,17 @@ export const ShopAdmin = () => {
             formData.append('coverImage', files[0]);
         }
 
-        dispatch(createProduct(formData));
+        dispatch(createProduct(formData, formReset));
 
-        // Сбросить состояние формы
+    };
+
+    function formReset(){
         form.reset();
         setPreviews([]);
         setFiles([]);
         setApparelSizes({});
-    };
+    }
 
-    // Валидация формы включает проверку на наличие размеров для одежды
     const isFormValid = form.watch('name') &&
         form.watch('price') &&
         form.watch('type') &&
@@ -461,6 +467,7 @@ export const ShopAdmin = () => {
                     <Button
                         type="submit"
                         disabled={!isFormValid}
+                        disabled={loading}
                         className="w-full"
                     >
                         Add Product

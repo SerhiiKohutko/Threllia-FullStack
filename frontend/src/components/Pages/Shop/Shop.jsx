@@ -3,7 +3,7 @@ import bgImage from "@/resources/ajfajm_bigger_writing_5fdc790a-ffc5-4a57-a6eb-f
 import {CollapsibleShop} from "@/components/ReusableComponents/CollapsibleShop.jsx";
 import {FiltersCollapsible} from "@/components/Pages/Shop/FiltersCollapsible.jsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getAllProductsFiltered, getAllProductsPaginated} from "@/redux/shop/Action.js";
 import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
@@ -12,6 +12,7 @@ import {getCurrPosition, Position} from "@/components/ReusableComponents/Positio
 import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {QuickViewProductDetails} from "@/components/Pages/Shop/QuickViewProductDetails.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -28,6 +29,7 @@ export const Shop = () => {
     const dispatch = useDispatch();
     const shop = useSelector(state => state.shop);
     const params = new URLSearchParams(location.search);
+    const [loading, setLoading] = useState(true);
 
     const [position, setPosition] = useState(null)
     const [currPage, setCurrPage] = useState(1)
@@ -71,6 +73,14 @@ export const Shop = () => {
             }))
         }
     }, [currPage, position, location.search, selectValue]);
+
+    useEffect(() => {
+        setLoading(shop.loading)
+    },[shop.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
 
     function handleSelectChange(value){
 
@@ -128,36 +138,44 @@ export const Shop = () => {
                             {
                                 !shop.loading &&
                                 shop?.products?.map((item, index) => (
-                                    <div key={index} className={"flex flex-col relative group "}>
-                                        <div className={"relative flex flex-row justify-center"}>
+                                    <div key={index} className={"flex flex-col relative group h-full"}>
+                                        <div
+                                            className={"relative flex flex-row justify-center h-[300px] overflow-hidden"}>
                                             <img
                                                 src={item.imageUrl}
-                                                className={"px-0 border border-black w-full cursor-pointer"}
+                                                className={"px-0 border border-black w-full h-full object-cover cursor-pointer"}
                                                 onClick={() => navigateToProductDetails(item.productType, item.id)}
                                                 onMouseEnter={() => setHoveredProduct(item.id)}
                                             />
                                             {hoveredProduct === item.id && (
-                                                <div onMouseLeave={() => setHoveredProduct(null)} className={"absolute bottom-0 h-fit w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"}>
-                                                    <Dialog  >
+                                                <div onMouseLeave={() => setHoveredProduct(null)}
+                                                     className={"absolute bottom-0 h-fit w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"}>
+                                                    <Dialog>
                                                         <DialogTrigger asChild>
-                                                            <Button className={"w-full border border-black rounded-none text-black  bg-white hover:bg-black hover:text-white"}>Quick View</Button>
+                                                            <Button onClick={() => console.log(item)}
+                                                                className={"w-full border border-black rounded-none text-black bg-white hover:bg-black hover:text-white"}>Quick
+                                                                View</Button>
                                                         </DialogTrigger>
-                                                        <DialogContent className="py-0 px-0 border-0 text-white max-w-3xl max-h-[80vh] data-[state=open]:!animate-none data-[state=closed]:!animate-none">
-                                                            <QuickViewProductDetails productId={item.id} category={!categoryName ? item.productType : position[0]}/>
+                                                        <DialogContent
+                                                            className="py-0 px-0 border-0 text-white max-w-3xl max-h-[80vh] data-[state=open]:!animate-none data-[state=closed]:!animate-none">
+                                                            <QuickViewProductDetails productId={item.id}
+                                                                                     category={!categoryName ? item.productType.toLowerCase() : position[0]}/>
                                                         </DialogContent>
                                                     </Dialog>
                                                 </div>
                                             )}
                                         </div>
-                                        <h1
-                                            className={"text-3xl cursor-pointer hover:text-orange-500"}
-                                            onClick={() => navigateToProductDetails(item.productType, item.id)}
-                                        >
-                                            {item.name}
-                                        </h1>
-                                        <p className={"text-gray-200 text-xl cursor-text w-fit"}>
-                                            {item.price}$
-                                        </p>
+                                        <div className="mt-2">
+                                            <h1
+                                                className={"text-3xl cursor-pointer hover:text-orange-500"}
+                                                onClick={() => navigateToProductDetails(item.productType, item.id)}
+                                            >
+                                                {item.name}
+                                            </h1>
+                                            <p className={"text-gray-200 text-xl cursor-text w-fit"}>
+                                                {item.price}$
+                                            </p>
+                                        </div>
                                     </div>
                                 ))
                             }

@@ -26,6 +26,12 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             return;
         }
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 
         if (jwt != null) {

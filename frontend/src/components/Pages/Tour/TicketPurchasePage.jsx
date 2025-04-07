@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {Button} from "@/components/ui/button.jsx";
 import {getShowDetails, ticketPurchase} from "@/redux/tour/Action.js";
-import {BackgroundEffects} from "@/components/Pages/Auth/AuthPage.jsx"; // Предполагаю, что у вас есть компонент Button
+import {BackgroundEffects} from "@/components/Pages/Auth/AuthPage.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const TicketPurchasePage = () => {
     const { id } = useParams();
     const [quantity, setQuantity] = useState(1);
     const [email, setEmail] = useState('');
-
+    const [loading, setLoading] = useState(true);
+    const tourLoading = useSelector((state) => state.tours);
     const tour = useSelector(store => store.tours.tourDetails);
     const dispatch = useDispatch();
 
@@ -34,6 +36,14 @@ export const TicketPurchasePage = () => {
 
        dispatch(ticketPurchase(ticketData));
     };
+
+    useEffect(() => {
+        setLoading(tourLoading.loading)
+    },[tourLoading.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
 
     if (!tour) {
         return <div className="text-center text-white text-2xl font-tradeWinds py-12">Concert not found.</div>;

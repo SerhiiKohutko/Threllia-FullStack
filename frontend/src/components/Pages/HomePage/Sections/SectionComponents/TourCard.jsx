@@ -1,9 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button} from "@/components/ui/button.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {getClosestShows} from "@/redux/tour/Action.js";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {useNavigate} from "react-router-dom";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const TourCard = ({ id, date, city, country, place }) => {
     const navigate = useNavigate();
@@ -35,10 +36,19 @@ export const TourCard = ({ id, date, city, country, place }) => {
 export const TourDatesCarousel = () => {
     const dispatch = useDispatch();
     const tour = useSelector(store => store.tours);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         dispatch(getClosestShows())
     },[])
 
+    useEffect(() => {
+        setLoading(tour.loading)
+    },[tour.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
     return (
         <div className="w-full max-w-6xl mx-auto px-4 relative">
             {tour.tourList?.length > 0 ?

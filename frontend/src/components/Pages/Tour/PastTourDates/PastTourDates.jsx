@@ -8,17 +8,26 @@ import {
     PastTourDatesSection
 } from "@/components/Pages/Tour/PastTourDates/PastTourDatesSection.jsx";
 import {Hero} from "@/components/ReusableComponents/Hero.jsx";
+import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
 export const PastTourDates = () => {
 
     const tour = useSelector(store => store.tours);
     const dispatch = useDispatch();
-
+    const [loading, setLoading] = useState(true);
     const [currPage, setCurrPage] = useState(1);
 
     useEffect(() => {
         dispatch(getPastDateShows(currPage - 1));
     },[currPage]);
+
+    useEffect(() => {
+        setLoading(tour.loading)
+    },[tour.loading])
+
+    if(loading){
+        return <LoadingPage/>
+    }
 
 
     return (
