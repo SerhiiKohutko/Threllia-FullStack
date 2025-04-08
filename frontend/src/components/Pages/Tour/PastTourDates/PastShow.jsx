@@ -4,6 +4,10 @@ import {useEffect} from "react";
 
 export const PastShow = ({show, navigate}) => {
 
+    useEffect(() => {
+        document.title = 'Past Shows';
+    }, [])
+
     return (
         <div className={"flex flex-row text-white justify-between items-end border-b border-orange-300 py-5"}>
             <div className={"flex flex-row justify-start w-1/3"}>

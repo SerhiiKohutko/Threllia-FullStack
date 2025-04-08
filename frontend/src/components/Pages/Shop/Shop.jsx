@@ -37,6 +37,10 @@ export const Shop = () => {
     const [hoveredProduct, setHoveredProduct] = useState(null);
 
     useEffect(() => {
+        document.title = 'Shop';
+    }, [])
+
+    useEffect(() => {
         getCurrPosition(setPosition, variants, categoryName)
         setCurrPage(1);
     }, [categoryName])

@@ -20,6 +20,10 @@ export const TicketPurchasePage = () => {
     const totalPrice = basePrice * quantity;
 
     useEffect(() => {
+        document.title = 'Ticket Purchase';
+    }, [])
+
+    useEffect(() => {
         dispatch(getShowDetails(id))
     },[])
 

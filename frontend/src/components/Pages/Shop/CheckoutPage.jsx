@@ -13,17 +13,26 @@ export const CheckoutPage = () => {
     const [password, setPassword] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [error, setError] = useState(null);
-
+    const [loading, setLoading] = useState(false);
+    const shop = useSelector(state => state.shop);
     const navigate = useNavigate();
     const { cart, removeAllItemsFromCart, removeProductFromCart, getAllItems, cleanTheCart } = useCart();
     const auth = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     useEffect(() => {
+        document.title = 'Checkout';
+    }, [])
+
+    useEffect(() => {
         if (auth.isAuthenticated) {
             setIsLoggedIn(true);
         }
     }, [auth.isAuthenticated]);
+
+    useEffect(() => {
+        setLoading(shop.loading)
+    },[shop.loading])
 
     const calculateSubtotal = () => {
         return cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
@@ -42,8 +51,7 @@ export const CheckoutPage = () => {
         setError(null);
         const products = getAllItems();
 
-        await dispatch(createPayment(products, localStorage.getItem("token")));
-        cleanTheCart();
+        await dispatch(createPayment(products, localStorage.getItem("token"), cleanTheCart));
     }
 
     const isCartEmpty = cart.length === 0;
@@ -150,6 +158,7 @@ export const CheckoutPage = () => {
 
                                 <Button
                                     onClick={() => handleCheckout()}
+                                    disabled={loading}
                                     className="w-full bg-orange-700 text-white hover:bg-orange-600 transition-colors duration-300 rounded-none py-3">
                                     Complete Purchase
                                 </Button>

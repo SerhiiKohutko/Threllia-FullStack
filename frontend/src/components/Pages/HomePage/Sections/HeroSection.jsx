@@ -35,7 +35,7 @@ export const HeroSection = () => {
                     </span>
                 </div>
 
-                <Button variant="ghost" className="font-tradeWinds text-2xl mt-8 px-8 py-6">
+                <Button onClick={() => navigate("/releases")} variant="ghost" className="font-tradeWinds text-2xl mt-8 px-8 py-6">
                     New Album Song List
                 </Button>
                 <Button onClick={() => navigate("/tour")} variant="ghost" className="font-tradeWinds text-2xl mt-8 px-8">

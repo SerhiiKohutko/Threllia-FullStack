@@ -21,10 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -96,34 +93,56 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Page<ProductDTO> getAllProductsPaginated(ShopParametersTransfer shopParametersTransfer) {
-
         Sort sort = getSortingOrder(shopParametersTransfer.getSortingType());
-
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(), shopParametersTransfer.getSize(), sort);
-        return apparelProductRepository.getAllProductsPaginated(shopParametersTransfer.getAlbum(),
-                shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(),
+
+        return apparelProductRepository.getAllProductsPaginated(
+                shopParametersTransfer.getMinPrice(),
+                shopParametersTransfer.getMaxPrice(),
                 pageRequest).map(this::convertToProductDTO);
     }
 
-    private ProductDTO convertToProductDTO(Object[] row){
+    private ProductDTO convertToProductDTO(Object[] row) {
+        // The row contains: [global_id, id, name, image_url, date_added, price, product_type, total_quantity]
+        String globalId = (String) row[0];
+        String productType = (String) row[6];
+        Long originalId = ((Number) row[1]).longValue();
+
+        // Create a globally unique ID by parsing the prefix from the global_id
+        Long uniqueId;
+        if (globalId != null && globalId.contains("_")) {
+
+            uniqueId = productType.hashCode() * 10000L + originalId;
+        } else {
+            uniqueId = originalId;
+        }
+
         return ProductDTO.builder()
-                .id(((Number) row[0]).longValue())
-                .name((String) row[1])
-                .price((Double) row[4])
-                .productType((String) row[5])
-                .imageUrl((String) row[2])
-                .totalQuantity((Integer) row[6])
+                .id(originalId)
+                .globalId(uniqueId)
+                .name((String) row[2])
+                .imageUrl((String) row[3])
+                .dateAdded((Date) row[4])
+                .price((Double) row[5])
+                .productType(productType)
+                .totalQuantity((Integer) row[7])
                 .build();
     }
 
-    private Sort getSortingOrder(ShopSortingType shopSortingType){
-        return switch (shopSortingType){
-            case ASC_DATE -> Sort.by("date_added").ascending();
-            case DSC_DATE -> Sort.by("date_added").descending();
-            case ASC_PRICE -> Sort.by("price").ascending();
-            case DSC_PRICE -> Sort.by("price").descending();
+    private Sort getSortingOrder(ShopSortingType shopSortingType) {
+        if (shopSortingType == null) {
+            return Sort.by("date_added").descending().and(Sort.by("global_id").ascending());
+        }
+
+        return switch (shopSortingType) {
+            case ASC_DATE -> Sort.by("date_added").ascending().and(Sort.by("global_id").ascending());
+            case DSC_DATE -> Sort.by("date_added").descending().and(Sort.by("global_id").ascending());
+            case ASC_PRICE -> Sort.by("price").ascending().and(Sort.by("global_id").ascending());
+            case DSC_PRICE -> Sort.by("price").descending().and(Sort.by("global_id").ascending());
+            default -> Sort.by("date_added").descending().and(Sort.by("global_id").ascending());
         };
     }
+
 
     @Override
     public Optional<? extends Product> getProductById(int id, ProductType productType) {

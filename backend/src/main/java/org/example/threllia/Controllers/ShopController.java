@@ -41,8 +41,9 @@ public class ShopController {
                                                            @RequestParam(defaultValue = "DSC_DATE") ShopSortingType shopSortingType){
 
         ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, size, shopSortingType);
-
-        return ResponseEntity.ok(productService.getAllProductsPaginated(shopParametersTransfer));
+        Page<ProductDTO> productDTOS = productService.getAllProductsPaginated(shopParametersTransfer);
+        productDTOS.forEach(System.out::println);
+        return ResponseEntity.ok(productDTOS);
     }
 
     @GetMapping("/all")

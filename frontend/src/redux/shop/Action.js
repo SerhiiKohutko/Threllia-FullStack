@@ -1,6 +1,8 @@
 import axios from "axios";
 import api from "@/components/Utils/axios.js";
 import {
+    CREATE_PAYMENT_FAILURE,
+    CREATE_PAYMENT_REQUEST, CREATE_PAYMENT_SUCCESS,
     CREATE_PRODUCT_FAILURE, CREATE_PRODUCT_REQUEST,
     CREATE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAILURE,
@@ -90,7 +92,7 @@ export const createProduct = (product, formReset) => async (dispatch) => {
 };
 
 // update product
-export const updateProductById = (id, product) => async (dispatch) => {
+export const updateProductById = (id, categoryName, product, navigate) => async (dispatch) => {
     dispatch({ type: UPDATE_PRODUCT_REQUEST });
     try {
         await api.patch(`${import.meta.env.VITE_API_URL}/api/products/admin/${id}`, product, {
@@ -100,6 +102,7 @@ export const updateProductById = (id, product) => async (dispatch) => {
             }
         });
         dispatch({ type: UPDATE_PRODUCT_SUCCESS });
+        navigate(`/shop/${categoryName}/${id}`);
         toast.success("Product updated!");
     } catch (err) {
         dispatch({ type: UPDATE_PRODUCT_FAILURE, error: err.message });
@@ -127,7 +130,8 @@ export const deleteProductById = (id, categoryName) => async (dispatch) => {
     }
 };
 
-export const createPayment = (products, jwt) => async () => {
+export const createPayment = (products, jwt, cleanTheCart) => async (dispatch) => {
+    dispatch({ type: CREATE_PAYMENT_REQUEST });
     try{
         const response = await api.post(`${import.meta.env.VITE_API_URL}/api/payment`, products, {
             headers : {
@@ -135,12 +139,14 @@ export const createPayment = (products, jwt) => async () => {
             }
         })
 
+        dispatch({ type: CREATE_PAYMENT_SUCCESS });
         if (response.data.payment_link_url){
-            localStorage.setItem("fromStripe", "true");
+            cleanTheCart();
             window.location.href = response.data.payment_link_url;
         }
     }catch(err){
-        console.log(err);
+        dispatch({ type: CREATE_PAYMENT_FAILURE, error: err.message });
+        toast.error("Failed to create payment!");
     }
 
 }

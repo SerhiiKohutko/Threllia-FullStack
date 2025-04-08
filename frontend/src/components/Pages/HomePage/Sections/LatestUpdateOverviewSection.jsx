@@ -1,9 +1,10 @@
 import {ArrowRight} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {getAllNewsPaginated} from "@/redux/news/Action.js";
 import {useNavigate} from "react-router-dom";
+import {LoadingPageAlt} from "@/components/ReusableComponents/LoadingAlt.jsx";
 
 export const truncateHtml = (html, maxLength) => {
                 const tempDiv = document.createElement("div");
@@ -56,6 +57,11 @@ export const LatestUpdateOverviewSection = () => {
     const dispatch = useDispatch();
     const news = useSelector(state => state.news)
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(news.loading);
+    }, [news.loading]);
 
     useEffect(() => {
         dispatch(getAllNewsPaginated(1, true));
@@ -63,17 +69,23 @@ export const LatestUpdateOverviewSection = () => {
 
     return (
         <section className="py-24 bg-gray-900 relative">
-            <div className="container mx-auto px-4">
+            {loading
+                ?
+                <LoadingPageAlt title={"news"}/>
+                :
+                <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-12">
                     <h2 className="text-5xl font-rubikPaint text-white mb-6 md:mb-0">LATEST UPDATES</h2>
-                    <Button onClick={() => navigate("/news")} variant="primary" className="font-tradeWinds border border-amber-600 text-white hover:text-amber-600">
-                        ALL NEWS <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button onClick={() => navigate("/news")} variant="primary"
+                            className="font-tradeWinds border border-amber-600 text-white hover:text-amber-600">
+                        ALL NEWS <ArrowRight className="ml-2 h-4 w-4"/>
                     </Button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {news.news?.map((update, index) => (
-                        <div key={index} className="group bg-gradient-to-br from-black to-gray-900 border border-amber-700/20 p-6 hover:border-amber-500 transition">
+                        <div key={index}
+                             className="group bg-gradient-to-br from-black to-gray-900 border border-amber-700/20 p-6 hover:border-amber-500 transition">
                             <div className="mb-6 overflow-hidden">
                                 <img
                                     src={update.imageName}
@@ -87,12 +99,12 @@ export const LatestUpdateOverviewSection = () => {
                                  dangerouslySetInnerHTML={{__html: update.content}}></div>
                             <Button onClick={() => navigate(`/news/${update.id}`)} variant="primary"
                                     className="font-tradeWinds text-white hover:text-amber-500 p-0 flex items-center ">
-                                <span className={"ml-1"}>READ MORE</span> <ArrowRight className="ml-1 h-4 w-4" />
+                                <span className={"ml-1"}>READ MORE</span> <ArrowRight className="ml-1 h-4 w-4"/>
                             </Button>
                         </div>
                     ))}
                 </div>
-            </div>
+            </div>}
         </section>
     );
 }

@@ -6,7 +6,7 @@ export const Hero = ({pageTitle, background, buttonContent, navigateTo, addition
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className={"bg-black"}>
             <div className="relative min-h-screen">
                 <div
                     className="absolute inset-0 bg-center bg-cover w-full"
@@ -23,7 +23,7 @@ export const Hero = ({pageTitle, background, buttonContent, navigateTo, addition
                 </div>
 
 
-                <div className="relative z-10 flex flex-col items-center justify-center min-h-screen font-tradeWinds text-white">
+                <div className="relative z-10 flex flex-col items-center text-center justify-center min-h-screen font-tradeWinds text-white">
                     <h1 className="text-8xl">{pageTitle}</h1>
                     {
                         buttonContent &&

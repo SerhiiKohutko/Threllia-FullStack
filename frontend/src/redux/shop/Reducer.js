@@ -1,4 +1,5 @@
 import {
+    CREATE_PAYMENT_REQUEST, CREATE_PAYMENT_SUCCESS,
     CREATE_PRODUCT_FAILURE, CREATE_PRODUCT_REQUEST, CREATE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAILURE, DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_SUCCESS,
     GET_ALL_PRODUCTS_PAGINATED_FAILURE,
@@ -88,6 +89,16 @@ export const shopReducer=(state=initialState, action)=>{
                 error: action.error || action.payload
             };
 
+        case CREATE_PAYMENT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+            case CREATE_PAYMENT_SUCCESS, CREATE_PRODUCT_FAILURE:
+                return {
+                    ...state,
+                    loading: false
+                }
         default:
             return state;
     }

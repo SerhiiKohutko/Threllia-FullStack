@@ -112,8 +112,8 @@ public class PaymentController {
             SessionCreateParams params = SessionCreateParams.builder()
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl(frontendUrl + "order/success?&payment_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl(frontendUrl + "order/cancel?&payment_id={CHECKOUT_SESSION_ID}")
+                    .setSuccessUrl(frontendUrl + "/order/success?&payment_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl(frontendUrl + "/order/cancel?&payment_id={CHECKOUT_SESSION_ID}")
                     .addAllLineItem(lineItems)
                     .putMetadata("order_id", String.valueOf(order.getId()))
                     .build();

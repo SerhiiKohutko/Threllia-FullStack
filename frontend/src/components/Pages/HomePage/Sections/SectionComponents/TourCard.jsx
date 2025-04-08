@@ -5,6 +5,7 @@ import {getClosestShows} from "@/redux/tour/Action.js";
 import {getFormattedDate} from "@/components/Utils/DateParser.js";
 import {useNavigate} from "react-router-dom";
 import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
+import {LoadingPageAlt} from "@/components/ReusableComponents/LoadingAlt.jsx";
 
 export const TourCard = ({ id, date, city, country, place }) => {
     const navigate = useNavigate();
@@ -47,7 +48,7 @@ export const TourDatesCarousel = () => {
     },[tour.loading])
 
     if(loading){
-        return <LoadingPage/>
+        return <LoadingPageAlt title={"shows"}/>
     }
     return (
         <div className="w-full max-w-6xl mx-auto px-4 relative">

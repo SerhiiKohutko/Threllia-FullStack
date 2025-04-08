@@ -58,7 +58,7 @@ export const ProductDetails = () => {
 
         setTimeout(() => {
             setIsAddingToCart(false);
-        }, 1500);
+        }, 800);
 
         setTimeout(() => {
             setImageAnimating(false);

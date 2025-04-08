@@ -5,8 +5,12 @@ import {LatestUpdateOverviewSection} from "@/components/Pages/HomePage/Sections/
 import {GalleryOverviewSection} from "@/components/Pages/HomePage/Sections/GalleryOverviewSection.jsx";
 import {FollowUsSection} from "@/components/Pages/HomePage/Sections/FollowUsSection.jsx";
 import {TourSectionOverviewSection} from "@/components/Pages/HomePage/Sections/TourSection.jsx";
+import {useEffect} from "react";
 
 export const HomePage = () => {
+    useEffect(() => {
+        document.title = 'Threllia';
+    }, [])
     return (
         <div>
             <HeroSection/>

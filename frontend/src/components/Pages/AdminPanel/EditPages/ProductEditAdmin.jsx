@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -49,10 +49,12 @@ export const ProductDetailsEditAdmin = () => {
 
 
     const isApparel = categoryName?.toLowerCase() === 'apparel';
+    const [loading, setLoading] = useState(false);
+    const shop = useSelector((state) => state.shop);
 
     useEffect(() => {
-        // Fetch product data if needed
-    }, [categoryName, dispatch]);
+        setLoading(shop.loading);
+    }, [shop.loading]);
 
     const handleImageClick = () => {
         fileInputRef.current.click();
@@ -91,7 +93,7 @@ export const ProductDetailsEditAdmin = () => {
         };
 
         if (isApparel) {
-            productData.map = sizeQuantities;
+            productData.sizes = sizeQuantities;
         } else {
             productData.totalQuantity = updatedQuantity;
         }
@@ -102,8 +104,8 @@ export const ProductDetailsEditAdmin = () => {
             formData.append('coverImage', productImage);
         }
 
-        dispatch(updateProductById(productId, formData))
-        navigate(`/shop/${categoryName}/${productId}`);
+        dispatch(updateProductById(productId,categoryName, formData, navigate))
+
     };
 
     return (
@@ -243,6 +245,7 @@ export const ProductDetailsEditAdmin = () => {
                 <div className="flex justify-center mt-8 mb-16">
                     <Button
                         onClick={onSaveChanges}
+                        disabled={loading}
                         className="w-full md:w-1/2 lg:w-1/3 py-3 border border-red-600 hover:bg-red-900 hover:border-red-400 text-lg">
                         Save Changes
                     </Button>

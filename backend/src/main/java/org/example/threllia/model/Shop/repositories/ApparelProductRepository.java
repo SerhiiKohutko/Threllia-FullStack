@@ -27,28 +27,31 @@ public interface ApparelProductRepository extends JpaRepository<ApparelProduct, 
             Pageable pageable
     );
 
+
     @Query(value = "SELECT * FROM (" +
-            "SELECT id, name, image_url, date_added, price, 'MEDIA', total_quantity FROM media_product " +
+            "SELECT CONCAT('MEDIA_', id) AS global_id, id, name, image_url, date_added, price, 'MEDIA' AS product_type, total_quantity FROM media_product " +
             "UNION ALL " +
-            "SELECT id, name, image_url, date_added, price, 'APPAREL', total_quantity FROM apparel_product " +
+            "SELECT CONCAT('APPAREL_', id) AS global_id, id, name, image_url, date_added, price, 'APPAREL' AS product_type, total_quantity FROM apparel_product " +
             "UNION ALL " +
-            "SELECT id, name, image_url, date_added, price, 'ACCESSORIES', total_quantity FROM accessory_product" +
+            "SELECT CONCAT('ACCESSORIES_', id) AS global_id, id, name, image_url, date_added, price, 'ACCESSORIES' AS product_type, total_quantity FROM accessory_product" +
             ") AS combined " +
-            "WHERE price >= COALESCE(:minPrice, price) " +
-            "AND price <= COALESCE(:maxPrice, price)",
+            "WHERE (:minPrice IS NULL OR price >= :minPrice) " +
+            "AND (:maxPrice IS NULL OR price <= :maxPrice)",
             countQuery = "SELECT COUNT(*) FROM (" +
-                    "SELECT id, name, image_url, date_added, price, 'MEDIA', total_quantity FROM media_product " +
+                    "SELECT CONCAT('MEDIA_', id) AS global_id, id, name, image_url, date_added, price, 'MEDIA' AS product_type, total_quantity FROM media_product " +
                     "UNION ALL " +
-                    "SELECT id, name, image_url, date_added, price, 'APPAREL', total_quantity FROM apparel_product " +
+                    "SELECT CONCAT('APPAREL_', id) AS global_id, id, name, image_url, date_added, price, 'APPAREL' AS product_type, total_quantity FROM apparel_product " +
                     "UNION ALL " +
-                    "SELECT id, name, image_url, date_added, price, 'ACCESSORIES', total_quantity FROM accessory_product" +
+                    "SELECT CONCAT('ACCESSORIES_', id) AS global_id, id, name, image_url, date_added, price, 'ACCESSORIES' AS product_type, total_quantity FROM accessory_product" +
                     ") AS combined " +
-                    "WHERE price >= COALESCE(:minPrice, price) " +
-                    "AND price <= COALESCE(:maxPrice, price)", nativeQuery = true)
-    Page<Object[]> getAllProductsPaginated( @Param("album") String album,
-                                                     @Param("minPrice") Double minPrice,
-                                                     @Param("maxPrice") Double maxPrice,
-                                                     Pageable pageable);
+                    "WHERE (:minPrice IS NULL OR price >= :minPrice) " +
+                    "AND (:maxPrice IS NULL OR price <= :maxPrice)",
+            nativeQuery = true)
+    Page<Object[]> getAllProductsPaginated(@Param("minPrice") Double minPrice,
+                                           @Param("maxPrice") Double maxPrice,
+                                           Pageable pageable);
+
+
 
 
     @Query(value = "SELECT * FROM apparel_product WHERE  " +

@@ -52,7 +52,7 @@ export const LatestUpdateDetailsPage = () => {
                     <img className={"border border-orange-300 h-50"}
                          src={news.latestUpdateDetails?.imageName}/>
                     <div className={"h-px w-full border-b border-orange-500 flex-grow"}></div>
-                    <div className={"text-4xl font-rubikPaint"}
+                    <div className={"text-2xl "}
                          dangerouslySetInnerHTML={{__html: news.latestUpdateDetails.content}}></div>
                 </div>
             </div>

@@ -4,7 +4,6 @@ import {HamburgerMenuIcon, PersonIcon} from "@radix-ui/react-icons";
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
@@ -16,62 +15,83 @@ import {KeyIcon} from "lucide-react";
 import {useSelector} from "react-redux";
 
 export const Header = () => {
-
     const navigate = useNavigate();
-
     const [isAdmin, setIsAdmin] = React.useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
     const auth = useSelector(state => state.auth);
 
     useEffect(() => {
-        if (auth.user?.role === "ROLE_ADMIN"){
+        if (auth.user?.role === "ROLE_ADMIN") {
             setIsAdmin(true);
-        }else{
+        } else {
             setIsAdmin(false);
         }
     }, [auth.user]);
 
+
+    const DesktopNav = () => (
+        <div className="hidden md:flex flex-row justify-center gap-2 lg:gap-8 w-[60%] text-center items-center text-white h-16">
+            <p onClick={() => navigate("/tour")}
+               className="font-deliciousHandrawn cursor-pointer hover:border-b-2 text-2xl lg:text-4xl">Tour</p>
+            <p className="font-deliciousHandrawn cursor-pointer hover:border-b-2 text-2xl lg:text-4xl"
+               onClick={() => navigate("/gallery")}>Media</p>
+            <p className="font-deliciousHandrawn cursor-pointer hover:border-b-2 text-2xl lg:text-4xl"
+               onClick={() => navigate("/news")}>News</p>
+            <div className="scale-100 lg:scale-125">
+                <THRLAnimation text="THRL" customFontFamily="font-deliciousHandrawn"/>
+            </div>
+            <p onClick={() => navigate("/releases")}
+               className="font-deliciousHandrawn cursor-pointer hover:border-b-2 text-2xl lg:text-4xl">Music</p>
+            <p className="font-deliciousHandrawn cursor-pointer hover:border-b-2 text-2xl lg:text-4xl"
+               onClick={() => navigate("/shop")}>Shop</p>
+            <p className="font-deliciousHandrawn cursor-pointer hover:border-b-2 text-2xl lg:text-4xl"
+               onClick={() => navigate("/songs")}>Songs</p>
+        </div>
+    );
+
     return (
-        <div className="absolute top-0 z-30 flex flex-row justify-center w-full h-24">
-            <div className="flex flex-row items-center w-[90%] border-b py-4">
-                <div className="w-[20%] flex justify-start text-white items-center text-center">
+        <div className="absolute top-0 z-30 flex flex-row justify-center w-full h-16 md:h-24">
+            <div className="flex flex-row items-center w-full md:w-[90%] border-b py-2 md:py-4 px-4 md:px-0">
+                {/* Left section - Menu button */}
+                <div className="w-1/3 md:w-[20%] flex justify-start text-white items-center">
                     <Sheet>
                         <SheetTrigger asChild>
-                            <HamburgerMenuIcon className="cursor-pointer h-8 w-8 text-white hover:text-orange-400 transition-colors"/>
+                            <HamburgerMenuIcon className="cursor-pointer h-6 w-6 md:h-8 md:w-8 text-white hover:text-orange-400 transition-colors"/>
                         </SheetTrigger>
-                        <SheetContent side="left"  className="[&>button]:hidden bg-black/95 backdrop-blur-sm border-r border-orange-500/30 flex flex-col items-center justify-center p-8">
-                            <SheetHeader className="mb-8">
+                        <SheetContent side="left" className="[&>button]:hidden bg-black/95 backdrop-blur-sm border-r border-orange-500/30 flex flex-col items-center justify-center p-4 md:p-8">
+                            <SheetHeader className="mb-4 md:mb-8">
                                 <SheetTitle className="flex justify-center">
-                                    <THRLAnimation text="THRELLIA" customFontFamily="font-deliciousHandrawn" className="text-4xl text-white" />
+                                    <THRLAnimation text="THRELLIA" customFontFamily="font-deliciousHandrawn" className="text-2xl md:text-4xl text-white" />
                                 </SheetTitle>
                             </SheetHeader>
 
-                            <div className="flex flex-col items-center justify-center space-y-4 w-full">
+                            <div className="flex flex-col items-center justify-center space-y-2 md:space-y-4 w-full">
                                 <Button type="button" onClick={() => {
                                     navigate("/tour");
-                                }} variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">TOUR</Button>
+                                }} variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-lg md:text-xl font-bold tracking-wider w-full">TOUR</Button>
                                 <Button onClick={() => navigate("/news")}
-                                    variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">NEWS</Button>
+                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-lg md:text-xl font-bold tracking-wider w-full">NEWS</Button>
                                 <Button onClick={() => navigate("/releases")}
-                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">MUSIC</Button>
+                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-lg md:text-xl font-bold tracking-wider w-full">MUSIC</Button>
                                 <Button onClick={() => navigate("/gallery")}
-                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">MEDIA</Button>
+                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-lg md:text-xl font-bold tracking-wider w-full">MEDIA</Button>
                                 <Button onClick={() => navigate("/shop")}
-                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">SHOP</Button>
+                                        variant="ghost" className="text-white hover:text-orange-400 hover:bg-black/40 text-lg md:text-xl font-bold tracking-wider w-full">SHOP</Button>
                                 {auth.userObtained && <Button onClick={() => navigate("/account")}
-                                         variant="ghost"
-                                         className="text-white hover:text-orange-400 hover:bg-black/40 text-xl font-bold tracking-wider w-full">ACCOUNT</Button>}
+                                                              variant="ghost"
+                                                              className="text-white hover:text-orange-400 hover:bg-black/40 text-lg md:text-xl font-bold tracking-wider w-full">ACCOUNT</Button>}
                             </div>
 
-                            <div className="mt-auto pt-8 border-t border-orange-500/30 w-full">
-                                <div className="flex justify-center space-x-4 mt-4">
+                            <div className="mt-auto pt-4 md:pt-8 border-t border-orange-500/30 w-full">
+                                <div className="flex justify-center space-x-4 mt-2 md:mt-4">
                                     <a href="#" className="text-white hover:text-orange-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                                     </a>
                                     <a href="#" className="text-white hover:text-orange-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-spotify"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><path d="M21.9 4.8A10 10 0 1 0 4.9 21.1"></path></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-spotify"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><path d="M21.9 4.8A10 10 0 1 0 4.9 21.1"></path></svg>
                                     </a>
                                     <a href="#" className="text-white hover:text-orange-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg>
                                     </a>
                                 </div>
                             </div>
@@ -79,30 +99,31 @@ export const Header = () => {
                     </Sheet>
                 </div>
 
-                <div className="flex flex-row justify-center gap-8 w-[60%] text-center items-center text-white h-16">
-                    <p onClick={() => navigate("/tour")}
-                       className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Tour</p>
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/gallery")}>Media</p>
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/news")}>News</p>
-                    <div className="scale-125">
-                        <THRLAnimation text="THRL" customFontFamily={"font-deliciousHandrawn"}/>
+                {/* Middle section - Logo for mobile, full nav for desktop */}
+                <div className="flex w-1/3 justify-center md:hidden">
+                    <div className="scale-90">
+                        <THRLAnimation text="THRL" customFontFamily="font-deliciousHandrawn"/>
                     </div>
-                    <p onClick={() => navigate("/releases")}
-                       className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}>Music</p>
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"} onClick={() => navigate("/shop")}>Shop</p>
-                    <p className={"font-deliciousHandrawn cursor-pointer hover:border-b-2 text-4xl"}
-                       onClick={() => navigate("/songs")}>Songs</p>
                 </div>
 
-                <div className="flex w-[20%] justify-end items-center gap-4 text-white">
-                    {
-                        isAdmin &&
-                        <KeyIcon className={"cursor-pointer hover:text-red-600"} onClick={() => navigate("/admin_panel")} />
-                    }
-                    <PersonIcon onClick={() => navigate("/login")} className={"cursor-pointer h-8 w-8 hover:text-orange-500 transition-colors"}/>
+                {/* Desktop Navigation */}
+                <DesktopNav />
+
+                {/* Right section - Account and cart icons */}
+                <div className="flex w-1/3 md:w-[20%] justify-end items-center gap-2 md:gap-4 text-white">
+                    {isAdmin && (
+                        <KeyIcon
+                            className="cursor-pointer hover:text-red-600 h-5 w-5 md:h-6 md:w-6"
+                            onClick={() => navigate("/admin_panel")}
+                        />
+                    )}
+                    <PersonIcon
+                        onClick={() => navigate("/login")}
+                        className="cursor-pointer h-6 w-6 md:h-8 md:w-8 hover:text-orange-500 transition-colors"
+                    />
                     <CartHeader/>
                 </div>
             </div>
         </div>
     );
-}
+};

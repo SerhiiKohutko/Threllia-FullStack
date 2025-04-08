@@ -14,6 +14,8 @@ export const QuickViewProductDetails = ({productId, category}) => {
     const {handleAddProductToCart} = useCart();
     const shop = useSelector(state => state.shop);
 
+    const [isAnimated, setIsAnimated] = useState(false);
+
     useEffect(() => {
         if (productId && category) {
             console.log(`Fetching product with ID ${productId} and category ${category}`);
@@ -34,6 +36,20 @@ export const QuickViewProductDetails = ({productId, category}) => {
         </div>;
     }
 
+    function handleAddToCart() {
+        setIsAnimated(true)
+        handleAddProductToCart(
+            {
+                id : product?.id,
+                productName : product?.name,
+                productType: category,
+                price : product?.price,
+                quantity : quantity,
+                imageUrl : product.imageUrl});
+        setTimeout(() => {
+            setIsAnimated(false)
+        }, 1500)
+    }
     return (
         <div className="min-h-fit bg-black text-white flex flex-row justify-center">
             <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row">
@@ -84,16 +100,8 @@ export const QuickViewProductDetails = ({productId, category}) => {
                         </button>
                     </div>
 
-                    <Button className="w-full py-4 bg-red-700 hover:bg-red-800 uppercase tracking-wider"
-                            variant="destructive" onClick={() => handleAddProductToCart(
-                                {
-                                    id : product?.id,
-                                    productName : product?.name,
-                                    productType: category,
-                                    price : product?.price,
-                                    quantity : quantity,
-                                    imageUrl : product.imageUrl})
-                    }>Add to Cart</Button>
+                    <Button className={`w-full py-4  uppercase tracking-wider transition-colors ${isAnimated ? "bg-green-700 hover:bg-green-800" : "bg-red-700 hover:bg-red-800"}`}
+                            variant="destructive" onClick={() => handleAddToCart()}>{isAnimated ? <span>Added to Cart</span> : <span>Add to Cart</span>}</Button>
                     <div className="mt-8 border-t border-gray-800 pt-4">
                         <Button className={"w-full"} variant={"secondary"} onClick={() => navigate(`/shop/${category}/${productId}`)}>Check Details</Button>
                     </div>

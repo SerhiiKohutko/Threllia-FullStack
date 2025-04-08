@@ -10,6 +10,9 @@ import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 export const UpcomingTourDates = () => {
     const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = 'Tour';
+    }, [])
 
     return (
         <div>

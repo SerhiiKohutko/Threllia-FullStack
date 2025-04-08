@@ -29,7 +29,7 @@ export const getAllNewsPaginated = (page, isOverview) => async (dispatch) => {
         dispatch({ type: GET_ALL_NEWS_PAGINATED_SUCCESS, payload: response.data });
     } catch (e) {
         dispatch({ type: GET_ALL_NEWS_PAGINATED_FAILURE, error: e.message });
-        toast.error(e.message);
+        console.log(e);
     }
 };
 

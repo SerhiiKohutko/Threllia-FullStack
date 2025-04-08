@@ -6,6 +6,7 @@ import {Button} from "@/components/ui/button.jsx";
 import React from "react";
 import {useCart} from "@/components/Utils/CartProvider.jsx";
 import {useNavigate} from "react-router-dom";
+import {ShoppingCartIcon} from "lucide-react";
 
 export const CartHeader = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const CartHeader = () => {
     return (
         <Sheet open={open} onOpenChange={setOpen} dismissible>
             <SheetTrigger asChild>
-                <BoxIcon onClick={() => setOpen(true)} className={"cursor-pointer h-8 w-8 text-white hover:text-orange-500 transition-colors"}/>
+                <ShoppingCartIcon onClick={() => setOpen(true)} className={"cursor-pointer h-8 w-8 text-white hover:text-orange-500 transition-colors"}/>
             </SheetTrigger>
             <SheetContent
                 side="right"

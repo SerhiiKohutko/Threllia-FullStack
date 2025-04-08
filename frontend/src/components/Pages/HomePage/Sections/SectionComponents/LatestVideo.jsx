@@ -54,7 +54,7 @@ export const LatestVideo = () => {
 
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
                     <h4 className="text-white font-tradeWinds text-2xl">
-                        'Vortex of Despair' - Official Music Video
+                        'Are You Dead Yet' - Cover
                     </h4>
                     <p className="text-gray-400">Released February 28, 2025</p>
                 </div>

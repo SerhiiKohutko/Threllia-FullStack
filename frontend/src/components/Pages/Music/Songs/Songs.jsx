@@ -14,6 +14,10 @@ export const Songs = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        document.title = 'Songs';
+    }, [])
+
+    useEffect(() => {
         dispatch(getAllSongsOrdered());
     },[])
 

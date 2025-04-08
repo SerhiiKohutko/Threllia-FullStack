@@ -14,6 +14,7 @@ import {getAllReleases} from "@/redux/releases/Action.js";
 import {MyPagination} from "@/components/ReusableComponents/Pagination.jsx";
 import {useNavigate} from "react-router-dom";
 import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
+import {getFormattedDate} from "@/components/Utils/DateParser.js";
 
 
 
@@ -25,6 +26,10 @@ export const ReleasesSection = () => {
     const [loading, setLoading] = useState(true);
     const [currPage, setCurrPage] = useState(1);
     const [selectValue, setSelectValue] = useState("DSC");
+
+    useEffect(() => {
+        document.title = 'Music';
+    }, [])
 
     useEffect(() => {
         dispatch(getAllReleases(currPage, selectValue));
@@ -68,7 +73,7 @@ export const ReleasesSection = () => {
                                         <img src={elem.coverName}
                                              className={"cursor-pointer"}/>
                                         <p className={"text-2xl text-white"}>{elem.title}</p>
-                                        <p className={"text-2xl text-gray-200"}>{elem.dateReleased}</p>
+                                        <p className={"text-2xl text-gray-200"}>{getFormattedDate(elem.dateReleased)}</p>
                                     </div>
                                 );
                             })
