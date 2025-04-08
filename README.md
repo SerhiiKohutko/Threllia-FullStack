@@ -1,6 +1,6 @@
 # Threllia - Official Metal Band Website
 
-Welcome to the official website project for **Threllia**. This web app provides fans with full access to the band’s world — frombuying merch to getting tour updates.
+Welcome to the official website project for **Threllia**. This web app provides fans with full access to the band’s world — from buying merch to getting tour updates.
 
 >  Inspired by Metallica’s web presence.
 
