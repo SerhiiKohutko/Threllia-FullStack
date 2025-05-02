@@ -1,12 +1,14 @@
 package org.example.threllia.controllers;
 
 import org.example.threllia.configuration.Configuration;
-import org.example.threllia.model.Shop.dto.ProductDTO;
+import org.example.threllia.model.Shop.entities.MediaProduct;
 import org.example.threllia.model.Shop.service.ProductService;
+import org.example.threllia.model.Shop.shop_enum.MediaProductType;
+import org.example.threllia.model.Shop.shop_enum.ProductType;
 import org.example.threllia.utils.FileUploaderCloud;
 import org.example.threllia.utils.ShopParametersTransfer;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +17,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
+import java.util.stream.Stream;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 
 @WebMvcTest(ShopController.class)
 @AutoConfigureMockMvc
@@ -34,72 +40,41 @@ public class ShopControllerTest {
 
     @MockitoBean
     private ProductService productService;
+
     @MockitoBean
     private FileUploaderCloud fileUploaderCloud;
 
-    private ProductDTO productDTO;
-
-    private Page<ProductDTO> mockPage;
 
     @BeforeEach
     void setup(){
-        productDTO = new ProductDTO();
-        productDTO.setName("test_product");
-        productDTO.setPrice(100d);
-
-        mockPage = new PageImpl<>(List.of(productDTO)); //mock page
-    }
-
-    @Test
-    void testGetAllProducts_returnPageOfProducts() throws Exception {
-
-        Mockito.when(productService.getAllProductsPaginated(Mockito.any(ShopParametersTransfer.class)))
-                .thenReturn(mockPage);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/products/all_paginated"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").isArray())
-                .andExpect(jsonPath("$.content[0].name").value(productDTO.getName()));
 
     }
 
-    @Test
-    void testGetAllProducts_whenInvalidSortingTypeProvided_returnBadRequest400() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/products/all_paginated")
-                        .param("shopSortingType", "INVALID_VALUE"))
-                .andExpect(status().isBadRequest());
-
-    }
 
     @Test
-    @DisplayName("Get All Products Paginated With Custom Parameters")
-    void testGetAllProducts_whenCustomParametersProvided_returnPage() throws Exception {
+    void testGetProductByType_whenNoTypeProvided_returnAllProducts() throws Exception {
 
-        Mockito.when(productService.getAllProductsPaginated(Mockito.any(ShopParametersTransfer.class)))
-                .thenReturn(mockPage);
+        List<MediaProduct> mediaProducts = Stream
+                .generate(MediaProduct::new)
+                .limit(10)
+                .toList();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/products/all_paginated")
-                .param("page", "1")
-                .param("size", "6")
-                .param("minPrice", "50"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").isArray())
-                .andExpect(jsonPath("$.content[0].name").value(productDTO.getName()));
+        mediaProducts.forEach(e -> e.setType(MediaProductType.CD));
 
-    }
+        Page<MediaProduct> productPage = new PageImpl<>(mediaProducts.subList(0, 6), PageRequest.of(0, 6), mediaProducts.size());
 
-    @Test
-    void testGetAllProducts_whenNoProductMatch_returnEmptyPage() throws Exception {
+        Mockito.when(productService.getProductsByType(
+                        eq(ProductType.MEDIA),
+                        Mockito.any(ShopParametersTransfer.class),
+                        isNull()))
+                .thenReturn((Page) productPage);
 
-        Mockito.when(productService.getAllProductsPaginated(Mockito.any(ShopParametersTransfer.class)))
-                .thenReturn(Page.empty());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/products/all_paginated")
-                        .param("shopSortingType", "ASC_DATE"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").isArray())
-                .andExpect(jsonPath("$.content").isEmpty());
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/products/MEDIA")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(6)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(10))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].type").value("CD"));
 
     }
 }

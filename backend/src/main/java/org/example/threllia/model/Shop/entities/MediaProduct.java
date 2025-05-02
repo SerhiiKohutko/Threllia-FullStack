@@ -16,5 +16,4 @@ import org.example.threllia.model.Shop.shop_enum.MediaProductType;
 @SuperBuilder
 public class MediaProduct extends Product{
     private MediaProductType type;
-
 }
