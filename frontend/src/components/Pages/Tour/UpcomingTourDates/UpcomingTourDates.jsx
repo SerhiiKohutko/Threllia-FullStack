@@ -7,6 +7,8 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {LoadingPage} from "@/components/ReusableComponents/LoadingPage.jsx";
 
+
+//TODO - ADD HERO COMPONENT
 export const UpcomingTourDates = () => {
     const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ export const UpcomingTourDates = () => {
                 <div
                     className="absolute inset-0 bg-cover bg-center min-h-full"
                     style={{
+                        backgroundColor: "black",
                         backgroundImage: `url('${bgImage}')`,
                         filter: "brightness(0.6)",
                     }}>

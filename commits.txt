@@ -1,0 +1,109 @@
+9734b154f653dfe30dfd16db4ab4d3b0b65b9302 Serhii Kohutko Tue Apr 8 22:56:42 2025 +0300 feat: header responsive, little ui fixes
+4ab6c165638f7f522ed49ede5ba050f9c4aa74e5 Serhii Kohutko Mon Apr 7 13:30:11 2025 +0300 feat: loading page added to the rest of the sections
+a99723564dde28f2c96004131abcac4d36600e8d Serhii Kohutko Mon Apr 7 01:08:35 2025 +0300 feat: loading page for releases
+69b10582d0c537d02dfdcc58c93e6e96c8260f99 Serhii Kohutko Sun Apr 6 22:36:05 2025 +0300 feat: songs pages loading page implemented
+186f527767137c3e66d843c83008e28e85410fe8 Serhii Kohutko Sun Apr 6 22:15:58 2025 +0300 fix: add axios interceptor for checking 401 response
+ec1c0307dd04ebe2552e05b4803b4fe70fad491a Serhii Kohutko Sat Apr 5 21:16:14 2025 +0300 feat news loading page
+7b8801859a444deb2b5725edfe4f612fd0e9cb37 Serhii Kohutko Sat Apr 5 20:58:35 2025 +0300 fix: photoCollection update when nothing changes exception appers
+3b4d0919c80b77260f2615be8c1e4f6e19fc5e53 Serhii Kohutko Sat Apr 5 20:13:58 2025 +0300 fix: query for accessory retruns accessory instead accessories
+250c9edd4ba5253b354cb844d398be130ce3607e Serhii Kohutko Sat Apr 5 01:25:56 2025 +0300 refactor: deleted .env
+d7bf84bac3f507f1df11d736135d29e15a0ee1c4 Serhii Kohutko Sat Apr 5 01:23:38 2025 +0300 refactor: file uploader removed
+e3226ed3aa774f0b1a6ddf90f90e0bbeceffcf83 Serhii Kohutko Sat Apr 5 01:13:15 2025 +0300 refactor: change static file uploading to cloud upload
+20dd18ad969761b83761642e310a0e71d01d7e78 Serhii Kohutko Fri Apr 4 00:48:02 2025 +0300 fix: proper url for fetching product images
+f95b722f4833c550baf1db9e019bb085d576745b Serhii Kohutko Fri Apr 4 00:41:21 2025 +0300 feat: policy pages added
+081bffcb13266ea66faf2576129c0e5976d1bda0 Serhii Kohutko Fri Apr 4 00:26:37 2025 +0300 refactor: deleted all unused methods
+2b32aee7023c026250eb61695922689405ab32ea Serhii Kohutko Thu Apr 3 21:58:34 2025 +0300 fix: cant checkout ofnot logged in
+2a31e184664b8eee7f90e8fcd59f1419aea185d0 Serhii Kohutko Thu Apr 3 20:24:24 2025 +0300 fix: delete button for admin not working
+8f7cb68c45c559d94a77764e16994054bedbe7a2 Serhii Kohutko Thu Apr 3 19:54:49 2025 +0300 feat: buying tickets functionality implemented with sending ticket on email
+63f8f7cf988bc156724606dbacdace55e4aed168 Serhii Kohutko Thu Apr 3 01:22:42 2025 +0300 feat: cancel and success pages implemented
+681ea310359cf887233fa1f27156e59df5565b6f Serhii Kohutko Wed Apr 2 23:41:26 2025 +0300 fix: redirecting to login page after reloading on account route
+329a7fceefc73e49af3305237f3a9541f0249aae Serhii Kohutko Wed Apr 2 22:00:09 2025 +0300 feat: address & paymentDetails creation, editing and delete
+f63061ddadedbd94bda3075645e69ab93a4aeecd Serhii Kohutko Wed Apr 2 15:01:14 2025 +0300 feat: address api implemented
+9b72bc653a9ba8d18848fdec7c6d0bceced53dba Serhii Kohutko Wed Apr 2 14:48:15 2025 +0300 feat: paymentDetails api implemented
+d8cf5950e9a247c2ba7884ac0227495013fab5be Serhii Kohutko Wed Apr 2 01:31:57 2025 +0300 fix: undefined categoryName while getting productDetails
+1e51e7c12fd013adf4ec04879f3da100e36ed7f8 Serhii Kohutko Wed Apr 2 00:14:47 2025 +0300 feat: change password implemented
+f1763813c9a723b524344a548f5db3ac5be40309 Serhii Kohutko Tue Apr 1 15:35:38 2025 +0300 feat: fetching orders for orderspage
+50ead989db9e5653efd2a54926b155e6e6856afb Serhii Kohutko Tue Apr 1 14:39:10 2025 +0300 feat: payment with success page and order satus update
+c5e40ef4227afbf6b14c89672212fa0d5f4dd2ba Serhii Kohutko Tue Apr 1 01:06:52 2025 +0300 feat: payment with stripe implemented
+4d46c7318561720fd31e73a2398989bc8695511e Serhii Kohutko Tue Apr 1 00:15:12 2025 +0300 feat: account implemented
+fadd37e3fc23d1c7d8cd5018b15b697513d8f7de Serhii Kohutko Mon Mar 31 21:09:23 2025 +0300 feat: registration apge implemeted
+4502923097e952dc6bf08921cb6ee0a90dc5b335 Serhii Kohutko Mon Mar 31 18:39:25 2025 +0300 feat: login page implemented, getting jwt from server
+be4430a1b8041be109267d003dd00aeafdf3b825 Serhii Kohutko Mon Mar 31 17:27:10 2025 +0300 feat: basic authentication configured server side
+24e7e0438daba495de915225656ae52d6f48895d Serhii Kohutko Mon Mar 31 01:23:31 2025 +0300 refactor: upDownTrackList for reducing duplication
+caa6a86520eb0c10b52381f4db5571faa8a06c44 Serhii Kohutko Mon Mar 31 00:30:14 2025 +0300 refactor: admin buttons exported to separate component
+521a2221f32e9c4c77f751bf759736c9f2185be9 Serhii Kohutko Sun Mar 30 23:06:37 2025 +0300 fix: sql query fixed for getting closest six shows
+89f216574f7ca4e40d744cea1e3dc9e303b4f070 Serhii Kohutko Sun Mar 30 23:05:28 2025 +0300 feat: changing order in creation of releases and concerts
+47380d4a50c07a4a997c66c14f7a83ad0baee8fd Serhii Kohutko Sun Mar 30 22:27:48 2025 +0300 feat: products edition and deletion add for admin
+aaab83d33ac96659a9ebe4ccead394f3f15fffe3 Serhii Kohutko Sun Mar 30 19:50:35 2025 +0300 feat: deletion of latest update added
+1fed7f56d88a60e61f3aaf269d2c8de2039c1dbd Serhii Kohutko Sun Mar 30 19:43:27 2025 +0300 feat: news editing added for admin
+912fe9dcd1768951d4cd11c4b74befd5d237a854 Serhii Kohutko Sun Mar 30 15:55:53 2025 +0300 feat: media deletion and editing functionality added
+230b357a05d70098bdfed184bd46fd623d82a2c7 Serhii Kohutko Sun Mar 30 01:30:39 2025 +0200 feat: add track order changing on release editing page
+5e23762e4d9368695fc8d2af935cc85c56e769e0 Serhii Kohutko Sun Mar 30 01:08:25 2025 +0200 feat: added concert editing and deletion functionality for admin
+22311030f02345a93db32a6cfe623482f6193b42 Serhii Kohutko Sat Mar 29 23:27:03 2025 +0200 feat: updating and deletion of release for admin added
+c65665d8e9dd22947e51ec819d8b165859458bf1 Serhii Kohutko Sat Mar 29 14:28:30 2025 +0200 feat: editing and deletion song add for admin
+0b7e29dc195282c4420c35d04e45fb1e435e0882 Serhii Kohutko Sat Mar 29 01:10:30 2025 +0200 feat: jwt util classes added
+4171d3bba9e39e63dc6514b532eed2701eba1ffc Serhii Kohutko Sat Mar 29 00:06:23 2025 +0200 fix: little ui fixed and parsing date errors
+9abb1aa33760bcac2b7c3afd9e0a1c5221dcc0c4 Serhii Kohutko Fri Mar 28 23:28:18 2025 +0200 refactor: autowired objectMapper in controllers insted of creating it inside post methods
+51f575a967adec6c83cbba05427b0dd6264bb319 Serhii Kohutko Fri Mar 28 23:26:03 2025 +0200 feat: creating product in admin panel
+a402201140c663520a055bb564b60ff755445a8e Serhii Kohutko Fri Mar 28 22:48:50 2025 +0200 feat: added songs tab
+8d35aac131c0422b6c0395c878fb0dbb8b8bf54c Serhii Kohutko Fri Mar 28 20:43:45 2025 +0200 feat: news creation add to admin panel
+8fa7abc55e08ae994d79d3cb120583efec329303 Serhii Kohutko Fri Mar 28 18:50:12 2025 +0200 feat: admin page added with tour and media sections
+9c3c0e7e12946cf6fc3a96c4d587032b0e309864 Serhii Kohutko Fri Mar 28 01:30:28 2025 +0200 fix: storeoverview refactored to use new api
+0ba823b2180802280273eedc7f0a0fb65a8efc79 Serhii Kohutko Thu Mar 27 23:41:38 2025 +0200 feat: checkout page implemented
+845a9bae84380568340a6b319b8b04a86d4f2086 Serhii Kohutko Thu Mar 27 20:45:19 2025 +0200 feat: cart side menu implemented
+cb12757eec1bc95428e6608e36a2979d3365f9bf Serhii Kohutko Thu Mar 27 15:44:32 2025 +0200 feat: ui enchanced
+74d85f632415804ddda10ec78efbacdc3209df8b Serhii Kohutko Thu Mar 27 00:46:59 2025 +0200 refactor: get all products paginated using object array in repository method to get all the columns to get type for product dto needed on the client side
+10a652d51747aa9054305285ee7cf661248b1a69 Serhii Kohutko Thu Mar 27 00:45:41 2025 +0200 fix: proper redirectiong from details page to all shop products
+aaafc516a907972ed0aebe90048021d93711624a Serhii Kohutko Wed Mar 26 17:44:38 2025 +0200 fix: proper products after redirecting from product details to the store category
+75c5d9a958077025db4a06e4c3ce46e29b8fda56 Serhii Kohutko Wed Mar 26 16:31:51 2025 +0200 refactor: position compoenent created because of reuse on product details page
+204133c90229dd9baaa10fee2674107d52e5adb8 Serhii Kohutko Wed Mar 26 15:39:32 2025 +0200 fix: ui fix in store
+cb053750fc87b6eab8ce3e1b93057effab15e77a Serhii Kohutko Wed Mar 26 14:18:48 2025 +0200 fix: urlParams maxPrice deletes when choosing 100 option
+2faddf34742945f68bc7d3af678d2517e5ac2d0a Serhii Kohutko Wed Mar 26 14:13:31 2025 +0200 feat: add filtering with price and album
+1010668232a27433bcf08736bf79b60a02c7531c Serhii Kohutko Wed Mar 26 00:08:52 2025 +0200 feat: get data from backend paginatd
+5bdd9e005c2b5663fefe6ff37ddd3e77c6fca07c Serhii Kohutko Tue Mar 25 15:22:18 2025 +0200 feat: getting products with filters from db add
+6ff337d74301fa84a2779357fb866f37053840b6 Serhii Kohutko Tue Mar 25 00:55:28 2025 +0200 feat: batman paginating products backend
+034ab3f71b6743b81a7ca0808d7c50f7888f9477 Serhii Kohutko Mon Mar 24 21:39:52 2025 +0200 feat: current category/subcetegory shown above categories
+9c26be29a25deb2795b6a1671429bdb940118d7d Serhii Kohutko Mon Mar 24 16:38:02 2025 +0200 fix: on change category filters and url params are annulled
+2ce2c3960ffe8129138455ac6e9f9bb532527bf4 Serhii Kohutko Mon Mar 24 16:34:57 2025 +0200 feat: add filter responsivness
+2a56839722e04ef9f7722fce3465e5310f985aa2 Serhii Kohutko Mon Mar 24 16:00:54 2025 +0200 feat: shop batman
+4b3cdc0a1062f68f602feac18ffe67f8db51e91b Serhii Kohutko Sat Mar 22 18:13:08 2025 +0200 fix: songdto implemented so there's no infinite recursion in json anymore
+089b69e5c61e44d2db0526b7f2ca163fdf3d1393 Serhii Kohutko Sat Mar 22 18:11:58 2025 +0200 feat: add music releases related to the song on songdetailspage
+e13c99a0a5d5e12760b3a3036e0fab77eac51088 Serhii Kohutko Sat Mar 22 16:11:46 2025 +0200 refactor: photocollectionDto used instead of photocollection for paginated get request
+1869e2b3dc697c5b4c6e90730ca6e143e4fbe385 Serhii Kohutko Sat Mar 22 15:47:28 2025 +0200 feat: gallery page implemented
+b296d91055c30f9ad414ff1a06ff08cec8759c34 Serhii Kohutko Fri Mar 21 20:14:51 2025 +0200 feat: add latest update details page]
+3518cd3738ba5bf36acb59f7c38f388f319490c1 Serhii Kohutko Fri Mar 21 16:17:27 2025 +0200 feat[newsFrontEnd]: add and configured news page
+3f7afd84c291fa4cbc1944f94527987c48632077 Serhii Kohutko Fri Mar 21 13:46:30 2025 +0200 feat[songs]: finished songs page
+b3429bbb589e4c2c6c297533939dd23d556f84bb Serhii Kohutko Fri Mar 21 00:10:22 2025 +0200 feat[songsPage]: songsPage batman
+941916a0e65026340525945b841d058ac59930a0 Serhii Kohutko Thu Mar 20 20:20:54 2025 +0200 feat[release]: add release details page
+80f5f3fdd74c153513ec23ee921e3f1edeab8f62 Serhii Kohutko Thu Mar 20 13:52:14 2025 +0200 feat[releases]: releases pagination add, server pagination data configure
+2b7220a5de2a3a2422468bbb72a0e29826ff6e13 Serhii Kohutko Wed Mar 19 23:00:39 2025 +0200 feat[releasesSection]: add release section
+1aa1d2a92e517f7e6c3138f71c68ea5cb83f1fa7 Serhii Kohutko Wed Mar 19 16:34:16 2025 +0200 feat[musicRelease]: add musicRelease api
+aa9e2f55a3973c2582d0deafb2b7c791a1f91e22 Serhii Kohutko Wed Mar 19 14:37:35 2025 +0200 refactor[pastTourDates]: pagination moved to separate reusable component
+57c4a57c73d7a1626a9350be6934a32c02729785 Serhii Kohutko Wed Mar 19 00:20:38 2025 +0200 feat[songDetails]: songDetails page connected with backend
+c1163c166b54415a1f62ebe1cdbf5b270cb34e82 Serhii Kohutko Tue Mar 18 22:28:25 2025 +0200 feat[concert]: add functionality to get concerts by song included in songList, configured query in concert repository
+7a19bc3a52350a15eca11e86ad74cdf38378b530 Serhii Kohutko Tue Mar 18 21:24:38 2025 +0200 feat[pastTourDates]: implemented pagination for past shows
+74320d93c3e1f249b14ad94a029ebe6a0ae8f32b Serhii Kohutko Tue Mar 18 13:40:19 2025 +0200 feat[song]: lyrics will be parsed to html
+bf34f67e7670109a531ef4edc1b2d4e33d15a498 Serhii Kohutko Mon Mar 17 23:37:30 2025 +0200 created songdetails page, work in progress
+c78fb099b0bbb8a1e16961442e01ef85c950799e Serhii Kohutko Mon Mar 17 21:40:36 2025 +0200 feat(tour): implement showDetailsPage
+cbd2498ec7b6305dd1fddadae7e12ccf13d0144e Serhii Kohutko Mon Mar 17 16:10:12 2025 +0200 feat(song): implement song API with CRUD
+40a63a0fdab83c2139afe8711165d08724551317 Serhii Kohutko Sun Mar 16 16:40:03 2025 +0200 pasttour & upcomingtour pages implemented
+1f88e16a2a6f232f015b48f843623b9d877228d1 Serhii Kohutko Sat Mar 15 18:36:26 2025 +0200 compoents organized
+eee5e644c8799afc132154b75b8241fd8f4aedfe Serhii Kohutko Sat Mar 15 18:17:22 2025 +0200 batman frontend
+7f5e1bbfaf0a6df77680966ae91d78afb307c77b Serhii Kohutko Sat Mar 15 18:14:08 2025 +0200 photorepository query fixed
+74fb94a07dfd3971b99c94174b4d84b8064fd594 Serhii Kohutko Sat Mar 15 17:56:00 2025 +0200 WIP on gallery_api: d34eac4 gallery api for mvp finished
+a51da8ead1fc3f717065fcbcc85f456659bcc2ba Serhii Kohutko Sat Mar 15 17:56:00 2025 +0200 index on gallery_api: d34eac4 gallery api for mvp finished
+4138f7cbf72408477c3267354cb7321337af7f17 SerhiiKohutko Fri Mar 14 23:26:02 2025 +0200 Merge pull request #2 from SerhiiKohutko/gallery_api
+d34eac402661e280f141437b692875996c0e5ac4 Serhii Kohutko Fri Mar 14 23:18:42 2025 +0200 gallery api for mvp finished
+288e4d3bf8cd2ef1cc7281476fb885ad3bbad922 Serhii Kohutko Fri Mar 14 21:16:10 2025 +0200 gallery api updated
+9a19372d3f7bf90f16c6dd1520751b794bb5efe2 Serhii Kohutko Fri Mar 14 18:56:56 2025 +0200 gallery api entity finished
+cdd105a9b471ff9b8457768fd660cef77734f322 SerhiiKohutko Fri Mar 14 17:38:20 2025 +0200 Merge pull request #1 from SerhiiKohutko/galleryApi
+1d62f7dd80f0341514d437f5933136e90272fc00 Serhii Kohutko Fri Mar 14 17:35:33 2025 +0200 gallery api initialized
+7e8d0d160da52cbb209a0c495075a2707237bd27 Serhii Kohutko Fri Mar 14 16:31:32 2025 +0200 fixed invalid sql query in latestupdaterepository
+ad524a00d4fa9fb36367f00cd0de9e3d99f8ed27 Serhii Kohutko Fri Mar 14 15:21:52 2025 +0200 builder pattern used instead setters in productServiceImpl
+a92f7b31d89e489dfd29a470613542b2c63df604 Serhii Kohutko Fri Mar 14 15:06:58 2025 +0200 latestupdate api for mvp finished, added uploading image for the latest update feature
+e2fd16217599f18f2420667df580f2c7054995c7 Serhii Kohutko Thu Mar 13 23:53:35 2025 +0200 initialized news api for mvp
+be8389a85c808e98b796ad1158ced0e0096b6239 Serhii Kohutko Thu Mar 13 22:38:03 2025 +0200 unnecessary homecontroller delted
+e8771420ae87238fd44978e11c8a9783ff59b2e4 Serhii Kohutko Thu Mar 13 22:34:44 2025 +0200 store api for mvp implemented
+2d539504476acf7be58fd3bc3941c3f584bedf5b Serhii Kohutko Wed Mar 12 23:18:08 2025 +0200 get method for touroverview added
+b8cc4aadd0a98a3fd66d33eec472b94a5b48c111 Serhii Kohutko Mon Mar 10 16:07:37 2025 +0200 fetching tour functionality added
+28248920c0ac5c58e65a50f7c915c1596bf30c4c rileyrileyyo Thu Jan 16 14:44:58 2025 +0200 intitialized backend project

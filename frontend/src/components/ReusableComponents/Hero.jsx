@@ -6,12 +6,13 @@ export const Hero = ({pageTitle, background, buttonContent, navigateTo, addition
     const navigate = useNavigate();
 
     return (
-        <div className={"bg-black"}>
+        <div>
             <div className="relative min-h-screen">
                 <div
                     className="absolute inset-0 bg-center bg-cover w-full"
                     style={{
-                        backgroundImage: `url('${background}')`,
+                        backgroundColor: "black",
+                        backgroundImage: `url('${background} ')`,
                         filter: "brightness(0.6)",
                     }}>
 

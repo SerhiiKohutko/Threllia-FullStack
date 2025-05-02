@@ -42,10 +42,11 @@ export const getAllProductsPaginated = (page, filters) => async (dispatch) => {
 export const getAllProductsFiltered = (page, filters) => async (dispatch) => {
     dispatch({type : GET_ALL_PRODUCTS_PAGINATED_REQUEST});
     try {
+        console.log(JSON.stringify(filters));
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${filters.categoryName.toUpperCase()}`, {
             params: {
                 page : page,
-                subType: filters.subCategory ? filters.subCategory.toUpperCase() : null,
+                subType: filters.subType ? filters.subType.toUpperCase() : null,
                 minPrice : filters.minPrice,
                 maxPrice : filters.maxPrice,
                 album : filters.album,

@@ -53,7 +53,7 @@ export const Shop = () => {
         if (position[0] && !position[1]) {
             dispatch(getAllProductsFiltered(currPage - 1, {
                 categoryName: categoryName,
-                subCategory: null,
+                subType: null,
                 minPrice: params.get("minPrice"),
                 maxPrice: params.get("maxPrice"),
                 album: params.get("album"),
@@ -62,7 +62,7 @@ export const Shop = () => {
         } else if (position[1]) {
             dispatch(getAllProductsFiltered(currPage - 1, {
                 categoryName: position[0],
-                subCategory: categoryName,
+                subType: categoryName,
                 minPrice: params.get("minPrice"),
                 maxPrice: params.get("maxPrice"),
                 album: params.get("album"),

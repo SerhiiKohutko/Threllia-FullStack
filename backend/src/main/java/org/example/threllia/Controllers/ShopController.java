@@ -42,7 +42,6 @@ public class ShopController {
 
         ShopParametersTransfer shopParametersTransfer = new ShopParametersTransfer(album, minPrice, maxPrice, page, size, shopSortingType);
         Page<ProductDTO> productDTOS = productService.getAllProductsPaginated(shopParametersTransfer);
-        productDTOS.forEach(System.out::println);
         return ResponseEntity.ok(productDTOS);
     }
 
@@ -50,8 +49,6 @@ public class ShopController {
     public ResponseEntity<List<Product>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
     }
-
-
 
     @GetMapping("/{productType}")
     public ResponseEntity<Page<? extends Product>> getProductsByType(

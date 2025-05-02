@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService{
 
     private Page<MediaProduct> findMediaProductsFiltered(MediaProductType subtype, ShopParametersTransfer shopParametersTransfer){
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
-                shopParametersTransfer.getSize(), getSortingOrder(shopParametersTransfer.getSortingType()));
+                shopParametersTransfer.getSize(), getSortingOrderFiltered(shopParametersTransfer.getSortingType()));
 
         if (subtype == null) {
             return mediaProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService{
 
     private Page<AccessoryProduct> findAccessoryProductsFiltered(AccessoriesProductType subtype, ShopParametersTransfer shopParametersTransfer){
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
-                shopParametersTransfer.getSize(), getSortingOrder(shopParametersTransfer.getSortingType()));
+                shopParametersTransfer.getSize(), getSortingOrderFiltered(shopParametersTransfer.getSortingType()));
         if (subtype == null) {
             return accessoriesProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
         }
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService{
 
     private Page<ApparelProduct> findApparelProductsFiltered(ApparelProductType subtype, ShopParametersTransfer shopParametersTransfer){
         PageRequest pageRequest = PageRequest.of(shopParametersTransfer.getPage(),
-                shopParametersTransfer.getSize(), getSortingOrder(shopParametersTransfer.getSortingType()));
+                shopParametersTransfer.getSize(), getSortingOrderFiltered(shopParametersTransfer.getSortingType()));
 
         if (subtype == null) {
             return apparelProductRepository.findAllFilteredNoSubType(shopParametersTransfer.getAlbum(), shopParametersTransfer.getMinPrice(), shopParametersTransfer.getMaxPrice(), pageRequest);
@@ -140,6 +140,20 @@ public class ProductServiceImpl implements ProductService{
             case ASC_PRICE -> Sort.by("price").ascending().and(Sort.by("global_id").ascending());
             case DSC_PRICE -> Sort.by("price").descending().and(Sort.by("global_id").ascending());
             default -> Sort.by("date_added").descending().and(Sort.by("global_id").ascending());
+        };
+    }
+
+    private Sort getSortingOrderFiltered(ShopSortingType shopSortingType) {
+        if (shopSortingType == null) {
+            return Sort.by("date_added").descending();
+        }
+
+        return switch (shopSortingType) {
+            case ASC_DATE -> Sort.by("date_added").ascending();
+            case DSC_DATE -> Sort.by("date_added").descending();
+            case ASC_PRICE -> Sort.by("price").ascending();
+            case DSC_PRICE -> Sort.by("price").descending();
+            default -> Sort.by("date_added").descending();
         };
     }
 

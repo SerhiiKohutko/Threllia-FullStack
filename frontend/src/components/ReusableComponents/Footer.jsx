@@ -46,7 +46,7 @@ export const Footer = () => {
 
             <div className="border-t border-amber-700/20 py-6">
                 <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-gray-500 text-sm mb-4 md:mb-0">Site designed by your agency. Powered by React.</p>
+                    <p className="text-gray-500 text-sm mb-4 md:mb-0">Site designed by Threllia Team. Powered by React.</p>
                     <div className="flex space-x-4">
                         <a href="https://www.youtube.com/@Threllia"
                            className="text-gray-400 hover:text-amber-500 transition">

@@ -27,7 +27,7 @@ public interface AccessoriesProductRepository extends JpaRepository<AccessoryPro
             Pageable pageable
     );
 
-    @Query(value = "SELECT * FROM media_product WHERE  " +
+    @Query(value = "SELECT * FROM accessory_product WHERE  " +
             "(:minPrice IS NULL OR price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR price <= :maxPrice)", nativeQuery = true)
     Page<AccessoryProduct> findAllFilteredNoSubType(
