@@ -1,6 +1,7 @@
 package org.example.threllia.model.Ticket;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.example.threllia.model.Payment.Payment;
@@ -29,6 +30,7 @@ public class Ticket {
     @OneToOne
     private Payment payment;
 
+    @JsonIgnore
     public String getFormattedDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a", Locale.ENGLISH);
         return sdf.format(date);

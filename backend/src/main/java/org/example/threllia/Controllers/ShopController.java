@@ -82,15 +82,13 @@ public class ShopController {
 
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Product createProduct(@RequestParam("data") String  data, @RequestParam("coverImage") MultipartFile image) throws Exception {
-
-        System.out.println(data);
+    public ResponseEntity<Product> createProduct(@RequestParam("data") String  data, @RequestParam("coverImage") MultipartFile image) throws Exception {
 
         String imageName = fileUploaderCloud.uploadImage(image);
 
         ProductRequest request = objectMapper.readValue(data, ProductRequest.class);
 
-        return productService.createProduct(request, imageName);
+        return ResponseEntity.ok(productService.createProduct(request, imageName));
     }
 
     @PatchMapping(path = "/admin/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

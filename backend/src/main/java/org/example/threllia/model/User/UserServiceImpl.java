@@ -1,5 +1,6 @@
 package org.example.threllia.model.User;
 
+import org.apache.http.auth.InvalidCredentialsException;
 import org.example.threllia.configuration.JWT.JwtProvider;
 import org.example.threllia.configuration.Profile;
 import org.example.threllia.model.User.entities.CustomUserDetails;
@@ -44,12 +45,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String authenticate(UserDTO request) {
+    public String authenticate(UserDTO request) throws InvalidCredentialsException {
         User user = userRepository.findUserByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new InvalidCredentialsException("Invalid credentials");
         }
 
         CustomUserDetails userDetails = new CustomUserDetails(user.getEmail(), user.getPassword(), user.getRole());

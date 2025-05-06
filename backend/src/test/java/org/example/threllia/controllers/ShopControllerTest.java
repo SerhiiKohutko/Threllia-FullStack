@@ -52,7 +52,7 @@ public class ShopControllerTest {
 
 
     @Test
-    void testGetProductByType_whenNoTypeProvided_returnAllProducts() throws Exception {
+    void testGetProductByType_whenMediaTypeProvided_returnMediaProducts() throws Exception {
 
         List<MediaProduct> mediaProducts = Stream
                 .generate(MediaProduct::new)
@@ -77,4 +77,5 @@ public class ShopControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].type").value("CD"));
 
     }
+
 }
